@@ -37,12 +37,12 @@ public class fruit_user_controller {
 			
 			userService.register(params);
 
-			resMeg.put("res_code", FruitException.OPTIONS_SUCCESS.error_code);
-			resMeg.put("res_msg", FruitException.OPTIONS_SUCCESS.error_msg);
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.error_code);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.error_msg);
 			
 		} catch (FruitException e) {
-			resMeg.put("res_code", e.error_code);
-			resMeg.put("res_msg", e.error_msg);
+			resMeg.put("code", e.error_code);
+			resMeg.put("msg", e.error_msg);
 		} finally{
 			Utils.writeMessage(response, resMeg);
 		}
@@ -61,12 +61,12 @@ public class fruit_user_controller {
 			
 			userService.login(params);
 			
-			resMeg.put("res_code", FruitException.OPTIONS_SUCCESS.error_code);
-			resMeg.put("res_msg", FruitException.OPTIONS_SUCCESS.error_msg);
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.error_code);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.error_msg);
 			
 		} catch (FruitException e) {
-			resMeg.put("res_code", e.error_code);
-			resMeg.put("res_msg", e.error_msg);
+			resMeg.put("code", e.error_code);
+			resMeg.put("msg", e.error_msg);
 		} finally{
 			Utils.writeMessage(response, resMeg);
 		}

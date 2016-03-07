@@ -34,12 +34,12 @@
 				type : 'post',
 				dataType : 'json',
 				contentType : 'application/json',
-				success : function(data){
-					if(data.res_code == '000004'){
+				success : function(res){
+					if(res.code == '000004'){
 						alert('注册成功');
 						window.location.href = '/fruit/view/user/login.html';
 					}else{
-						alert(data.res_msg);
+						alert(res.msg);
 					}
 				}
 			});

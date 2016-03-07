@@ -1,64 +1,38 @@
 package fruit.market.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class User {
-	private String id;
-	private String login_name;
-	private String password;
-	private String name;
-	private String type;
-	private Date create_time;
+	private String user_id;
+	private String user_name;
+	private String pwd;
 	private String phone;
-	private String car_num;
-	private String own_shop_name;
+	private String user_type;
+	private Timestamp create_time;
+	private Timestamp update_time;
 
-	public String getId() {
-		return id;
+	public String getUser_id() {
+		return user_id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
-	public String getLogin_name() {
-		return login_name;
+	public String getUser_name() {
+		return user_name;
 	}
 
-	public void setLogin_name(String login_name) {
-		this.login_name = login_name;
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPwd() {
+		return pwd;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Date getCreate_time() {
-		return create_time;
-	}
-
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 
 	public String getPhone() {
@@ -69,20 +43,27 @@ public class User {
 		this.phone = phone;
 	}
 
-	public String getCar_num() {
-		return car_num;
+	public String getUser_type() {
+		return user_type;
 	}
 
-	public void setCar_num(String car_num) {
-		this.car_num = car_num;
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
 	}
 
-	public String getOwn_shop_name() {
-		return own_shop_name;
+	public Timestamp getCreate_time() {
+		return create_time;
 	}
 
-	public void setOwn_shop_name(String own_shop_name) {
-		this.own_shop_name = own_shop_name;
+	public void setCreate_time(Timestamp create_time) {
+		this.create_time = create_time;
 	}
 
+	public Timestamp getUpdate_time() {
+		return update_time;
+	}
+
+	public void setUpdate_time(Timestamp update_time) {
+		this.update_time = update_time;
+	}
 }

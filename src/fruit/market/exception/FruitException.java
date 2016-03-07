@@ -11,6 +11,8 @@ public class FruitException extends RuntimeException {
 	public static final FruitException LOAD_PROPERTIES_EXCEPTION = new FruitException("000005", "加载配置文件时异常");
 	public static final FruitException SEARCH_CONDITION_EXCEPTION = new FruitException("000006", "查询条件异常");
 	public static final FruitException PHONE_HAS_BEEN_REGISTED_EXCEPTION = new FruitException("000007", "该号码已经被注册");
+	public static final FruitException USER_NOT_EXISTS_EXCEPTION = new FruitException("000008", "用户不存在");
+	public static final FruitException PASSWORD_NOT_CORRECT_EXCEPTION = new FruitException("000009", "密码不正确");
 
 
 	public String error_code;

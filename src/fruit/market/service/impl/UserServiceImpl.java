@@ -47,6 +47,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void login(Map<String, Object> params) {
+		
+		User user = userDao.queryByConditions("phone", (String) params.get("phone"));
+		
+		if(null == user){
+			logger.info(FruitException.USER_NOT_EXISTS_EXCEPTION);
+			throw FruitException.USER_NOT_EXISTS_EXCEPTION;
+		}
+		
+		if(!Utils.checkPwd(user.getPwd(), (String) params.get("pwd"))){
+			logger.info(FruitException.PASSWORD_NOT_CORRECT_EXCEPTION);
+			throw FruitException.PASSWORD_NOT_CORRECT_EXCEPTION;
+		}
   		
 	}
 

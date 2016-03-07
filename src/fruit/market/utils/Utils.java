@@ -111,4 +111,13 @@ public class Utils {
 		
 		return encryptedPwd;
 	}
+
+	public static boolean checkPwd(String pwd, String commit_pwd) {
+
+		if(pwd.equals(encrypt(commit_pwd))){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

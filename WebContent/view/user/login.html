@@ -12,7 +12,7 @@
 		//提交
 		$('#submit').click(function(){
 			
-			var username = $('#phone').val();
+			var phone = $('#phone').val();
 			var pwd = $('#pwd').val();
 			
 			var register_data = {
@@ -28,8 +28,12 @@
 				type : 'post',
 				dataType : 'json',
 				contentType : 'application/json',
-				success : function(data){
-					alert('登录成功');
+				success : function(res){
+					if(res.code == '000004'){
+						alert('登录成功');
+					}else{
+						alert(res.msg);
+					}
 				}
 			});
 		});

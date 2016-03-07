@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -73,6 +74,8 @@ public class UserDaoImpl implements UserDao {
 		
 		try{
 			return jdbcTemplate.queryForObject(sql.toString(), rowMapper);
+		} catch (EmptyResultDataAccessException e){
+			return null;
 		} catch ( DataAccessException e) {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
