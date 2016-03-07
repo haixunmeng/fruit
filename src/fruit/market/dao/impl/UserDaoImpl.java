@@ -1,5 +1,6 @@
 package fruit.market.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fruit.market.dao.UserDao;
-import fruit.market.exception.DaoException;
 import fruit.market.exception.FruitException;
 import fruit.market.model.User;
-import fruit.market.utils.ErrorMeg;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -23,52 +22,6 @@ public class UserDaoImpl implements UserDao {
 	private JdbcTemplate jdbcTemplate;
 
 	private BeanPropertyRowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
-
-	@Override
-	public boolean addUser(User user) {
-
-		String sql = "insert into user(id, login_name, password, type, create_time, name, phone, car_num, own_shop_name) values(?, ?, ?, ?, NOW(), ?, ?, ?, ?)";
-
-		try {
-			int res = jdbcTemplate.update(sql, new Object[] { user.getId(), user.getLogin_name(), user.getPassword(),
-					user.getType(), user.getName(), user.getPhone(), user.getCar_num(), user.getOwn_shop_name() });
-			return res > 0;
-
-		} catch (DataAccessException e) {
-
-			throw new DaoException(ErrorMeg.DB_OPERATE_ERROR);
-
-		}
-	}
-
-	@Override
-	public boolean deleteUser(Integer userId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean updateUser(User user) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public User getUser(Integer userId) {
-		StringBuffer sql = new StringBuffer();
-		sql.append("select * from user where userId=").append(userId);
-
-		try {
-			return jdbcTemplate.queryForObject(sql.toString(), rowMapper);
-
-		} catch (DataAccessException e) {
-
-			throw new DaoException(ErrorMeg.DB_OPERATE_ERROR);
-
-		}
-
-	}
 
 	@Override
 	public void register(Map<String, Object> parameters) {
@@ -91,10 +44,37 @@ public class UserDaoImpl implements UserDao {
 		
 		try{
 			jdbcTemplate.execute(sql.toString());
-		} catch (Exception e) {
+		} catch (DataAccessException e) {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 		
 	}
 
+	@Override
+	public User queryByConditions(String... conditions) {
+
+		StringBuffer sql = new StringBuffer();
+		
+		if(0 == conditions.length || 0 != conditions.length % 2){
+			throw FruitException.SEARCH_CONDITION_EXCEPTION;
+		}
+		
+		sql.append("select * from ").append(tableName).append(" where ");
+		
+		for(int i=0;;i++){
+			sql.append(conditions[i++]).append(" = '").append(conditions[i]).append("'");
+			
+			if(i<conditions.length-1){
+				sql.append(" and ");
+			}else{
+				break;
+			}
+		}
+		
+		try{
+			return jdbcTemplate.queryForObject(sql.toString(), rowMapper);
+		} catch ( DataAccessException e) {
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
 }
