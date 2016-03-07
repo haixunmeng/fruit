@@ -4,10 +4,11 @@ public class FruitException extends RuntimeException {
 	
 	private static final long serialVersionUID = -4003339585141193046L;
 	
-	public static final FruitException UNSUPPORTED_ENCODING = new FruitException("000001", "²»Ö§³ÖµÄ±àÂë");
-	public static final FruitException RW_PARAMETER_EXCEPTION = new FruitException("000002", "¶ÁÈ¡²ÎÊıÒì³£");
-	public static final FruitException DB_OPTION_EXCEPTION = new FruitException("000003", "Êı¾İ¿â²Ù×÷Òì³£");
-	public static final FruitException OPTIONS_SUCCESS = new FruitException("000004", "²Ù×÷³É¹¦");
+	public static final FruitException UNSUPPORTED_ENCODING = new FruitException("000001", "ï¿½ï¿½Ö§ï¿½ÖµÄ±ï¿½ï¿½ï¿½");
+	public static final FruitException RW_PARAMETER_EXCEPTION = new FruitException("000002", "ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ì³£");
+	public static final FruitException DB_OPTION_EXCEPTION = new FruitException("000003", "ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½ì³£");
+	public static final FruitException OPTIONS_SUCCESS = new FruitException("000004", "ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½");
+	public static final FruitException LOAD_PROPERTIES_EXCEPTION = new FruitException("000005", "åŠ è½½é…ç½®æ–‡ä»¶æ—¶å¼‚å¸¸");
 
 
 	public String error_code;
@@ -21,7 +22,7 @@ public class FruitException extends RuntimeException {
 
 	@Override
 	public String toString() {
-		return "´íÎó±àÂë £º" + this.error_code + " ´íÎóĞÅÏ¢£º" + this.error_msg;
+		return "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½" + this.error_code + " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½" + this.error_msg;
 	}
 	
 	

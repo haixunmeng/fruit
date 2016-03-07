@@ -13,6 +13,7 @@ import fruit.market.exception.ServiceException;
 import fruit.market.model.User;
 import fruit.market.service.UserService;
 import fruit.market.utils.ErrorMeg;
+import fruit.market.utils.Utils;
 
 
 @Service
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean addUser(User user) {
 		
-		user.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+		user.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 		
 		return userDao.addUser(user);
 	}
@@ -52,8 +53,9 @@ public class UserServiceImpl implements UserService {
 
 	public void register(Map<String, Object> params) {
 
-		params.put("user_id", "0000000002");
-		params.put("user_type", "S");
+		params.put("user_id", Utils.get_uuid());
+		
+		params.put("user_type", "C");
 		params.put("create_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
 		userDao.register(params);

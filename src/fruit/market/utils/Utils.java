@@ -2,9 +2,12 @@ package fruit.market.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +21,22 @@ import com.alibaba.fastjson.JSON;
 public class Utils {
 	
 	private static Logger logger = Logger.getLogger(Utils.class);
+	
+	private static Properties properties;
+	
+	static{
+		properties = new Properties();
+		InputStream in = Utils.class.getResourceAsStream("/config.properties"); 
+        try { 
+        	properties.load(in); 
+        } catch (IOException e) {
+        	throw FruitException.LOAD_PROPERTIES_EXCEPTION;
+        } 
+	}
+	
+	public static Properties getProperties(){
+		return properties;
+	}
 
 	public static Map<String, Object> readParameters(HttpServletRequest request){
 		StringBuffer sb = new StringBuffer();
@@ -66,4 +85,10 @@ public class Utils {
 			throw FruitException.RW_PARAMETER_EXCEPTION;
 		}
 	}
+	
+	public static String get_uuid(){
+		return UUID.randomUUID().toString().replaceAll("-", "");
+	}
+	
+	
 }

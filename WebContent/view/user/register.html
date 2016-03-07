@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>注册</title>
 <script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.md5.js"></script>
 
 <script type="text/javascript">
 	$(function(){
@@ -15,7 +16,7 @@
 			
 			var register_data = {
 				user_name : $('#user_name').val(),
-				pwd : $('#pwd').val(),
+				pwd : $.md5($('#pwd').val()),
 				phone : $('#phone').val()
 			};
 			
@@ -45,8 +46,8 @@
 	<label>密码</label>
 	<input type="password" id="pwd"/>
 	
-	<!-- <label>密码</label>
-	<input type="password" id="pwd_confirm"/> -->
+	<label>确认密码</label>
+	<input type="password" id="pwd_confirm"/>
 	
 	<label>电话</label>
 	<input type="phone" id="phone"/>
