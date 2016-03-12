@@ -14,6 +14,7 @@ import fruit.market.dao.UserDao;
 import fruit.market.exception.FruitException;
 import fruit.market.model.User;
 import fruit.market.service.UserService;
+import fruit.market.session.SessionManager;
 import fruit.market.utils.Utils;
 
 
@@ -26,6 +27,13 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	public void register(Map<String, Object> params) {
+		
+		String passed = SessionManager.get4session((String) params.get("sessionId"), "passed"); 
+		
+		if(!"true".equals(passed)){
+			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
+			throw FruitException.PASSCODE_ERROR_EXCEPTION;
+		}
 
 		String phone = (String) params.get("phone");
 		
@@ -47,6 +55,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void login(Map<String, Object> params) {
+		
+		String passed = SessionManager.get4session((String) params.get("sessionId"), "passed"); 
+		
+		if(!"true".equals(passed)){
+			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
+			throw FruitException.PASSCODE_ERROR_EXCEPTION;
+		}
 		
 		User user = userDao.queryByConditions("phone", (String) params.get("phone"));
 		

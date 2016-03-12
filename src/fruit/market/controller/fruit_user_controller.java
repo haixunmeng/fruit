@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
+import fruit.market.session.SessionManager;
 import fruit.market.utils.Utils;
 
 @Controller
@@ -37,12 +38,12 @@ public class fruit_user_controller {
 			
 			userService.register(params);
 
-			resMeg.put("code", FruitException.OPTIONS_SUCCESS.error_code);
-			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.error_msg);
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
 			
 		} catch (FruitException e) {
-			resMeg.put("code", e.error_code);
-			resMeg.put("msg", e.error_msg);
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
 		} finally{
 			Utils.writeMessage(response, resMeg);
 		}
@@ -61,15 +62,70 @@ public class fruit_user_controller {
 			
 			userService.login(params);
 			
-			resMeg.put("code", FruitException.OPTIONS_SUCCESS.error_code);
-			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.error_msg);
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
 			
 		} catch (FruitException e) {
-			resMeg.put("code", e.error_code);
-			resMeg.put("msg", e.error_msg);
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
 		} finally{
 			Utils.writeMessage(response, resMeg);
 		}
 	}
+	
+	@RequestMapping("/getPassCode")
+	public void getPassCode(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> resMeg = new HashMap<String, Object>();
+		
+		try {
+			
+			Map<String, Object> params = Utils.readParameters(request);
+			
+			logger.info(params);
+			
+			String passCode = Utils.getPassCode();
+
+			String sessionId = Utils.get_uuid();
+			
+			SessionManager.save2session(sessionId, "passCode", passCode.split(":")[0]);
+			
+			resMeg.put("sessionId", sessionId);
+			resMeg.put("passCode", passCode.split(":")[1]);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} finally{
+			Utils.writeMessage(response, resMeg);
+		}
+	}
+	
+	@RequestMapping("/checkPassCode")
+	public void checkPassCode(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> resMeg = new HashMap<String, Object>();
+		
+		try {
+			
+			Map<String, Object> params = Utils.readParameters(request);
+			
+			logger.info(params);
+			
+			Utils.checkPassCode(params);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} finally{
+			Utils.writeMessage(response, resMeg);
+		}
+	}
+	
+	
 	
 }

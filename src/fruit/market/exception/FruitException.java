@@ -12,21 +12,22 @@ public class FruitException extends RuntimeException {
 	public static final FruitException SEARCH_CONDITION_EXCEPTION = new FruitException("000006", "查询条件异常");
 	public static final FruitException PHONE_HAS_BEEN_REGISTED_EXCEPTION = new FruitException("000007", "该号码已经被注册");
 	public static final FruitException USER_NOT_EXISTS_EXCEPTION = new FruitException("000008", "用户不存在");
-	public static final FruitException PASSWORD_NOT_CORRECT_EXCEPTION = new FruitException("000009", "密码不正确");
+	public static final FruitException PASSWORD_NOT_CORRECT_EXCEPTION = new FruitException("000009", "密码错误");
+	public static final FruitException PASSCODE_ERROR_EXCEPTION = new FruitException("000010", "验证码错误");
 
 
-	public String error_code;
+	public String errorCode;
 
-	public String error_msg;
+	public String errorMsg;
 
 	FruitException(String error_code, String error_msg){
-		this.error_code = error_code;
-		this.error_msg = error_msg;
+		this.errorCode = error_code;
+		this.errorMsg = error_msg;
 	}
 
 	@Override
 	public String toString() {
-		return "错误编码：" + this.error_code + " 错误信息：" + this.error_msg;
+		return "错误编码：" + this.errorCode + " 错误信息：" + this.errorMsg;
 	}
 	
 	

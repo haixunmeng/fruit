@@ -5,26 +5,28 @@
 <title>登录</title>
 <script src="../../js/jquery-2.0.0.min.js"></script>
 <script src="../../js/jquery.md5.js"></script>
+<script src="../../js/fruit.js"></script>
 
 <script type="text/javascript">
 	$(function(){
 		
-		//提交
-		$('#submit').click(function(){
+		$('#login').click(function(){
 			
 			var phone = $('#phone').val();
 			var pwd = $('#pwd').val();
+			var sessionId = $('#sessionId').val();
+			var passCode = $('#passCodeInput').val();
 			
-			var register_data = {
+			var data = {
 				phone : phone,
-				pwd : $.md5(pwd)
+				pwd : $.md5(pwd),
+				sessionId : sessionId,
+				passCode : passCode
 			};
 			
-			console.log(JSON.stringify(register_data));
-				
 			$.ajax({
 				url : '/fruit/user/login.do',
-				data : JSON.stringify(register_data),
+				data : JSON.stringify(data),
 				type : 'post',
 				dataType : 'json',
 				contentType : 'application/json',
@@ -37,23 +39,27 @@
 				}
 			});
 		});
-		
 	});
 </script>
 
 </head>
 <body>
-<form id="register_form">
+
+	<input id='sessionId' type="hidden"/>
+
 	<label>电话</label>
 	<input type="text" id="phone"/>
 	
 	<label>密码</label>
 	<input type="password" id="pwd"/>
 	
+	<label>验证码</label>
+	<img id='passCode'/> 
+	<input id='passCodeInput' type="text"/>
+	
 	<input type="checkbox" id="remember_me"/>
 	<label>remember me</label>
 	
-	<input type="button" id="submit" value="登录"/>
-</form>
+	<input type="button" id="login" value="登录"/>
 </body>
 </html>
