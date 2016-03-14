@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import fruit.market.dao.UserDao;
 import fruit.market.exception.FruitException;
 import fruit.market.model.User;
+import fruit.market.utils.DBUtils;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -25,14 +26,14 @@ public class UserDaoImpl implements UserDao {
 	private BeanPropertyRowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 
 	@Override
-	public void register(Map<String, Object> parameters) {
+	public void insertUser(Map<String, Object> parameters) {
 		
 		StringBuffer sql = new StringBuffer();
 		
 		sql.append("insert into ").append(tableName).append("(user_id, user_name, pwd, phone, user_type, create_time) values('")
 													.append(parameters.get("user_id"))
 													.append("', '")
-													.append(parameters.get("user_name"))
+													.append(parameters.get("username"))
 													.append("', '")
 													.append(parameters.get("pwd"))
 													.append("', '")
@@ -80,4 +81,14 @@ public class UserDaoImpl implements UserDao {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
+
+	@Override
+	public List<User> queryListByConditions(Map<String, Object> conditions) {
+		try{
+			return jdbcTemplate.query(DBUtils.generateSQL(tableName, conditions), rowMapper);
+		}catch ( DataAccessException e) {
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
+
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -83,6 +84,10 @@ public class Utils {
 
 		Map<String, Object> params = JSON.parseObject(sb.toString());
 
+		if(null == params){
+			params = new HashMap<String, Object>();
+		}
+		
 		return params;
 	}
 
@@ -109,7 +114,7 @@ public class Utils {
 
 	public static String encrypt(String pwd) {
 		
-		String encryptSalt = getProperties("fruit.encrypt.salt");
+		String encryptSalt = DigestUtils.md5Hex(getProperties("fruit.encrypt.salt"));
 		
 		StringBuffer mixedPwd = new StringBuffer();
 

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加卖家</title>
+
+<link href="../../css/fruit_add_seller.css" rel="stylesheet" type="text/css">
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/jquery.md5.js"></script>
+<script src="../../js/fruit.js"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+		
+		var res = post('/fruit/seller/getAllSeller.do');
+		
+		console.log(res);
+		
+		$('#sellerName').combobox({    
+		    url:'',    
+		    valueField:'userid',    
+		    textField:'username',
+		    data : res.sellers
+		}); 
+		
+		$('#addStore').click(function(){
+			var username = $('#username').val();
+			var pwd = $('#pwd').val();
+			var phone = $('#phone').val();
+			
+			var data = {
+					user_id : username,
+					store_name : $.md5(pwd),
+					contact : phone,
+					contact_phone : phone,
+					address : phone,
+			}
+			
+			/* res = post('/fruit/manager/addSeller.do', data);
+			alert(res.msg); */
+		});
+	});
+</script>
+
+</head>
+<body>
+<div>
+	<input id='sessionId' type="hidden"/>
+
+	<table id="addStoreTable">
+		<tr>
+			<td><label>店铺名称</label></td>
+			<td><label>卖家姓名</label></td>
+			<td><label>联系人</label></td>
+			<td><label>联系人电话</label></td>
+			<td><label>地址</label></td>
+			<td><label>操作</label></td>
+		</tr>
+		<tr>
+			<td><input type="text" id="store_name"/></td>
+			<td><input id="sellerName"/></td>
+			<td><input type="text" id="contact"/></td>
+			<td><input type="text" id="conteact_phone"/></td>
+			<td><input type="text" id="address"/></td>
+			<td><input type="button" id="addStore" value="添加"/></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

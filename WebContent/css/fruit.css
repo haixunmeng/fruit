@@ -1,0 +1,16 @@
+#loginTable, #registerTable{
+	position : relative;
+	left : 40%;
+}
+
+#passCodeInput{
+	width : 71px;
+}
+
+#phone, #pwd, #user_name, #pwd_confirm, #phone{
+	width : 120px;
+}
+
+tr{
+	height : 30px;
+}
