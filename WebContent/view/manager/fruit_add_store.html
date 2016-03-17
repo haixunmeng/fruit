@@ -18,8 +18,6 @@
 		
 		var res = post('/fruit/seller/getAllSeller.do');
 		
-		console.log(res);
-		
 		$('#sellerName').combobox({    
 		    url:'',    
 		    valueField:'userid',    
@@ -28,7 +26,10 @@
 		}); 
 		
 		$('#addStore').click(function(){
-			var username = $('#username').val();
+			var store_name = $('#store_name').val();
+			var user_id = $('#sellerName').combobox('getValue');
+			var contact = 
+			
 			var pwd = $('#pwd').val();
 			var phone = $('#phone').val();
 			
