@@ -209,7 +209,7 @@ public class Utils {
 		return new Color(r, g, b);
 	}
 
-	public static void checkPassCode(Map<String, Object> params) {
+	public static void checkPassCode(Map<String, String> params) {
 
 		String passCodeCommited = (String) params.get("passCode");
 		

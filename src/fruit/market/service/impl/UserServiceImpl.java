@@ -30,7 +30,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
-	public void register(Map<String, Object> params) {
+	@Override
+	public void register(Map<String, String> params) {
 		
 		String passed = SessionManager.get4session((String) params.get("sessionId"), "passed"); 
 		
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void login(Map<String, Object> params) {
+	public void login(Map<String, String> params) {
 		
 		String passed = SessionManager.get4session((String) params.get("sessionId"), "passed"); 
 		
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addSeller(Map<String, Object> params) {
+	public void addSeller(Map<String, String> params) {
 		
 		String phone = (String) params.get("phone");
 		
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Map<String, String>> getAllSeller(Map<String, Object> params) {
+	public List<Map<String, String>> getAllSeller(Map<String, String> params) {
 
 		List<User> sellers = userDao.queryListByConditions(params);
 		

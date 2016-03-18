@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
@@ -26,13 +28,12 @@ public class fruit_user_controller {
 	private UserService userService;
 
 	@RequestMapping("/register")
-	public void register(HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public Map<String, String> register(@RequestBody Map<String, String> params) {
 
-		Map<String, Object> resMeg = new HashMap<String, Object>();
+		Map<String, String> resMeg = new HashMap<String, String>();
 
 		try {
-			
-			Map<String, Object> params = Utils.readParameters(request);
 			
 			logger.info(params);
 			
@@ -44,19 +45,18 @@ public class fruit_user_controller {
 		} catch (FruitException e) {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
-		} finally{
-			Utils.writeMessage(response, resMeg);
-		}
+		} 
+		
+		return resMeg;
 	}
 	
 	@RequestMapping("/login")
-	public void login(HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	public Map<String, String> login(@RequestBody Map<String, String> params) {
 		
-		Map<String, Object> resMeg = new HashMap<String, Object>();
+		Map<String, String> resMeg = new HashMap<String, String>();
 		
 		try {
-			
-			Map<String, Object> params = Utils.readParameters(request);
 			
 			logger.info(params);
 			
@@ -68,18 +68,18 @@ public class fruit_user_controller {
 		} catch (FruitException e) {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
-		} finally{
-			Utils.writeMessage(response, resMeg);
-		}
+		} 
+		
+		return resMeg;
 	}
 	
 	@RequestMapping("/getPassCode")
-	public void getPassCode(HttpServletRequest request, HttpServletResponse response){
-		Map<String, Object> resMeg = new HashMap<String, Object>();
+	@ResponseBody
+	public Map<String, String> getPassCode(@RequestBody Map<String, String> params){
+		
+		Map<String, String> resMeg = new HashMap<String, String>();
 		
 		try {
-			
-			Map<String, Object> params = Utils.readParameters(request);
 			
 			logger.info(params);
 			
@@ -98,18 +98,16 @@ public class fruit_user_controller {
 		} catch (FruitException e) {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
-		} finally{
-			Utils.writeMessage(response, resMeg);
-		}
+		} 
+		
+		return resMeg;
 	}
 	
 	@RequestMapping("/checkPassCode")
-	public void checkPassCode(HttpServletRequest request, HttpServletResponse response){
-		Map<String, Object> resMeg = new HashMap<String, Object>();
+	public Map<String, String> checkPassCode(@RequestBody Map<String, String> params){
+		Map<String, String> resMeg = new HashMap<String, String>();
 		
 		try {
-			
-			Map<String, Object> params = Utils.readParameters(request);
 			
 			logger.info(params);
 			
@@ -121,9 +119,9 @@ public class fruit_user_controller {
 		} catch (FruitException e) {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
-		} finally{
-			Utils.writeMessage(response, resMeg);
-		}
+		} 
+		
+		return resMeg;
 	}
 	
 	
