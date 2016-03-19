@@ -10,7 +10,7 @@ public class DBUtils {
 	
 	private static List<String> sqlKeyWords = new ArrayList<String>(Arrays.asList("limit", "offset", "order by"));
 	
-	public static String generateSQL(String tableName, Map<String, Object> conditions){
+	public static String generateSQL(String tableName, Map<String, String> conditions){
 		
 		StringBuffer sql = new StringBuffer();
 		
@@ -21,7 +21,7 @@ public class DBUtils {
 				sql.append(" where ");
 			}
 			
-			for(Map.Entry<String, Object> entry : conditions.entrySet()){
+			for(Map.Entry<String, String> entry : conditions.entrySet()){
 				String key = entry.getKey();
 				if("limit".equals(key) || "offset".equals(key) || "order by".equals(key)){
 					sql.append(" ").append(entry.getKey()).append(" ").append(entry.getValue());

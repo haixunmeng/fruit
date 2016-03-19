@@ -11,9 +11,9 @@ import fruit.market.model.User;
 @Repository
 public interface UserDao {
 	
-	public void insertUser(Map<String, Object> parameters);
+	public void insertUser(Map<String, String> parameters);
 
 	public User queryByConditions(String...conditions);
 	
-	public List<User> queryListByConditions(Map<String, Object> conditions);
+	public List<User> queryListByConditions(Map<String, String> conditions);
 }

@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
@@ -25,12 +27,11 @@ public class fruit_manager_controller {
 	private UserService userService;
 	
 	@RequestMapping("/addSeller")
-	public void addSeller(HttpServletRequest request, HttpServletResponse response){
-		Map<String, Object> resMeg = new HashMap<String, Object>();
+	@ResponseBody
+	public Map<String, String> addSeller(@RequestBody Map<String, String> params){
+		Map<String, String> resMeg = new HashMap<String, String>();
 
 		try {
-			
-			Map<String, Object> params = Utils.readParameters(request);
 			
 			logger.info(params);
 			
@@ -42,9 +43,9 @@ public class fruit_manager_controller {
 		} catch (FruitException e) {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
-		} finally{
-			Utils.writeMessage(response, resMeg);
-		}
+		} 
+		
+		return resMeg;
 	}
 	
 }

@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
 	private BeanPropertyRowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
 
 	@Override
-	public void insertUser(Map<String, Object> parameters) {
+	public void insertUser(Map<String, String> parameters) {
 		
 		StringBuffer sql = new StringBuffer();
 		
@@ -83,7 +83,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public List<User> queryListByConditions(Map<String, Object> conditions) {
+	public List<User> queryListByConditions(Map<String, String> conditions) {
 		try{
 			return jdbcTemplate.query(DBUtils.generateSQL(tableName, conditions), rowMapper);
 		}catch ( DataAccessException e) {

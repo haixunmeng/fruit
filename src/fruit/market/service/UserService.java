@@ -12,11 +12,11 @@ import fruit.market.model.User;
 @Service
 public interface UserService {
 	
-	public void register(Map<String, Object> parameters);
+	public void register(Map<String, String> parameters);
 
-	public void login(Map<String, Object> params);
+	public void login(Map<String, String> params);
 
-	public void addSeller(Map<String, Object> params);
+	public void addSeller(Map<String, String> params);
 
-	public List<Map<String, String>> getAllSeller(Map<String, Object> params);
+	public List<Map<String, String>> getAllSeller(Map<String, String> params);
 }
