@@ -34,27 +34,6 @@ public class Utils {
 
 	private static Logger logger = Logger.getLogger(Utils.class);
 
-	private static Properties properties;
-
-	private static void init() {
-		properties = new Properties();
-		InputStream in = Utils.class.getResourceAsStream("/resources/properties.property");
-		try {
-			properties.load(in);
-		} catch (IOException e) {
-			logger.info(FruitException.LOAD_PROPERTIES_EXCEPTION);
-			throw FruitException.LOAD_PROPERTIES_EXCEPTION;
-		}
-	}
-
-	public static String getProperties(String property) {
-		if (null == properties) {
-			init();
-		}
-
-		return properties.getProperty(property).trim();
-	}
-
 	public static Map<String, Object> readParameters(HttpServletRequest request) {
 		StringBuffer sb = new StringBuffer();
 
@@ -114,7 +93,7 @@ public class Utils {
 
 	public static String encrypt(String pwd) {
 		
-		String encryptSalt = DigestUtils.md5Hex(getProperties("fruit.encrypt.salt"));
+		String encryptSalt = DigestUtils.md5Hex(PropertyUtil.getProperties("fruit.encrypt.salt"));
 		
 		StringBuffer mixedPwd = new StringBuffer();
 

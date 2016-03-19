@@ -1,10 +1,7 @@
 package fruit.market.session;
 
 import org.apache.log4j.Logger;
-
-import com.alibaba.fastjson.JSON;
-
-import fruit.market.utils.Utils;
+import fruit.market.utils.PropertyUtil;
 import redis.clients.jedis.Jedis;
 
 public class SessionManager {
@@ -15,9 +12,9 @@ public class SessionManager {
 	
 	static {
 		
-		String host = Utils.getProperties("redis.host");
-		int port = Integer.valueOf(Utils.getProperties("redis.port"));
-		int expiretime = Integer.valueOf(Utils.getProperties("redis.expiretime"));
+		String host = PropertyUtil.getProperties("redis.host");
+		int port = Integer.valueOf(PropertyUtil.getProperties("redis.port"));
+		int expiretime = Integer.valueOf(PropertyUtil.getProperties("redis.expiretime"));
 		
 		jedis = new Jedis(host, port, expiretime);
 		
