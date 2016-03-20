@@ -15,10 +15,6 @@
 		
 		loadVerifyCode();
 		
-		bindVerifyCodeInput();
-		
-		checkVerifyCode();
-		
 		$('#login').click(function(){
 			
 			var phone = $('#phone').val();
@@ -33,20 +29,13 @@
 				passCode : passCode
 			};
 			
-			$.ajax({
-				url : '/fruit/user/login.do',
-				data : JSON.stringify(data),
-				type : 'post',
-				dataType : 'json',
-				contentType : 'application/json',
-				success : function(res){
-					if(res.code == '000004'){
-						alert('登录成功');
-					}else{
-						alert(res.msg);
-					}
-				}
-			});
+			
+			var res = post('/fruit/user/login.do', data);
+			if(res.code == '000004'){
+				alert('登录成功');
+			}else{
+				alert(res.msg);
+			}
 		});
 	});
 </script>

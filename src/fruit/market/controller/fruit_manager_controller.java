@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.exception.FruitException;
+import fruit.market.service.StoreService;
 import fruit.market.service.UserService;
 import fruit.market.utils.Utils;
 
@@ -26,6 +27,11 @@ public class fruit_manager_controller {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private StoreService storeService;
+	
+	
+	
 	@RequestMapping("/addSeller")
 	@ResponseBody
 	public Map<String, String> addSeller(@RequestBody Map<String, String> params){
@@ -37,6 +43,28 @@ public class fruit_manager_controller {
 			
 			userService.addSeller(params);
 
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
+	
+	@RequestMapping("/addStore")
+	@ResponseBody
+	public Map<String, String> addStore(@RequestBody Map<String, String> params){
+		Map<String, String> resMeg = new HashMap<String, String>();
+		
+		try {
+			
+			logger.info(params);
+			
+			storeService.addStore(params);
+			
 			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
 			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
 			

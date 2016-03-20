@@ -15,10 +15,6 @@
 		
 		loadVerifyCode();
 		
-		bindVerifyCodeInput();
-		
-		checkVerifyCode();
-		
 		$('#register').click(function(){
 			
 			var username = $('#username').val();
@@ -41,23 +37,15 @@
 				passCode : passCode
 			};
 			
-			$.ajax({
-				url : '/fruit/user/register.do',
-				data : JSON.stringify(data),
-				type : 'post',
-				dataType : 'json',
-				contentType : 'application/json',
-				success : function(res){
-					if(res.code == '000004'){
-						alert('注册成功');
-						window.location.href = '/fruit/view/user/login.html';
-					}else{
-						alert(res.msg);
-					}
-				}
-			});
+			var res = post('/fruit/user/register.do', data);
+			
+			if(res.code == '000004'){
+				alert('注册成功');
+				window.location.href = '/fruit/view/user/login.html';
+			}else{
+				alert(res.msg);
+			}
 		});
-		
 	});
 </script>
 

@@ -30,20 +30,20 @@
 			var user_id = $('#sellerName').combobox('getValue');
 			var contact = $('#contact').val();
 			var contact_phone = $('#contact_phone').val();
-			
-			var pwd = $('#pwd').val();
-			var phone = $('#phone').val();
+			var address = $('#address').val();
 			
 			var data = {
-					user_id : username,
-					store_name : $.md5(pwd),
-					contact : phone,
-					contact_phone : phone,
-					address : phone,
+					store_name : store_name,
+					seller_id : user_id,
+					contact : contact,
+					contact_phone : contact_phone,
+					address : address,
 			}
 			
-			/* res = post('/fruit/manager/addSeller.do', data);
-			alert(res.msg); */
+			console.log(data);
+			
+			res = post('/fruit/manager/addStore.do', data);
+			alert(res.msg);
 		});
 	});
 </script>
@@ -66,7 +66,7 @@
 			<td><input type="text" id="store_name"/></td>
 			<td><input id="sellerName"/></td>
 			<td><input type="text" id="contact"/></td>
-			<td><input type="text" id="conteact_phone"/></td>
+			<td><input type="text" id="contact_phone"/></td>
 			<td><input type="text" id="address"/></td>
 			<td><input type="button" id="addStore" value="添加"/></td>
 		</tr>

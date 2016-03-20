@@ -11,8 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-
 import fruit.market.controller.fruit_user_controller;
 import fruit.market.dao.UserDao;
 import fruit.market.exception.FruitException;
@@ -33,13 +31,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void register(Map<String, String> params) {
 		
-		String passed = SessionManager.get4session((String) params.get("sessionId"), "passed"); 
+		String passCodeCommited = (String) params.get("passCode");
 		
-		if(!"true".equals(passed)){
+		String localPassCode = SessionManager.get4session((String) params.get("sessionId"), "passCode");
+		
+		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
 			throw FruitException.PASSCODE_ERROR_EXCEPTION;
 		}
-
+		
 		String phone = (String) params.get("phone");
 		
 		User user = userDao.queryByConditions("phone", phone);
@@ -61,9 +61,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void login(Map<String, String> params) {
 		
-		String passed = SessionManager.get4session((String) params.get("sessionId"), "passed"); 
+		String passCodeCommited = (String) params.get("passCode");
 		
-		if(!"true".equals(passed)){
+		String localPassCode = SessionManager.get4session((String) params.get("sessionId"), "passCode");
+		
+		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
 			throw FruitException.PASSCODE_ERROR_EXCEPTION;
 		}

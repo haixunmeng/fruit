@@ -75,13 +75,11 @@ public class fruit_user_controller {
 	
 	@RequestMapping("/getPassCode")
 	@ResponseBody
-	public Map<String, String> getPassCode(@RequestBody Map<String, String> params){
+	public Map<String, String> getPassCode(){
 		
 		Map<String, String> resMeg = new HashMap<String, String>();
 		
 		try {
-			
-			logger.info(params);
 			
 			String passCode = Utils.getPassCode();
 

@@ -8,35 +8,6 @@ function loadVerifyCode(){
 	}
 }
 
-function bindVerifyCodeInput(){
-	var otxt=document.getElementById("passCodeInput");
-	if(document.all){
-		otxt.onpropertychange=function(){
-			checkVerifyCode();
-		}
-	}else{
-		otxt.oninput=function(){
-			checkVerifyCode();
-		}
-	}
-}
-
-function checkVerifyCode(){
-	
-	var passCode = $('#passCodeInput').val();
-	if(passCode.match(/^\d{5}$/)){
-		var data = {
-			sessionId : $('#sessionId').val(),
-			passCode : passCode
-		}
-		
-		res = post('/fruit/user/checkPassCode.do', data);
-		if('000004' != res.code){
-			alert(res.msg);
-		}
-	}
-}
-
 function post(url, data){
 	
 	var response;
@@ -46,7 +17,7 @@ function post(url, data){
 		async : false,
 		type : 'post',
 		dataType : 'json',
-		contentType : 'json',
+		contentType : 'application/json',
 		data : JSON.stringify(data),
 		success : function(res){
 			response = res;

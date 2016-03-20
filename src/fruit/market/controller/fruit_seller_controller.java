@@ -30,13 +30,13 @@ public class fruit_seller_controller {
 
 	@RequestMapping("/getAllSeller")
 	@ResponseBody
-	public Map<String, Object> getAllSeller(@RequestBody Map<String, String> params) {
+	public Map<String, Object> getAllSeller() {
 
 		Map<String, Object> resMeg = new HashMap<String, Object>();
 
 		try {
 			
-			logger.info(params);
+			Map<String, String> params = new HashMap<String, String>(1);
 			
 			params.put("user_type", "S");
 			
