@@ -61,9 +61,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void login(Map<String, String> params) {
 		
-		String passCodeCommited = (String) params.get("passCode");
+		String passCodeCommited = params.get("passCode");
 		
-		String localPassCode = SessionManager.get4session((String) params.get("sessionId"), "passCode");
+		String sessionId = params.get("sessionId");
+		
+		String localPassCode = SessionManager.get4session(sessionId, "passCode");
 		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
@@ -81,7 +83,8 @@ public class UserServiceImpl implements UserService {
 			logger.info(FruitException.PASSWORD_NOT_CORRECT_EXCEPTION);
 			throw FruitException.PASSWORD_NOT_CORRECT_EXCEPTION;
 		}
-  		
+		
+		SessionManager.save2session(sessionId, user);
 	}
 
 	@Override

@@ -201,4 +201,15 @@ public class Utils {
 		SessionManager.save2session(sessionId, "passed", "true");
 		
 	}
+	
+	public static boolean contains(String[] auths, String auth){
+
+		for(String authority : auths){
+			if(authority.equals(auth)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
