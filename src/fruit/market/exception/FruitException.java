@@ -14,6 +14,7 @@ public class FruitException extends RuntimeException {
 	public static final FruitException USER_NOT_EXISTS_EXCEPTION = new FruitException("000008", "用户不存在");
 	public static final FruitException PASSWORD_NOT_CORRECT_EXCEPTION = new FruitException("000009", "密码错误");
 	public static final FruitException PASSCODE_ERROR_EXCEPTION = new FruitException("000010", "验证码错误");
+	public static final FruitException NO_AUTH_EXCEPTION = new FruitException("000011", "无授权操作");
 
 
 	public String errorCode;

@@ -67,7 +67,7 @@ public class Utils {
 		return params;
 	}
 
-	public static void writeMessage(HttpServletResponse response, Map<String, Object> resMeg) {
+	public static void writeReponse(HttpServletResponse response, Map<String, Object> resMeg) {
 
 		String res_msg = JSON.toJSONString(resMeg);
 

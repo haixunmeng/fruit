@@ -7,4 +7,6 @@ public interface BaseDao<T> {
 
 	public boolean add(T data);
 	
+	public T getData(String key);
+	
 }
