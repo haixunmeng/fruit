@@ -16,15 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fruit.market.auth.AuthManager;
 import fruit.market.exception.FruitException;
 import fruit.market.utils.Utils;
 
-@WebFilter(filterName = "AuthFilter", urlPatterns = "*.action")
+@Component
+@WebFilter(filterName = "AuthFilter", urlPatterns = "*.do")
 public class AuthFilter implements Filter {
 
 	private static Logger logger = Logger.getLogger(AuthFilter.class);
+	
+	@Autowired
+	private AuthManager authManager;
 
 	public AuthFilter() {
 		
@@ -55,7 +61,7 @@ public class AuthFilter implements Filter {
 		}
 		
 		try{
-			AuthManager.getInstance().validateAuth(action, token);
+			authManager.validateAuth(action, token);
 		} catch (FruitException e){
 			Map<String, Object> resMeg = new HashMap<String, Object>();
 			resMeg.put("code", e.errorCode);

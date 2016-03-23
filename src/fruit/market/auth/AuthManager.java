@@ -18,23 +18,14 @@ public class AuthManager {
 	@Autowired
 	private AuthDao authDao;
 	
-	private static AuthManager authManager;
-	
-	private AuthManager(){
-		
-	}
-	
-	public static AuthManager getInstance(){
-		if(null == authManager){
-			authManager = new AuthManager();
-		}
-		
-		return authManager;
-	}
-	
 	public void validateAuth(String action, String token){
 
 		Resource resource = authDao.getData(action);
+		
+		if(null == resource){
+			logger.info(FruitException.NO_AUTH_EXCEPTION);
+			throw FruitException.NO_AUTH_EXCEPTION;
+		}
 		
 		String actionRole = resource.getRole();
 		

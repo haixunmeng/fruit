@@ -3,9 +3,6 @@ package fruit.market.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import fruit.market.exception.FruitException;
 import fruit.market.service.StoreService;
 import fruit.market.service.UserService;
-import fruit.market.utils.Utils;
 
 @Controller
 @RequestMapping("/manager")
