@@ -5,6 +5,8 @@ function loadVerifyCode(){
 	if('000004' == res.code){
 		$('#sessionId').val(res.sessionId);
 		$('#passCode').attr('src', 'data:image/jpg;base64, ' + res.passCode);
+	}else{
+		alert(res.msg);
 	}
 }
 

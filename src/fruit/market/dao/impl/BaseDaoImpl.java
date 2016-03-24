@@ -81,7 +81,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	public T getData(String key) {
 		StringBuffer sql = new StringBuffer();
 		
-		sql.append("select * from ").append(tableName).append(" where ").append(primaryKey).append(" = ").append(key);
+		sql.append("select * from ").append(tableName).append(" where ").append(primaryKey).append(" = '").append(key).append("'");
 		
 		try {
 			return jdbcTemplate.queryForObject(sql.toString(), rowMapper);

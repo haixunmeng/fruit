@@ -10,21 +10,19 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import fruit.market.auth.AuthManager;
 import fruit.market.exception.FruitException;
 import fruit.market.utils.Utils;
 
-@Component
-@WebFilter(filterName = "AuthFilter", urlPatterns = "*.do")
+@Service
 public class AuthFilter implements Filter {
 
 	private static Logger logger = Logger.getLogger(AuthFilter.class);
@@ -67,6 +65,7 @@ public class AuthFilter implements Filter {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
 			Utils.writeReponse(rep, resMeg);
+			return;
 		}
 
 		chain.doFilter(req, rep);
