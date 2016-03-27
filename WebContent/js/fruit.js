@@ -28,3 +28,48 @@ function post(url, data){
 	
 	return response;
 }
+
+function load_value_unit(elem){
+	$(elem).combobox({
+		editable : false,
+		valueField : 'id',
+		textField : 'value',
+		data : [{
+			id : 'kilogram',
+			value : '千克'
+		},{
+			id : 'number',
+			value : '个'
+		},{
+			id : 'box',
+			value : '箱'
+		},{
+			id : 'case',
+			value : '框'
+		},{
+			id : 'bag',
+			value : '袋'
+		}]
+	});
+}
+
+function load_package_type(elem){
+	$(elem).combobox({
+		editable : false,
+		valueField : 'id',
+		textField : 'value',
+		data : [{
+			id : 'in_bulk',
+			value : '散装'
+		},{
+			id : 'in_box',
+			value : '箱装'
+		},{
+			id : 'in_case',
+			value : '框装'
+		},{
+			id : 'in_bag',
+			value : '袋装'
+		}]
+	});
+}

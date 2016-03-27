@@ -4,45 +4,20 @@
 <meta charset="utf-8">
 <title>进货</title>
 
-<link href="../../css/login.css" rel="stylesheet" type="text/css">
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+<link href="../../css/stock_in.css" rel="stylesheet" type="text/css">
 
 <script src="../../js/jquery-2.0.0.min.js"></script>
-<script src="../../js/jquery.md5.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
 <script src="../../js/fruit.js"></script>
+<script src="../../js/stock.in.js"></script>
 
 <script type="text/javascript">
-	$(function(){
-		
-		$('#login').click(function(){
-			
-			var phone = $('#phone').val();
-			var pwd = $('#pwd').val();
-			var sessionId = $('#sessionId').val();
-			var passCode = $('#passCodeInput').val();
-			
-			var data = {
-				phone : phone,
-				pwd : $.md5(pwd),
-				sessionId : sessionId,
-				passCode : passCode
-			};
-			
-			$.ajax({
-				url : '/fruit/user/login.do',
-				data : JSON.stringify(data),
-				type : 'post',
-				dataType : 'json',
-				contentType : 'application/json',
-				success : function(res){
-					if(res.code == '000004'){
-						alert('登录成功');
-					}else{
-						alert(res.msg);
-					}
-				}
-			});
-		});
-	});
+$(function(){
+	load_value_unit(".value_unit");
+	load_package_type(".package_type");
+	
+});
 </script>
 
 </head>
@@ -52,24 +27,36 @@
 
 	<table id="loginTable">
 		<tr>
-			<td><label>电话</label></td>
-			<td><input type="text" id="phone"/></td>
-		</tr>
-		<tr>
-			<td><label>密码</label></td>
-			<td><input type="password" id="pwd"/></td>
-		</tr>
-		<tr>
-			<td><label>验证码</label></td>
-			<td><img id='passCode'/> </td>
-		</tr>
-		<tr>
+			<td><label>商品名称</label></td>
+			<td><label>计价单位</label></td>
+			<td><label>进价</label></td>
+			<td><label>包装方式</label></td>
+			<td><label>包装重量</label></td>
+			<td><label>包装押金</label></td>
+			<td><label>包装数量</label></td>
+			<td><label>毛重</label></td>
+			<td><label>净重</label></td>
+			<td><label>押金总额</label></td>
+			<td><label>商品总额</label></td>
+			<td><label>总金额</label></td>
+			<td><label>备注</label></td>
 			<td></td>
-			<td><input id='passCodeInput' type="text"/></td>
 		</tr>
 		<tr>
-			<td></td>
-			<td><input type="button" id="login" value="登录"/></td>
+			<td><input type="text" class="good"/></td>
+			<td><input type="text" class="value_unit"/></td>
+			<td><input type="text" class="in_price"/></td>
+			<td><input type="text" class="package_type"/></td>
+			<td><input type="text" class="package_weight"/></td>
+			<td><input type="text" class="package_deposit"/></td>
+			<td><input type="text" class="package_num"/></td>
+			<td><input type="text" class="gross_weight"/></td>
+			<td><input type="text" class="net_weight"/></td>
+			<td><input type="text" class="total_deposit"/></td>
+			<td><input type="text" class="total_goods_price"/></td>
+			<td><input type="text" class="total_price"/></td>
+			<td><input type="text" class="remark"/></td>
+			<td><input type="button" class="add_stock_detail" value="+"/></td>
 		</tr>
 	</table>
 	

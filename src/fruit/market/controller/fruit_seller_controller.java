@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fruit.market.data.Role;
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
 import fruit.market.session.SessionManager;
@@ -38,7 +39,7 @@ public class fruit_seller_controller {
 			
 			Map<String, String> params = new HashMap<String, String>(1);
 			
-			params.put("user_type", "S");
+			params.put("user_type", Role.SELLER);
 			
 			List<Map<String, String>> sellers =  userService.getAllSeller(params);
 			

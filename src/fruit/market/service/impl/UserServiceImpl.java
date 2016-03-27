@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import fruit.market.controller.fruit_user_controller;
 import fruit.market.dao.UserDao;
+import fruit.market.data.Role;
 import fruit.market.exception.FruitException;
 import fruit.market.model.User;
 import fruit.market.service.UserService;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
 		
 		params.put("user_id", Utils.get_uuid());
 		params.put("pwd", Utils.encrypt((String) params.get("pwd")));
-		params.put("user_type", "C");
+		params.put("user_type", Role.BUYER);
 		params.put("create_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
 		userDao.insertUser(params);
