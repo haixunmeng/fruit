@@ -1,5 +1,5 @@
 fruit.encrypt.salt = a5c6f92192e947ea95dca2970be4d225
 
-redis.host = 192.168.23.130
+redis.host = 192.168.23.131
 redis.port = 9400
 redis.expiretime = 900

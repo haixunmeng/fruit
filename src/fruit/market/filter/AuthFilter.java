@@ -10,24 +10,24 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import fruit.market.auth.AuthManager;
 import fruit.market.exception.FruitException;
 import fruit.market.utils.Utils;
 
-@Service
+@WebFilter(filterName = "authFilter", urlPatterns = "*.do")
 public class AuthFilter implements Filter {
 
 	private static Logger logger = Logger.getLogger(AuthFilter.class);
 	
-	@Autowired
 	private AuthManager authManager;
 
 	public AuthFilter() {
@@ -45,7 +45,7 @@ public class AuthFilter implements Filter {
 		HttpServletResponse rep = (HttpServletResponse) response;
 
 		String action = req.getRequestURI();
-		logger.info("action : " + action);
+		logger.info(req.getRemoteAddr() + ":" + req.getRemotePort() + " --- " + action);
 
 		Cookie[] cookies = req.getCookies();
 
@@ -73,6 +73,10 @@ public class AuthFilter implements Filter {
 
 	public void init(FilterConfig fConfig) throws ServletException {
 
+		WebApplicationContext wc = WebApplicationContextUtils.getRequiredWebApplicationContext(fConfig.getServletContext());
+		
+		this.authManager = wc.getBean(AuthManager.class);
+		
 	}
 
 }
