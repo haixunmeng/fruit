@@ -91,7 +91,7 @@ public class Utils {
 
 	public static String encrypt(String pwd) {
 		
-		String encryptSalt = DigestUtils.md5Hex(PropertyUtil.getProperties("fruit.encrypt.salt"));
+		String encryptSalt = DigestUtils.md5Hex(PropertyUtil.getProperty("fruit.encrypt.salt"));
 		
 		StringBuffer mixedPwd = new StringBuffer();
 
@@ -192,14 +192,14 @@ public class Utils {
 		
 		String sessionId = (String) params.get("sessionId");
 		
-		String localPassCode = SessionManager.get4session(sessionId, "passCode");
+		String localPassCode = SessionManager.hashget(sessionId, "passCode", String.class);
 		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
 			throw FruitException.PASSCODE_ERROR_EXCEPTION;
 		}
 		
-		SessionManager.save2session(sessionId, "passed", "true");
+		SessionManager.hashset(sessionId, "passed", "true");
 		
 	}
 	

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import fruit.market.dao.AuthDao;
 import fruit.market.data.Resource;
 import fruit.market.data.Role;
+import fruit.market.data.User;
 import fruit.market.exception.FruitException;
 import fruit.market.session.SessionManager;
 
@@ -36,7 +37,9 @@ public class AuthManager {
 			throw FruitException.NO_AUTH_EXCEPTION;
 		}
 		
-		String tokenRole = SessionManager.get4session(token, "type");
+		User user = SessionManager.get(token, User.class);
+		
+		String tokenRole = user.getUser_type();
 		
 		if(!actionRole.equals(tokenRole)){
 			logger.info(FruitException.NO_AUTH_EXCEPTION);

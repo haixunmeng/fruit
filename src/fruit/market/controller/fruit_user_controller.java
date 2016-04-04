@@ -87,7 +87,7 @@ public class fruit_user_controller {
 
 			String sessionId = Utils.get_uuid();
 			
-			SessionManager.save2session(sessionId, "passCode", passCode.split(":")[0]);
+			SessionManager.hashset(sessionId, "passCode", passCode.split(":")[0]);
 			
 			resMeg.put("sessionId", sessionId);
 			resMeg.put("passCode", passCode.split(":")[1]);

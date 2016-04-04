@@ -17,6 +17,7 @@ import fruit.market.dao.StoreDao;
 import fruit.market.data.Stock;
 import fruit.market.data.StockDetail;
 import fruit.market.data.Store;
+import fruit.market.data.User;
 import fruit.market.service.StockService;
 import fruit.market.session.SessionManager;
 import fruit.market.utils.DateUtil;
@@ -39,10 +40,10 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public void StockIn(Map<String, Object> params) {
 
-		String userid = SessionManager.get4session((String)params.get("token"), "userid");
+		User user = SessionManager.get((String)params.get("token"), User.class);
 		
 		Map<String, Object> conditions = new HashMap<String, Object>();
-		conditions.put("seller_id", userid);
+		conditions.put("seller_id", user.getUser_id());
 		Store store = storeDao.getSingleByCondition(conditions);
 		
 		Stock stock = new Stock();

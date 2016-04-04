@@ -15,6 +15,9 @@ public class FruitException extends RuntimeException {
 	public static final FruitException PASSWORD_NOT_CORRECT_EXCEPTION = new FruitException("000009", "密码错误");
 	public static final FruitException PASSCODE_ERROR_EXCEPTION = new FruitException("000010", "验证码错误");
 	public static final FruitException NO_AUTH_EXCEPTION = new FruitException("000011", "无授权操作");
+	public static final FruitException GET_REDIS_SERVICE_FAIL = new FruitException("000012", "获取redis服务失败");
+	public static final FruitException REDIS_CONNECTION_FAIL = new FruitException("000013", "获取redis连接失败");
+	public static final FruitException REDIS_EXCEPTION = new FruitException("000014", "redis异常");
 
 
 	public String errorCode;

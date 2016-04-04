@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fruit.market.dao.UserDao;
+import fruit.market.data.User;
 import fruit.market.exception.FruitException;
-import fruit.market.model.User;
 import fruit.market.utils.DBUtils;
 
 @Repository

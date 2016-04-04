@@ -1,43 +1,146 @@
 package fruit.market.session;
 
 import org.apache.log4j.Logger;
+import com.alibaba.fastjson.JSON;
 
-import fruit.market.model.User;
+import fruit.market.data.User;
+import fruit.market.exception.FruitException;
 import fruit.market.utils.DateUtil;
 import fruit.market.utils.PropertyUtil;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class SessionManager {
 	
 	private static Logger logger = Logger.getLogger(SessionManager.class);
 	
-	public static Jedis jedis = null;
+	public static void set(String key, Object data){
+		if(data == null) return;
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			jedis.set(key.getBytes("UTF-8"), JSON.toJSONString(data).getBytes("UTF-8"));
+			jedis.expire(key.getBytes("UTF-8"), RedisUtils.expireTime);
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
+	}
 	
-	static {
+	public static <T>T get(String key, Class<T> clazz){
+		T object = null; 
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			byte[] bytes = jedis.get(key.getBytes("UTF-8"));
+			if(bytes != null){
+				String value = new String(bytes,"UTF-8");
+				object = JSON.parseObject(value, clazz);
+			}
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
+		return object;
+	}
+	
+	public static void hashset(String key, String field, Object data){
+		if(data == null) return;
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			jedis.hset(key.getBytes("UTF-8"),field.getBytes("UTF-8"), JSON.toJSONString(data).getBytes("UTF-8"));
+			jedis.expire(key.getBytes("UTF-8"), RedisUtils.expireTime);//设置过期时间
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
+	}
+	
+	public static <T> T hashget(String key, String field, Class<T> clazz){
+		T object = null; 
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			byte[] bytes = jedis.hget(key.getBytes("UTF-8"), field.getBytes("UTF-8"));
+			if(bytes != null){
+				String value = new String(bytes,"UTF-8");
+				object = JSON.parseObject(value, clazz);
+			}
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
+		return object;
+	}
+	
+	public static void remove(String key){
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			jedis.del(key);
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
+	}
+	
+	public static void clear(){
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			jedis.flushDB(); //清除缓存数据
+			
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
 		
-		String host = PropertyUtil.getProperties("redis.host");
-		int port = Integer.valueOf(PropertyUtil.getProperties("redis.port"));
-		int expiretime = Integer.valueOf(PropertyUtil.getProperties("redis.expiretime"));
-		
-		jedis = new Jedis(host, port, expiretime);
-		
-		logger.info("redis " + host + ":" + port + " 连接成功 .....................");
 	}
 	
-	public static void save2session(String key, String field, String value){
-		jedis.hset(key, field, value);
+	public static void resetExpireTime(String key){
+		Jedis jedis = null;
+		try{
+			jedis = RedisUtils.getJedisResource();
+			jedis.expire(key.getBytes("UTF-8"), RedisUtils.expireTime);//设置过期时间
+		}catch(JedisConnectionException e) {
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_CONNECTION_FAIL;
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			throw FruitException.REDIS_EXCEPTION;
+		}finally{
+			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
+		}
 	}
-	
-	public static void save2session(String key, User user){
-		jedis.hset(key, "userid", user.getUser_id());
-		jedis.hset(key, "username", user.getUser_name());
-		jedis.hset(key, "pwd", user.getPwd());
-		jedis.hset(key, "type", user.getUser_type());
-		jedis.hset(key, "loginTime", DateUtil.getDateString());
-	}
-	
-	public static String get4session(String key, String field){
-		return jedis.hget(key, field);
-	}
-
 }

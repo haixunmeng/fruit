@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import fruit.market.model.User;
+import fruit.market.data.User;
 
 
 @Repository

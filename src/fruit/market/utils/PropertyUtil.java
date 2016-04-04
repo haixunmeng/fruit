@@ -17,7 +17,7 @@ public class PropertyUtil {
 	private static void init() {
 		properties = new Properties();
 		
-		InputStream in = Utils.class.getResourceAsStream("/resources/properties.property");
+		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("/resources/properties.properties");
 		
 		try {
 			properties.load(in);
@@ -27,7 +27,7 @@ public class PropertyUtil {
 		}
 	}
 
-	public static String getProperties(String property) {
+	public static String getProperty(String property) {
 		if (null == properties) {
 			init();
 		}

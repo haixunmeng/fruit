@@ -1,4 +1,4 @@
-package fruit.market.model;
+package fruit.market.data;
 
 import java.sql.Timestamp;
 

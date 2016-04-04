@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import fruit.market.model.User;
+import fruit.market.data.User;
 
 
 @Service
