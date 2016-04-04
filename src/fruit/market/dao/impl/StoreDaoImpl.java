@@ -10,6 +10,7 @@ public class StoreDaoImpl extends BaseDaoImpl<Store> implements StoreDao {
 
 	public StoreDaoImpl(){
 		tableName = "fruit_store";
+		primaryKey = "store_id";
 	}
 		
 }

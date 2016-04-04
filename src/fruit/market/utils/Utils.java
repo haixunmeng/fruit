@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -49,7 +50,15 @@ public class Utils {
 			while ((readLength = in.read(buf, 0, buf.length)) > 0) {
 				sb.append(buf, 0, readLength);
 			}
+			
+			Map<String, Object> params = JSON.parseObject(sb.toString());
 
+			if(null == params){
+				params = new HashMap<String, Object>();
+			}
+			
+			return params;
+			
 		} catch (UnsupportedEncodingException e) {
 			logger.info(FruitException.UNSUPPORTED_ENCODING);
 			throw FruitException.UNSUPPORTED_ENCODING;
@@ -57,14 +66,6 @@ public class Utils {
 			logger.info(FruitException.RW_PARAMETER_EXCEPTION);
 			throw FruitException.RW_PARAMETER_EXCEPTION;
 		}
-
-		Map<String, Object> params = JSON.parseObject(sb.toString());
-
-		if(null == params){
-			params = new HashMap<String, Object>();
-		}
-		
-		return params;
 	}
 
 	public static void writeReponse(HttpServletResponse response, Map<String, Object> resMeg) {

@@ -19,7 +19,7 @@ function post(url, data){
 		async : false,
 		type : 'post',
 		dataType : 'json',
-		contentType : 'application/json',
+		contentType : 'application/json;charset=utf-8',
 		data : JSON.stringify(data),
 		success : function(res){
 			response = res;
