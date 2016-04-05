@@ -11,13 +11,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fruit.market.cache.CacheManager;
 import fruit.market.controller.fruit_user_controller;
 import fruit.market.dao.UserDao;
 import fruit.market.data.Role;
 import fruit.market.data.User;
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
-import fruit.market.session.SessionManager;
 import fruit.market.utils.Utils;
 
 
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 		
 		String passCodeCommited = (String) params.get("passCode");
 		
-		String localPassCode = SessionManager.hashget((String) params.get("sessionId"), "passCode", String.class);
+		String localPassCode = CacheManager.hashget((String) params.get("sessionId"), "passCode", String.class);
 		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 		
 		String sessionId = params.get("sessionId");
 		
-		String localPassCode = SessionManager.hashget(sessionId, "passCode", String.class);
+		String localPassCode = CacheManager.hashget(sessionId, "passCode", String.class);
 		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 			throw FruitException.PASSWORD_NOT_CORRECT_EXCEPTION;
 		}
 		
-		SessionManager.set(sessionId, user);
+		CacheManager.set(sessionId, user);
 	}
 
 	@Override

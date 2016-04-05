@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fruit.market.cache.CacheManager;
 import fruit.market.dao.StockDao;
 import fruit.market.dao.StockDetailDao;
 import fruit.market.dao.StoreDao;
@@ -19,7 +20,6 @@ import fruit.market.data.StockDetail;
 import fruit.market.data.Store;
 import fruit.market.data.User;
 import fruit.market.service.StockService;
-import fruit.market.session.SessionManager;
 import fruit.market.utils.DateUtil;
 import fruit.market.utils.Utils;
 
@@ -40,7 +40,7 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public void StockIn(Map<String, Object> params) {
 
-		User user = SessionManager.get((String)params.get("token"), User.class);
+		User user = CacheManager.get((String)params.get("token"), User.class);
 		
 		Map<String, Object> conditions = new HashMap<String, Object>();
 		conditions.put("seller_id", user.getUser_id());

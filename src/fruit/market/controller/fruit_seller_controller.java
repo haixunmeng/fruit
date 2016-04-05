@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fruit.market.cache.CacheManager;
 import fruit.market.data.Role;
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
-import fruit.market.session.SessionManager;
 import fruit.market.utils.Utils;
 
 @Controller

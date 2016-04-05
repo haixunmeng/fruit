@@ -1,9 +1,8 @@
-package fruit.market.session;
+package fruit.market.utils;
 
 import org.apache.log4j.Logger;
 
 import fruit.market.exception.FruitException;
-import fruit.market.utils.PropertyUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;

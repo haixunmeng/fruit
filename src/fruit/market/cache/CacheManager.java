@@ -1,18 +1,13 @@
-package fruit.market.session;
+package fruit.market.cache;
 
-import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSON;
 
-import fruit.market.data.User;
 import fruit.market.exception.FruitException;
-import fruit.market.utils.DateUtil;
-import fruit.market.utils.PropertyUtil;
+import fruit.market.utils.RedisUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
-public class SessionManager {
-	
-	private static Logger logger = Logger.getLogger(SessionManager.class);
+public class CacheManager {
 	
 	public static void set(String key, Object data){
 		if(data == null) return;
@@ -22,10 +17,8 @@ public class SessionManager {
 			jedis.set(key.getBytes("UTF-8"), JSON.toJSONString(data).getBytes("UTF-8"));
 			jedis.expire(key.getBytes("UTF-8"), RedisUtils.expireTime);
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
@@ -43,10 +36,8 @@ public class SessionManager {
 				object = JSON.parseObject(value, clazz);
 			}
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
@@ -62,10 +53,8 @@ public class SessionManager {
 			jedis.hset(key.getBytes("UTF-8"),field.getBytes("UTF-8"), JSON.toJSONString(data).getBytes("UTF-8"));
 			jedis.expire(key.getBytes("UTF-8"), RedisUtils.expireTime);//设置过期时间
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
@@ -83,10 +72,8 @@ public class SessionManager {
 				object = JSON.parseObject(value, clazz);
 			}
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
@@ -100,10 +87,8 @@ public class SessionManager {
 			jedis = RedisUtils.getJedisResource();
 			jedis.del(key);
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
@@ -117,10 +102,8 @@ public class SessionManager {
 			jedis.flushDB(); //清除缓存数据
 			
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中
@@ -134,10 +117,8 @@ public class SessionManager {
 			jedis = RedisUtils.getJedisResource();
 			jedis.expire(key.getBytes("UTF-8"), RedisUtils.expireTime);//设置过期时间
 		}catch(JedisConnectionException e) {
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_CONNECTION_FAIL;
 		}catch(Exception e){
-			logger.error(e.getMessage());
 			throw FruitException.REDIS_EXCEPTION;
 		}finally{
 			RedisUtils.returnJedisResource(jedis); //释放jedis到池中

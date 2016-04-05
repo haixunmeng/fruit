@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 
+import fruit.market.cache.CacheManager;
 import fruit.market.exception.FruitException;
-import fruit.market.session.SessionManager;
 import sun.misc.BASE64Encoder;
 
 import com.alibaba.fastjson.JSON;
@@ -192,14 +192,14 @@ public class Utils {
 		
 		String sessionId = (String) params.get("sessionId");
 		
-		String localPassCode = SessionManager.hashget(sessionId, "passCode", String.class);
+		String localPassCode = CacheManager.hashget(sessionId, "passCode", String.class);
 		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
 			throw FruitException.PASSCODE_ERROR_EXCEPTION;
 		}
 		
-		SessionManager.hashset(sessionId, "passed", "true");
+		CacheManager.hashset(sessionId, "passed", "true");
 		
 	}
 	

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fruit.market.cache.CacheManager;
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
-import fruit.market.session.SessionManager;
 import fruit.market.utils.Utils;
 
 @Controller
@@ -87,7 +87,7 @@ public class fruit_user_controller {
 
 			String sessionId = Utils.get_uuid();
 			
-			SessionManager.hashset(sessionId, "passCode", passCode.split(":")[0]);
+			CacheManager.hashset(sessionId, "passCode", passCode.split(":")[0]);
 			
 			resMeg.put("sessionId", sessionId);
 			resMeg.put("passCode", passCode.split(":")[1]);
