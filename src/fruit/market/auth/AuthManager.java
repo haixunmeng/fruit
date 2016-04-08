@@ -32,7 +32,7 @@ public class AuthManager {
 	private AuthDao authDao;
 	
 	@Around("execution(* fruit.market.controller.*.*(..))")
-	public Object pointCut(ProceedingJoinPoint  pjp) throws Throwable{
+	public Object authFilter(ProceedingJoinPoint  pjp) throws Throwable{
 		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		

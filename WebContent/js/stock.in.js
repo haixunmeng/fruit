@@ -1,5 +1,7 @@
 $(function(){
 	bindAddStockInDetail($(".add_stock_detail"));
+	bindPackageNumInput($(".package_num"));
+	bindGrossWightInput($(".gross_weight"));
 	
 	$("#stock_in_submit").click(function(){
 		
@@ -66,6 +68,66 @@ function bindAddStockInDetail(elem) {
 	});
 }
 
+function bindPackageNumInput(elem){
+	elem.bind("input propertychange", function(){
+		var value_unit = $(this).parent().prevAll().children(".value_unit").combobox("getValue");
+		if(value_unit != "kilogram"){
+			var in_price = $(this).parent().prevAll().children(".in_price").val();
+			var package_deposit = $(this).parent().prevAll().children(".package_deposit").val();
+			var package_num = $(this).val()|0;
+			
+			var total_goods_price = in_price * 10000 * package_num / 10000;
+			$(this).parent().nextAll().children(".total_goods_price").val(total_goods_price);
+			
+			var total_deposit = package_deposit * 10000 * package_num / 10000;
+			$(this).parent().nextAll().children(".total_deposit").val(total_deposit);
+			
+			var total_price = total_goods_price + total_deposit;
+			$(this).parent().nextAll().children(".total_price").val(total_price); 
+		}
+	});
+}
+
+function bindGrossWightInput(elem){
+	elem.bind("input propertychange", function(){
+		var value_unit = $(this).parent().prevAll().children(".value_unit").combobox("getValue");
+		var in_price = $(this).parent().prevAll().children(".in_price").val();
+		var package_type = $(this).parent().prevAll().children(".package_type").combobox("getValue");
+		var package_deposit = $(this).parent().prevAll().children(".package_deposit").val();
+		var package_weight = $(this).parent().prevAll().children(".package_weight").val();
+		var package_num = $(this).parent().prevAll().children(".package_num").val();
+		if(value_unit == "kilogram"){
+			
+			if(package_type == "in_bulk"){
+				var gross_weight = $(this).val();
+				$(this).parent().nextAll().children(".net_weight").val(gross_weight);
+				$(this).parent().nextAll().children(".total_deposit").val(0);
+				var total_goods_price = in_price * 10000 * gross_weight / 10000;
+				$(this).parent().nextAll().children(".total_goods_price").val(total_goods_price);
+				$(this).parent().nextAll().children(".total_price").val(total_goods_price); 
+			}else{
+				
+				var gross_weight = $(this).val();
+				var net_weight = gross_weight - package_weight * package_num;
+				$(this).parent().nextAll().children(".net_weight").val(net_weight);
+				
+				var total_goods_price = in_price * net_weight;
+				$(this).parent().nextAll().children(".total_goods_price").val(total_goods_price);
+				
+				var total_deposit = package_deposit * package_num;
+				$(this).parent().nextAll().children(".total_deposit").val(total_deposit);
+				
+				var total_price = total_goods_price + total_deposit;
+				$(this).parent().nextAll().children(".total_price").val(total_price); 
+			}
+		}else{
+			var gross_weight = $(this).val();
+			var net_weight = gross_weight - package_weight * package_num;
+			$(this).parent().nextAll().children(".net_weight").val(net_weight);
+		}
+	});
+}
+
 function createNextStockDetail(elem) {
 	var nextDetail = '<tr class="stock_detail"><td><input type="text" class="good_name"/></td>'
 			+ '<td><input type="text" class="value_unit"/></td>'
@@ -87,5 +149,8 @@ function createNextStockDetail(elem) {
 	load_value_unit(elem.next().children().children(".value_unit"));
 	load_package_type(elem.next().children().children(".package_type"));
 
+	bindPackageNumInput(elem.next().children().children(".package_num"));
+	bindGrossWightInput(elem.next().children().children(".gross_weight"));
+	
 	bindAddStockInDetail(elem.next().children().children(".add_stock_detail"));
 }
