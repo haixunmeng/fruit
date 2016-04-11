@@ -194,6 +194,11 @@ public class Utils {
 		
 		String localPassCode = CacheManager.hashget(sessionId, "passCode", String.class);
 		
+		if(localPassCode == null){
+			logger.info(FruitException.OPERATION_OUT_TIME);
+			throw FruitException.OPERATION_OUT_TIME;
+		}
+		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
 			throw FruitException.PASSCODE_ERROR_EXCEPTION;

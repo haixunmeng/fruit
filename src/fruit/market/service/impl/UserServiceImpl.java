@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
 		
 		String localPassCode = CacheManager.hashget((String) params.get("sessionId"), "passCode", String.class);
 		
+		if(localPassCode == null){
+			logger.info(FruitException.OPERATION_OUT_TIME);
+			throw FruitException.OPERATION_OUT_TIME;
+		}
+		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);
 			throw FruitException.PASSCODE_ERROR_EXCEPTION;
@@ -67,6 +72,11 @@ public class UserServiceImpl implements UserService {
 		String sessionId = params.get("sessionId");
 		
 		String localPassCode = CacheManager.hashget(sessionId, "passCode", String.class);
+		
+		if(localPassCode == null){
+			logger.info(FruitException.OPERATION_OUT_TIME);
+			throw FruitException.OPERATION_OUT_TIME;
+		}
 		
 		if(!localPassCode.equals(passCodeCommited)){
 			logger.info(FruitException.PASSCODE_ERROR_EXCEPTION);

@@ -3,6 +3,8 @@ $(function(){
 	bindPackageNumInput($(".package_num"));
 	bindGrossWightInput($(".gross_weight"));
 	
+
+	
 	$("#stock_in_submit").click(function(){
 		
 		var stock_details = new Array();
@@ -43,9 +45,9 @@ $(function(){
 		var stock = {
 				token : $.cookie("token"),
 				stock_details : stock_details,
-				deposit : "0",
-				good_price : "0",
-				total_price : "0"
+				deposit : $("#total_total_deposit").val()|0,
+				good_price : $("#total_total_goods_price").val()|0,
+				total_price : $("#total_total_price").val()|0
 		}
 		
 		var res = post("/fruit/stock/stockIn.do", stock);
@@ -74,7 +76,7 @@ function bindPackageNumInput(elem){
 		if(value_unit != "kilogram"){
 			var in_price = $(this).parent().prevAll().children(".in_price").val();
 			var package_deposit = $(this).parent().prevAll().children(".package_deposit").val();
-			var package_num = $(this).val()|0;
+			var package_num = $(this).val();
 			
 			var total_goods_price = in_price * 10000 * package_num / 10000;
 			$(this).parent().nextAll().children(".total_goods_price").val(total_goods_price);
@@ -84,6 +86,8 @@ function bindPackageNumInput(elem){
 			
 			var total_price = total_goods_price + total_deposit;
 			$(this).parent().nextAll().children(".total_price").val(total_price); 
+			
+			count_total();
 		}
 	});
 }
@@ -108,18 +112,19 @@ function bindGrossWightInput(elem){
 			}else{
 				
 				var gross_weight = $(this).val();
-				var net_weight = gross_weight - package_weight * package_num;
+				var net_weight = gross_weight - package_weight * 10000 * package_num / 10000;
 				$(this).parent().nextAll().children(".net_weight").val(net_weight);
 				
-				var total_goods_price = in_price * net_weight;
+				var total_goods_price = in_price * 10000 * net_weight / 10000;
 				$(this).parent().nextAll().children(".total_goods_price").val(total_goods_price);
 				
-				var total_deposit = package_deposit * package_num;
+				var total_deposit = package_deposit * 10000  * package_num / 10000;
 				$(this).parent().nextAll().children(".total_deposit").val(total_deposit);
 				
 				var total_price = total_goods_price + total_deposit;
 				$(this).parent().nextAll().children(".total_price").val(total_price); 
 			}
+			count_total();
 		}else{
 			var gross_weight = $(this).val();
 			var net_weight = gross_weight - package_weight * package_num;
@@ -153,4 +158,24 @@ function createNextStockDetail(elem) {
 	bindGrossWightInput(elem.next().children().children(".gross_weight"));
 	
 	bindAddStockInDetail(elem.next().children().children(".add_stock_detail"));
+}
+
+function count_total(){
+	
+	var total_total_deposit = 0;
+	var total_total_goods_price = 0;
+	var total_total_price = 0;
+	
+	$.each($(".stock_detail"), function(i, n){
+		var total_deposit = $(this).children().children(".total_deposit").val();
+		total_total_deposit = total_total_deposit*1 + total_deposit*1;
+		var total_goods_price = $(this).children().children(".total_goods_price").val();
+		total_total_goods_price = total_total_goods_price*1 + total_goods_price*1;
+		var total_price = $(this).children().children(".total_price").val();
+		total_total_price = total_total_price*10000/10000 + total_price*10000/10000;
+	});
+	
+	$("#total_total_deposit").val(total_total_deposit);
+	$("#total_total_goods_price").val(total_total_goods_price);
+	$("#total_total_price").val(total_total_price);
 }

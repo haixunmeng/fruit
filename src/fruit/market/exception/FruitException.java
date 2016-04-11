@@ -18,6 +18,7 @@ public class FruitException extends RuntimeException {
 	public static final FruitException GET_REDIS_SERVICE_FAIL = new FruitException("000012", "获取redis服务失败");
 	public static final FruitException REDIS_CONNECTION_FAIL = new FruitException("000013", "获取redis连接失败");
 	public static final FruitException REDIS_EXCEPTION = new FruitException("000014", "redis异常");
+	public static final FruitException OPERATION_OUT_TIME = new FruitException("000015", "操作超时");
 
 
 	public String errorCode;
