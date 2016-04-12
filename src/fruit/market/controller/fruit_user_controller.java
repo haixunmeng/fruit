@@ -1,6 +1,7 @@
 package fruit.market.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.cache.CacheManager;
+import fruit.market.data.Resource;
+import fruit.market.data.User;
 import fruit.market.exception.FruitException;
+import fruit.market.service.AuthService;
 import fruit.market.service.UserService;
 import fruit.market.utils.Utils;
 
@@ -26,6 +30,9 @@ public class fruit_user_controller {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthService authService;
 
 	@RequestMapping("/register")
 	@ResponseBody
@@ -103,15 +110,20 @@ public class fruit_user_controller {
 		return resMeg;
 	}
 	
-	@RequestMapping("/checkPassCode")
-	public Map<String, String> checkPassCode(@RequestBody Map<String, String> params){
-		Map<String, String> resMeg = new HashMap<String, String>();
+	@RequestMapping("/getMenu")
+	@ResponseBody
+	public Map<String, Object> getMenu(@RequestBody Map<String, String> params){
+		
+		Map<String, Object> resMeg = new HashMap<String, Object>();
 		
 		try {
 			
-			logger.info(params);
+			String token = params.get("token");
 			
-			Utils.checkPassCode(params);
+			User user = CacheManager.get(token, User.class);
+			
+			List<Resource> resources = authService.getUserMenu("/fruit/user/getMenu.do", user.getUser_type());
+			resMeg.put("menus", resources);
 			
 			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
 			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);

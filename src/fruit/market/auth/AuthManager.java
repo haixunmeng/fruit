@@ -25,43 +25,43 @@ import fruit.market.exception.FruitException;
 @Aspect
 @Service
 public class AuthManager {
-	
+
 	private static Logger logger = Logger.getLogger(AuthManager.class);
 
 	@Autowired
 	private AuthDao authDao;
-	
+
 	@Around("execution(* fruit.market.controller.*.*(..))")
-	public Object authFilter(ProceedingJoinPoint  pjp) throws Throwable{
-		
-		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		
+	public Object authFilter(ProceedingJoinPoint pjp) throws Throwable {
+
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+
 		String action = request.getRequestURI();
-		
+
 		Cookie[] cookies = request.getCookies();
 
 		String token = "";
 		if (null != cookies) {
 			for (Cookie cookie : cookies) {
-				if("token".equals(cookie.getName())){
+				if ("token".equals(cookie.getName())) {
 					token = cookie.getValue();
 				}
 			}
 		}
-		
-		
-		try{
+
+		try {
 			validateAuth(action, token);
-		} catch (FruitException e){
+		} catch (FruitException e) {
 			Map<String, Object> resMeg = new HashMap<String, Object>();
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
 			return resMeg;
 		}
-		
+
 		return pjp.proceed();
 	}
-	
+
 	public void validateAuth(String action, String token){
 
 		Resource resource = authDao.getData(action);
@@ -75,6 +75,11 @@ public class AuthManager {
 		
 		if(Role.COMMON.equals(actionRole)){
 			return;
+		}
+		if(Role.PROTECTED.equals(actionRole)){
+			if(null != token && "" != token){
+				return;
+			}
 		}else if(null == token || "" == token){
 			logger.info(FruitException.NO_AUTH_EXCEPTION);
 			throw FruitException.NO_AUTH_EXCEPTION;
@@ -89,5 +94,4 @@ public class AuthManager {
 			throw FruitException.NO_AUTH_EXCEPTION;
 		}
 	}
-	
 }
