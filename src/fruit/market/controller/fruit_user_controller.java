@@ -59,15 +59,40 @@ public class fruit_user_controller {
 	
 	@RequestMapping("/login")
 	@ResponseBody
-	public Map<String, Object> login(@RequestBody Map<String, String> params) {
+	public Map<String, String> login(@RequestBody Map<String, String> params) {
 		
-		Map<String, Object> resMeg = new HashMap<String, Object>();
+		Map<String, String> resMeg = new HashMap<String, String>();
 		
 		try {
 			
 			logger.info(params);
 			
 			userService.login(params);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+			resMeg.put("token", params.get("sessionId"));
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
+	
+	@RequestMapping("/logout")
+	@ResponseBody
+	public Map<String, String> logout(@RequestBody Map<String, String> params) {
+		
+		Map<String, String> resMeg = new HashMap<String, String>();
+		
+		try {
+			
+			logger.info(params);
+			
+			userService.logout(params);
 			
 			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
 			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);

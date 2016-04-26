@@ -9,10 +9,8 @@ import fruit.market.data.User;
 
 
 @Repository
-public interface UserDao {
+public interface UserDao extends BaseDao<User>{
 	
-	public void insertUser(Map<String, String> parameters);
-
 	public User queryByConditions(String...conditions);
 	
 	public List<User> queryListByConditions(Map<String, String> conditions);

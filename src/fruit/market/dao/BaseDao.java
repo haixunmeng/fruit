@@ -12,7 +12,15 @@ public interface BaseDao<T> {
 	
 	public boolean batchAdd(List<T> ds);
 	
+	public boolean delete(Map<String, Object> data);
+	
+	public boolean update(Map<String, Object> data);
+	
+	public boolean batchUpdate(Map<String, Object>[] data);
+	
 	public T getData(String key);
+	
+	public List<T> getOnePage(int pageNum, int pageCount);
 	
 	public T getSingleByCondition(Map<String, Object> conditions);
 	

@@ -16,41 +16,17 @@ import fruit.market.exception.FruitException;
 import fruit.market.utils.DBUtils;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
-	private String tableName = "fruit_user";
+	public UserDaoImpl(){
+		tableName = "fruit_user";
+		primaryKey = "user_id";
+	}
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
 	private BeanPropertyRowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
-
-	@Override
-	public void insertUser(Map<String, String> parameters) {
-		
-		StringBuffer sql = new StringBuffer();
-		
-		sql.append("insert into ").append(tableName).append("(user_id, user_name, pwd, phone, user_type, create_time) values('")
-													.append(parameters.get("user_id"))
-													.append("', '")
-													.append(parameters.get("username"))
-													.append("', '")
-													.append(parameters.get("pwd"))
-													.append("', '")
-													.append(parameters.get("phone"))
-													.append("', '")
-													.append(parameters.get("user_type"))
-													.append("', '")
-													.append(parameters.get("create_time"))
-													.append("')");
-		
-		try{
-			jdbcTemplate.execute(sql.toString());
-		} catch (DataAccessException e) {
-			throw FruitException.DB_OPTION_EXCEPTION;
-		}
-		
-	}
 
 	@Override
 	public User queryByConditions(String... conditions) {

@@ -2,95 +2,21 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>登录</title>
-
-<link href="../css/fruit.css" rel="stylesheet" type="text/css">
-
+<title>测试</title>
 <script src="../js/jquery-2.0.0.min.js"></script>
-<script src="../js/jquery.cookie.js"></script>
-<script src="../js/jquery.md5.js"></script>
 <script src="../js/fruit.js"></script>
-<script src="../js/stock.in.js"></script>
 
 <script type="text/javascript">
 	$(function() {
-		
 		$("#submit").click(function(){
-			
-			var stock_details = new Array();
-			$.each($(".stock_detail"), function(i, n){
-				var good_name = $(this).children().children(".good").val();
-				var stock_detail = {
-					good_name : good_name
-				}
-				stock_details.push(stock_detail);
-			});
-			
-			var stock = {
-					token : "123",
-					stock_details : stock_details
-			}
-			
-			console.log(JSON.stringify(stock));
+			var res = post("/fruit/test/delete.do");
+			alert(res.msg);
 		});
 	});
 </script>
 
 </head>
 <body>
-	<table id="stock">
-		<tbody>
-			<tr>
-				<td><label>商品名称</label></td>
-				<td><label>计价单位</label></td>
-				<td><label>进价</label></td>
-				<td><label>包装方式</label></td>
-				<td><label>包装重量</label></td>
-				<td><label>包装押金</label></td>
-				<td><label>包装数量</label></td>
-				<td><label>毛重</label></td>
-				<td><label>净重</label></td>
-				<td><label>押金总额</label></td>
-				<td><label>商品总额</label></td>
-				<td><label>总金额</label></td>
-				<td><label>备注</label></td>
-				<td></td>
-			</tr>
-			<tr class="stock_detail">
-				<td><input type="text" class="good" /></td>
-				<td><input type="text" class="value_unit" /></td>
-				<td><input type="text" class="in_price" /></td>
-				<td><input type="text" class="package_type" /></td>
-				<td><input type="text" class="package_weight" /></td>
-				<td><input type="text" class="package_deposit" /></td>
-				<td><input type="text" class="package_num" /></td>
-				<td><input type="text" class="gross_weight" /></td>
-				<td><input type="text" class="net_weight" /></td>
-				<td><input type="text" class="total_deposit" /></td>
-				<td><input type="text" class="total_goods_price" /></td>
-				<td><input type="text" class="total_price" /></td>
-				<td><input type="text" class="remark" /></td>
-				<td><input type="button" class="add_stock_detail" value="+" /></td>
-			</tr>
-			<tr class="stock_detail">
-				<td><input type="text" class="good" /></td>
-				<td><input type="text" class="value_unit" /></td>
-				<td><input type="text" class="in_price" /></td>
-				<td><input type="text" class="package_type" /></td>
-				<td><input type="text" class="package_weight" /></td>
-				<td><input type="text" class="package_deposit" /></td>
-				<td><input type="text" class="package_num" /></td>
-				<td><input type="text" class="gross_weight" /></td>
-				<td><input type="text" class="net_weight" /></td>
-				<td><input type="text" class="total_deposit" /></td>
-				<td><input type="text" class="total_goods_price" /></td>
-				<td><input type="text" class="total_price" /></td>
-				<td><input type="text" class="remark" /></td>
-				<td><input type="button" class="add_stock_detail" value="+" /></td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<input type="button" id="submit" value="提交" />
+	<input type="button" id="submit" value="测试" />
 </body>
 </html>

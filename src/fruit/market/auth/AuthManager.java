@@ -31,7 +31,7 @@ public class AuthManager {
 	@Autowired
 	private AuthDao authDao;
 
-	@Around("execution(* fruit.market.controller.*.*(..))")
+	//@Around("execution(* fruit.market.controller.*.*(..))")
 	public Object authFilter(ProceedingJoinPoint pjp) throws Throwable {
 
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
@@ -86,6 +86,10 @@ public class AuthManager {
 		}
 		
 		User user = CacheManager.get(token, User.class);
+		if(user == null){
+			logger.info(FruitException.NO_AUTH_EXCEPTION);
+			throw FruitException.NO_AUTH_EXCEPTION;
+		}
 		
 		String tokenRole = user.getUser_type();
 		

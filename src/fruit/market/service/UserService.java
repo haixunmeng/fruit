@@ -15,8 +15,12 @@ public interface UserService {
 	public void register(Map<String, String> parameters);
 
 	public void login(Map<String, String> params);
+	
+	public void logout(Map<String, String> params);
 
 	public void addSeller(Map<String, String> params);
 
 	public List<Map<String, String>> getAllSeller(Map<String, String> params);
+	
+	public List<User> getUsers(Map<String, String> params);
 }

@@ -1,8 +1,6 @@
 package fruit.market.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +16,7 @@ import fruit.market.data.Role;
 import fruit.market.data.User;
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
+import fruit.market.utils.DateUtil;
 import fruit.market.utils.Utils;
 
 
@@ -55,13 +54,16 @@ public class UserServiceImpl implements UserService {
 			throw FruitException.PHONE_HAS_BEEN_REGISTED_EXCEPTION;
 		}
 		
-		params.put("user_id", Utils.get_uuid());
-		params.put("pwd", Utils.encrypt((String) params.get("pwd")));
-		params.put("user_type", Role.BUYER);
-		params.put("create_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		User newUser = new User();
 		
-		userDao.insertUser(params);
+		newUser.setPhone(phone);
+		newUser.setUser_id(Utils.get_uuid());
+		newUser.setPwd(Utils.encrypt((String) params.get("pwd")));
+		newUser.setUser_name(params.get("user_name"));
+		newUser.setUser_type(Role.BUYER);
+		newUser.setCreate_time(DateUtil.getTimestamp());
 		
+		userDao.add(newUser);
 	}
 
 	@Override
@@ -110,13 +112,16 @@ public class UserServiceImpl implements UserService {
 			throw FruitException.PHONE_HAS_BEEN_REGISTED_EXCEPTION;
 		}
 		
-		params.put("user_id", Utils.get_uuid());
-		params.put("pwd", Utils.encrypt((String) params.get("pwd")));
-		params.put("user_type", "S");
-		params.put("create_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		User newUser = new User();
 		
-		userDao.insertUser(params);
+		newUser.setPhone(phone);
+		newUser.setUser_id(Utils.get_uuid());
+		newUser.setPwd(Utils.encrypt((String) params.get("pwd")));
+		newUser.setUser_name(params.get("user_name"));
+		newUser.setUser_type(Role.SELLER);
+		newUser.setCreate_time(DateUtil.getTimestamp());
 		
+		userDao.add(newUser);
 	}
 
 	@Override
@@ -136,6 +141,39 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return allSellers;
+	}
+
+	@Override
+	public void logout(Map<String, String> params) {
+
+		User login_user = null;
+		
+		String token = params.get("token");
+
+		if(null != token && !token.equals("")){
+			login_user = CacheManager.get(token, User.class);
+		}else{
+			logger.info(FruitException.TOKEN_NULL_EXCEPTION);
+			throw FruitException.TOKEN_NULL_EXCEPTION;
+		}
+		
+		if(login_user != null){
+			CacheManager.remove(token);
+		}else{
+			logger.info(FruitException.NO_LOGINED_USER_EXCEPTION);
+			throw FruitException.NO_LOGINED_USER_EXCEPTION;
+		}
+		
+		
+	}
+
+	@Override
+	public List<User> getUsers(Map<String, String> params) {
+		
+		int pageNum = Integer.valueOf(params.get("pageNum"));
+		int pageCount = Integer.valueOf(params.get("pageCount"));
+		
+		return userDao.getOnePage(pageNum, pageCount);
 	}
 
 }
