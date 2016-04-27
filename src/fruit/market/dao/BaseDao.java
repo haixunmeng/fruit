@@ -16,6 +16,8 @@ public interface BaseDao<T> {
 	
 	public boolean batchDelete(Map<String, Object>[] data);
 	
+	public boolean update(T data);
+	
 	public boolean update(Map<String, Object> data);
 	
 	public boolean batchUpdate(Map<String, Object>[] data);
@@ -23,6 +25,8 @@ public interface BaseDao<T> {
 	public T getData(String key);
 	
 	public List<T> getOnePage(int pageNum, int pageCount);
+	
+	public List<Map<String, Object>> getPageData(int pageNum, int pageCount);
 	
 	public T getSingleByCondition(Map<String, Object> conditions);
 	

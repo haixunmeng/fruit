@@ -3,7 +3,6 @@ package fruit.market.dao.impl;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -208,7 +207,37 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
+	
+	@Override
+	public boolean update(T data) {
+		StringBuffer sql = new StringBuffer("update " + tableName + " set ");
+		
+		Field[] fields = data.getClass().getDeclaredFields();
+		for (int i = 0; i < fields.length; i++) {
+			Field field = fields[i];
+			String fieldName = field.getName();
+			Class<?> fieldType = field.getType();
+			if(fieldName.equals("create_time"))
+				continue;
+			if(fieldName.equals("creator"))
+				continue;
 
+			sql.append(fieldName + " = :" + fieldName + ",");
+		}
+		sql.replace(sql.lastIndexOf(","), sql.length(), "");
+		
+		sql.append(" where ").append(primaryKey).append(" = :").append(primaryKey);
+		
+		SqlParameterSource ps = new BeanPropertySqlParameterSource(data);
+		
+		try{
+			return namedParameterJdbcTemplate.update(sql.toString(), ps) > 0;
+		}catch(DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
+	
 	@Override
 	public boolean update(Map<String, Object> data) {
 		StringBuffer sql = new StringBuffer("update " + tableName + " set ");
@@ -304,4 +333,19 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
+
+	@Override
+	public List<Map<String, Object>> getPageData(int pageNum, int pageCount) {
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("select * from ").append(tableName).append(" limit ? offset ?");
+		try {
+			return jdbcTemplate.queryForList(sql.toString(), new Object[] { pageCount, pageCount * (pageNum - 1) });
+		} catch (DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
+
+
 }

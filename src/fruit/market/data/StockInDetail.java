@@ -2,7 +2,7 @@ package fruit.market.data;
 
 import java.math.BigDecimal;
 
-public class StockDetail {
+public class StockInDetail {
 
 	private String stock_detail_id;
 

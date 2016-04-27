@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>库存列表</title>
+
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+<link href="../../css/icon.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/fruit.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#stock_datagrid").datagrid({
+		columns : [[
+		            {checkbox:true},
+		            {field:'stock_id',hidden:'true'},
+		            {field:'good_id',hidden:'true'},
+		            {field:'good_name',title:'商品名称'},
+		            {field:'value_unit',title:'计价方式'},
+		            {field:'in_price',title:'进价'},
+		            {field:'left_num',title:'剩余量'},
+		            {field:'package_type',title:'包装方式'},
+		            {field:'package_num',title:'包装数量'},
+		            {field:'stock_in_time',title:'进货时间'}
+		]],
+		checkOnSelect:false,
+		toolbar : "#toolbar"
+	});
+	
+	var res = post('/fruit/seller/getStock.do', {pageNum:1, pageCount:10});
+	if(res.code == '000004'){
+		for(var i in res.data){
+			if(res.data[i].value_unit == "kilogram"){
+				res.data[i].value_unit = "千克";
+			}else if(res.data[i].value_unit == "number"){
+				res.data[i].value_unit = "个";
+			}else if(res.data[i].value_unit == "box"){
+				res.data[i].value_unit = "箱";
+			}else if(res.data[i].value_unit == "case"){
+				res.data[i].value_unit = "框";
+			}else if(res.data[i].value_unit == "bag"){
+				res.data[i].value_unit = "袋";
+			}
+			
+			if(res.data[i].package_type == "in_bulk"){
+				res.data[i].package_type = "散装";
+			}else if(res.data[i].package_type == "in_box"){
+				res.data[i].package_type = "箱装";
+			}else if(res.data[i].package_type == "in_case"){
+				res.data[i].package_type = "框装";
+			}else if(res.data[i].package_type == "in_bag"){
+				res.data[i].package_type = "袋装";
+			}
+		}
+		
+		$("#stock_datagrid").datagrid('loadData', res.data);
+	}
+});
+</script>
+</head>
+<body>
+<table id="stock_datagrid"></table>
+<div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="newuser()"></a> 
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="edituser()"></a> 
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" plain="true"></a>
+    </div>
+</body>
+</html>

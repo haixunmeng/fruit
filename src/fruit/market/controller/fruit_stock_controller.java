@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.exception.FruitException;
-import fruit.market.service.StockService;
+import fruit.market.service.StockInService;
 
 @Controller
 @RequestMapping("/stock")
 public class fruit_stock_controller {
 	
 	@Autowired
-	private StockService stockService;
+	private StockInService stockService;
 	
 	@RequestMapping("/stockIn")
 	@ResponseBody
 	public Map<String, Object> stockIn(@RequestBody Map<String, Object> params){
-		
+
 		Map<String, Object> resMeg = new HashMap<String, Object>();
 		
 		try{

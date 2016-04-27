@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商品上架</title>
+
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+<link href="../../css/icon.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/fruit.js"></script>
+<script type="text/javascript">
+$(function(){
+    //响应文件添加成功事件
+    $("#shelf_good").click(function(){
+        //创建FormData对象
+        var data = new FormData();
+        data.append("good_id",  window.location.search.split("=")[1]);
+        data.append("sale_price", $("#sale_price").val());
+        data.append("good_desc", $("#good_desc").val());
+        data.append("token", $.cookie("token"));
+        
+        $.each($('#inputfile')[0].files, function(i, file) {
+            data.append('upload_file'+i, file);
+        });
+        
+        //发送数据
+        $.ajax({
+            url:'/fruit/seller/shelfGood.do',
+            type:'post',
+            data:data,
+            cache: false,
+            contentType: false,        //不可缺参数
+            processData: false,        //不可缺参数
+            success:function(res){
+            	alert(res.msg);
+            },
+            error:function(){
+                alert('上传出错');
+            }
+        });
+    });
+});
+</script>
+</head>
+<body>
+<label>售价：</label><input id="sale_price" /><br/><br/>
+<label>图片：</label><img onclick="getElementById('inputfile').click()" 
+	style="cursor:pointer;" title="点击添加图片" alt="点击添加图片" src="/fruit/css/icons/edit_add.png">
+	<input type="file" multiple="multiple" id="inputfile" style="height:0;width:0;z-index: -1;position: absolute;left: 10px;top: 5px;"/><br/><br/>
+<label>描述：</label><br/>
+<textarea id="good_desc" rows="10" cols="100"></textarea><br/><br/>
+
+<input id="shelf_good" type="button" value="上架"/>
+</body>
+</html>

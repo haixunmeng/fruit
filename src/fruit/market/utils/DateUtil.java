@@ -10,6 +10,10 @@ public class DateUtil {
 		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 	}
 	
+	public static String formatDate(Object date){
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+	}
+	
 	public static Timestamp getTimestamp(){
 		return new Timestamp(new Date().getTime());
 	}

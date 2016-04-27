@@ -6,5 +6,5 @@ import fruit.market.data.Stock;
 
 @Repository
 public interface StockDao extends BaseDao<Stock>{
-	
+
 }
