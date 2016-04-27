@@ -98,4 +98,31 @@ public class Controller_4_test {
 		
 		return "{\"msg\":\"更新成功\"}";
 	}
+	
+	@RequestMapping("/batchDelete")
+	@ResponseBody
+	public String batchDeleteTest() {
+		
+		@SuppressWarnings("unchecked")
+		Map<String, Object>[] user_ids = new Map[3];
+		
+		Map<String, Object> user_id1 = new HashMap<String, Object>();
+		user_id1.put("user_id", "62766021f99011e5930d2f0546e01958");
+		
+		user_ids[0] = user_id1;
+		
+		Map<String, Object> user_id2 = new HashMap<String, Object>();
+		user_id2.put("user_id", "cdc046b1ee5111e5aad2f3342f964f7a");
+		
+		user_ids[1] = user_id2;
+		
+		Map<String, Object> user_id3 = new HashMap<String, Object>();
+		user_id3.put("user_id", "f083944cee4f11e591a20196ab91cd04");
+		
+		user_ids[2] = user_id3;
+		
+		userDao.batchDelete(user_ids);
+		
+		return "{\"msg\":\"更新成功\"}";
+	}
 }

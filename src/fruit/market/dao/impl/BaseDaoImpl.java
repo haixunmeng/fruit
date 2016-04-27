@@ -36,7 +36,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -213,20 +213,20 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	public boolean update(Map<String, Object> data) {
 		StringBuffer sql = new StringBuffer("update " + tableName + " set ");
 
-		for(String key : data.keySet()){
-			if("create_time".equals(key)){
+		for (String key : data.keySet()) {
+			if ("create_time".equals(key)) {
 				continue;
 			}
 			sql.append(key + " = :" + key + ", ");
 		}
-		
+
 		sql.replace(sql.lastIndexOf(","), sql.length(), "");
-		
+
 		sql.append(" where ").append(primaryKey).append(" = :").append(primaryKey);
 
-		try{
+		try {
 			return namedParameterJdbcTemplate.update(sql.toString(), data) > 0;
-		}catch(DataAccessException e){
+		} catch (DataAccessException e) {
 			logger.error(FruitException.DB_OPTION_EXCEPTION);
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
@@ -237,44 +237,69 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		StringBuffer sql = new StringBuffer("update " + tableName + " set ");
 
 		Map<String, Object> dataMap = data[0];
-		for(String key : dataMap.keySet()){
-			if("create_time".equals(key)){
+		for (String key : dataMap.keySet()) {
+			if ("create_time".equals(key)) {
 				continue;
 			}
 			sql.append(key + " = :" + key + ", ");
 		}
-		
+
 		sql.replace(sql.lastIndexOf(","), sql.length(), "");
-		
+
 		sql.append(" where ").append(primaryKey).append(" = :").append(primaryKey);
 
-		try{
+		try {
 			int[] batchUpdateResult = namedParameterJdbcTemplate.batchUpdate(sql.toString(), data);
-			
-			for(int i : batchUpdateResult){
-				if(i > 0){
+
+			for (int i : batchUpdateResult) {
+				if (i > 0) {
 					continue;
-				}else{
+				} else {
 					return false;
 				}
 			}
 			return true;
-		}catch(DataAccessException e){
+		} catch (DataAccessException e) {
 			logger.error(FruitException.DB_OPTION_EXCEPTION);
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
-	
+
 	@Override
 	public boolean delete(Map<String, Object> data) {
-		
+
 		StringBuffer sql = new StringBuffer();
-		
-		sql.append("delete from ").append(tableName).append(" where ").append(primaryKey).append(" = :").append(primaryKey);
-		
-		try{
+
+		sql.append("delete from ").append(tableName).append(" where ").append(primaryKey).append(" = :")
+				.append(primaryKey);
+
+		try {
 			return namedParameterJdbcTemplate.update(sql.toString(), data) > 0;
-		}catch(DataAccessException e){
+		} catch (DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
+
+	@Override
+	public boolean batchDelete(Map<String, Object>[] data) {
+
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("delete from ").append(tableName).append(" where ").append(primaryKey).append(" = :")
+				.append(primaryKey);
+
+		try {
+			int[] batchUpdateResult = namedParameterJdbcTemplate.batchUpdate(sql.toString(), data);
+			for (int i : batchUpdateResult) {
+				if (i > 0) {
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
+		} catch (DataAccessException e) {
 			logger.error(FruitException.DB_OPTION_EXCEPTION);
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}

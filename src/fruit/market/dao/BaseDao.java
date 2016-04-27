@@ -14,6 +14,8 @@ public interface BaseDao<T> {
 	
 	public boolean delete(Map<String, Object> data);
 	
+	public boolean batchDelete(Map<String, Object>[] data);
+	
 	public boolean update(Map<String, Object> data);
 	
 	public boolean batchUpdate(Map<String, Object>[] data);
