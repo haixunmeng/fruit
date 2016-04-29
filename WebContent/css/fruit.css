@@ -1,16 +1,6 @@
-#loginTable, #registerTable{
-	position : relative;
-	left : 40%;
-}
-
-#passCodeInput{
-	width : 71px;
-}
-
-#phone, #pwd, #username, #pwd_confirm, #phone{
-	width : 120px;
-}
-
-tr{
-	height : 30px;
-}
+body{width:960px;margin:0 auto;boreder:1px solid #f00;font-size:14px;}
+a{text-decoration:none;}
+#head{font-size:12px;margin-top:10px;}
+#sys_name{float:left}
+#login_logon{float:right}
+li{list-style-type:none;}

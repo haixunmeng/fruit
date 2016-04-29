@@ -64,7 +64,7 @@ public class StockInServiceImpl implements StockInService {
 		stockIn.setDeposit(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("deposit")))));
 		stockIn.setGood_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("good_price")))));
 		stockIn.setTotal_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("total_price")))));
-		stockIn.setCreate_time(DateUtil.getDateString());
+		stockIn.setCreate_time(DateUtil.getTimestamp());
 		
 		stockInDao.add(stockIn);
 		

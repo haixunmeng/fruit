@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>进货</title>
 
+<link href="../../css/fruit.css" rel="stylesheet" type="text/css">
 <link href="../../css/easyui.css" rel="stylesheet" type="text/css">
 <link href="../../css/stock_in.css" rel="stylesheet" type="text/css">
 
@@ -24,8 +25,6 @@ $(function(){
 </head>
 <body>
 <div>
-	<input id='sessionId' type="hidden"/>
-
 	<table id="stock_in_table">
 		<tr>
 			<td><label>商品名称</label></td>
@@ -66,14 +65,12 @@ $(function(){
 		<table>
 			<tr>
 				<td><label>总押金</label></td>
-				<td><input id="total_total_deposit"/></td>
-			</tr>
-			<tr>
 				<td><label>商品总额</label></td>
-				<td><input id="total_total_goods_price"/></td>
+				<td><label>总额</label></td>
 			</tr>
 			<tr>
-				<td><label>总额</label></td>
+				<td><input id="total_total_deposit"/></td>
+				<td><input id="total_total_goods_price"/></td>
 				<td><input id="total_total_price"/></td>
 			</tr>
 		</table>

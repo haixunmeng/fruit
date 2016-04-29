@@ -9,6 +9,7 @@
 
 <script src="../../js/jquery-2.0.0.min.js"></script>
 <script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
 <script src="../../js/fruit.js"></script>
 <script type="text/javascript">
 $(function(){
@@ -29,7 +30,7 @@ $(function(){
 		toolbar : "#toolbar"
 	});
 	
-	var res = post('/fruit/seller/getStock.do', {pageNum:1, pageCount:10});
+	var res = post('/fruit/seller/getStock.do', {token:$.cookie("token"), pageNum:1, pageCount:10});
 	if(res.code == '000004'){
 		for(var i in res.data){
 			if(res.data[i].value_unit == "kilogram"){

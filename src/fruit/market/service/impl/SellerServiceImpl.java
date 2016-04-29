@@ -81,10 +81,13 @@ public class SellerServiceImpl implements SellerService{
 			
 			selling.setSelling_id(Utils.get_uuid());
 			selling.setGood_id(params.get("good_id"));
+			
 			User user = CacheManager.get(params.get("token"), User.class);
+			
 			Map<String, Object> conditions = new HashMap<String, Object>();
 			conditions.put("user_id", user.getUser_id());
 			selling.setStore_id(storeDao.getSingleByCondition(conditions).getStore_id());
+			
 			conditions.clear();
 			conditions.put("good_id", params.get("good_id"));
 			StockInDetail stockInDetail = stockInDetailDao.getSingleByCondition(conditions);

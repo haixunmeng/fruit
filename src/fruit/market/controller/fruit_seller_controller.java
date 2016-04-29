@@ -1,17 +1,11 @@
 package fruit.market.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,14 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fruit.market.cache.CacheManager;
 import fruit.market.data.Role;
-import fruit.market.data.User;
 import fruit.market.exception.FruitException;
 import fruit.market.service.SellerService;
 import fruit.market.service.StockService;
 import fruit.market.service.UserService;
-import fruit.market.utils.Utils;
 
 @Controller
 @RequestMapping("/seller")

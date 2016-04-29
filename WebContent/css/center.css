@@ -1,5 +1,4 @@
-a{text-decoration:none;}
-.above{width:100%;font-size:10px;height:15px;}
-.head{width:100%;height:30px;}
-#app_name{float:left}
-#login_logout{float:right}
+#stock_in_table{width:960px;height:900px;font-size:14px;}
+#left{width:120px;}
+#right{width:840px;}
+#iframe{width:840px;height:860px;margin-top:17px;}

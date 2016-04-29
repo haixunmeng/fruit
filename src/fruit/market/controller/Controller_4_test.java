@@ -1,5 +1,7 @@
 package fruit.market.controller;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.dao.UserDao;
+import fruit.market.data.User;
 import fruit.market.utils.DateUtil;
+import fruit.market.utils.Utils;
 
 @Controller
 @RequestMapping("/test")
@@ -18,6 +22,29 @@ public class Controller_4_test {
 	@Autowired
 	private UserDao userDao;
 
+	@RequestMapping("/add")
+	@ResponseBody
+	public String addTest() {
+		
+		User user = new User();
+		
+		user.setUser_id("62766021f99011e5930d2f0546e01958");
+		user.setPhone("123456");
+		user.setPwd("123456");
+		user.setUser_name("test");
+		user.setCreate_time(DateUtil.getTimestamp());
+		
+		System.out.println(new Timestamp(new Date().getTime()).toString());
+		
+		userDao.add(user);
+		
+		User userout = userDao.getData("62766021f99011e5930d2f0546e01958");
+		
+		System.out.println(userout.getCreate_time());
+		
+		return "{\"msg\":\"更新成功\"}";
+	}
+	
 	@RequestMapping("/update")
 	@ResponseBody
 	public String updateTest() {

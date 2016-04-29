@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fruit.market.dao.BaseDao;
+import fruit.market.data.User;
 import fruit.market.exception.FruitException;
 
 @Repository
@@ -216,7 +217,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
 			String fieldName = field.getName();
-			Class<?> fieldType = field.getType();
 			if(fieldName.equals("create_time"))
 				continue;
 			if(fieldName.equals("creator"))
@@ -347,5 +347,39 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 	}
 
-
+	@Override
+	public List<Map<String, Object>> getPageData(Map<String, Object> conditions, int pageNum, int pageCount) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from ").append(tableName);
+		
+		Set<String> keys = conditions.keySet();
+		int size = keys.size();
+		int length = size - 1;
+		int index = 0;
+		Object[] params = null;
+		if (size > 0) {
+			sql.append(" where ");
+			params = new Object[size+2];
+		}
+		
+		for (String key : keys) {
+			if (index == length)
+				sql.append(key).append(" =? ");
+			else
+				sql.append(key).append(" =? and ");
+			params[index] = conditions.get(key);
+			index++;
+		}
+		
+		sql.append(" limit ? offset ?");
+		params[index] = pageCount;
+		params[index+1] = pageCount * (pageNum - 1);
+		
+		try {
+			return jdbcTemplate.queryForList(sql.toString(), params);
+		} catch (DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
 }

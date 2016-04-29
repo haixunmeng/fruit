@@ -2,7 +2,6 @@ package fruit.market.data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class StockIn {
 
@@ -16,7 +15,7 @@ public class StockIn {
 
 	private BigDecimal total_price;
 
-	private String create_time;
+	private Timestamp create_time;
 
 	public String getStock_batch_no() {
 		return stock_batch_no;
@@ -58,11 +57,11 @@ public class StockIn {
 		this.total_price = total_price;
 	}
 
-	public String getCreate_time() {
+	public Timestamp getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(String create_time) {
+	public void setCreate_time(Timestamp create_time) {
 		this.create_time = create_time;
 	}
 }

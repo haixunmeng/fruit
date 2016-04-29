@@ -11,40 +11,7 @@
 <script type="text/javascript">
 $(function(){
 	load_goods();
-	login_logout();
-	$("#logout").bind('click', function(){
-		logout();
-	});
-	$("#login").bind('click', function(){
-		login();
-	});
-	$("#logon").bind('click', function(){
-		logon();
-	});
 });
-
-function login_logout(){
-	var token = $.cookie("token");
-	console.log(token);
-	if(token != undefined && token != ""){
-		var user = post("/fruit/user/getUserInfo.do", {token:token});
-		if(user != undefined){
-			if(user.code == '000004'){
-				$("#login").html("");
-				$("#logon").html("");
-				$("#username").html(user.username);
-				$("#logout").html(" 注销");
-			}else{
-				alert(user.msg);
-			}
-		}
-	}else{
-		$("#login").html("登录");
-		$("#logon").html(" 注册");
-		$("#username").html("");
-		$("#logout").html("");
-	} 
-}
 
 function load_goods(){
 	var res = post("/fruit/good/loadGood.do", {pageNum:1, pageCount:10});
@@ -80,27 +47,6 @@ function load_goods(){
 		$("#latest_goods_list").html(good_list);
 	}
 }
-
-function logout(){
-	var res = post("/fruit/user/logout.do", {token : $.cookie("token")});
-	if(res != undefined){
-		if(res.code == '000004'){
-			$.cookie("token", "", {path : "/"});
-			console.log($.cookie("token"));
-			window.location.href = "/fruit/index.html";
-		}else{
-			alert(res.msg);
-		}
-	}
-}
-
-function login(){
-	window.location.href = "/fruit/view/user/login.html";
-}
-
-function logon(){
-	window.location.href = "/fruit/view/user/register.html";
-}
 </script>
 </head>
 <body>
@@ -114,6 +60,7 @@ function logon(){
 	</span>
 </div>
 <br/>
+<hr style="margin-top:0px" />
 <div id="latest_today">
 <span id="latest_title">今日新品<a href="#">>>></a></span>
 <hr/>

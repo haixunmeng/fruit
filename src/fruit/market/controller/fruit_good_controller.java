@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.exception.FruitException;
 import fruit.market.service.GoodService;
-import fruit.market.service.StockInService;
 
 @Controller
 @RequestMapping("/good")

@@ -39,5 +39,4 @@ public class fruit_stock_controller {
 		
 		return resMeg;
 	}
-
 }

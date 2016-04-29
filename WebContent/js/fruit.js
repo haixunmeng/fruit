@@ -1,3 +1,20 @@
+$(function(){
+	login_logout();
+	
+	$("#logout").bind('click', function(){
+		logout();
+	});
+	$("#login").bind('click', function(){
+		login();
+	});
+	$("#logon").bind('click', function(){
+		logon();
+	});
+	$("#username").bind('click', function(){
+		user_center();
+	})
+});
+
 function loadVerifyCode() {
 
 	res = post('/fruit/user/getPassCode.do');
@@ -75,9 +92,48 @@ function load_package_type(elem) {
 }
 
 function logout(){
-	var res = post('/fruit/user/logout.do', {token : $.cookie('token')});
-	alert(res.msg);
-	if(res.code == '000004'){
-		window.location.href = '/fruit/view/user/login.html';
+	var res = post("/fruit/user/logout.do", {token : $.cookie("token")});
+	if(res != undefined){
+		if(res.code == '000004'){
+			$.cookie("token", "", {path : "/"});
+			console.log($.cookie("token"));
+			window.location.href = "/fruit/index.html";
+		}else{
+			alert(res.msg);
+		}
 	}
+}
+
+function login_logout(){
+	var token = $.cookie("token");
+	if(token != undefined && token != ""){
+		var user = post("/fruit/user/getUserInfo.do", {token:token});
+		if(user != undefined){
+			if(user.code == '000004'){
+				$("#login").html("");
+				$("#logon").html("");
+				$("#username").html(user.username);
+				$("#logout").html(" 注销");
+			}else{
+				alert(user.msg);
+			}
+		}
+	}else{
+		$("#login").html("登录");
+		$("#logon").html(" 注册");
+		$("#username").html("");
+		$("#logout").html("");
+	} 
+}
+
+function login(){
+	window.location.href = "/fruit/view/user/login.html";
+}
+
+function logon(){
+	window.location.href = "/fruit/view/user/register.html";
+}
+
+function user_center(){
+	window.location.href = "/fruit/view/user/center.html"
 }

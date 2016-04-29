@@ -2,13 +2,15 @@ package fruit.market.data;
 
 import java.sql.Timestamp;
 
+import fruit.market.utils.DateUtil;
+
 public class User {
 	private String user_id;
 	private String user_name;
 	private String pwd;
 	private String phone;
 	private String user_type;
-	private String create_time;
+	private Timestamp create_time;
 	private Timestamp update_time;
 
 	public String getUser_id() {
@@ -51,11 +53,11 @@ public class User {
 		this.user_type = user_type;
 	}
 
-	public String getCreate_time() {
+	public Timestamp getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(String create_time) {
+	public void setCreate_time(Timestamp create_time) {
 		this.create_time = create_time;
 	}
 
