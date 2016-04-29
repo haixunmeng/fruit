@@ -31,7 +31,7 @@ public class AuthManager {
 	@Autowired
 	private AuthDao authDao;
 
-	//@Around("execution(* fruit.market.controller.*.*(..))")
+	@Around("execution(* fruit.market.controller.*.*(..))")
 	public Object authFilter(ProceedingJoinPoint pjp) throws Throwable {
 
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())

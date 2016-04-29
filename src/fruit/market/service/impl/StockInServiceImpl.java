@@ -54,7 +54,7 @@ public class StockInServiceImpl implements StockInService {
 		User user = CacheManager.get((String)params.get("token"), User.class);
 		
 		Map<String, Object> conditions = new HashMap<String, Object>();
-		conditions.put("seller_id", user.getUser_id());
+		conditions.put("user_id", user.getUser_id());
 		Store store = storeDao.getSingleByCondition(conditions);
 		
 		StockIn stockIn = new StockIn();
@@ -64,7 +64,7 @@ public class StockInServiceImpl implements StockInService {
 		stockIn.setDeposit(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("deposit")))));
 		stockIn.setGood_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("good_price")))));
 		stockIn.setTotal_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("total_price")))));
-		stockIn.setCreate_time(DateUtil.getTimestamp());
+		stockIn.setCreate_time(DateUtil.getDateString());
 		
 		stockInDao.add(stockIn);
 		

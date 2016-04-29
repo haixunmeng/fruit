@@ -2,13 +2,124 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<title>首页</title>
 <link href="css/index.css" rel="stylesheet">
 
 <script src="js/jquery-2.0.0.min.js"></script>
-<title>首页</title>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/fruit.js"></script>
+<script type="text/javascript">
+$(function(){
+	load_goods();
+	login_logout();
+	$("#logout").bind('click', function(){
+		logout();
+	});
+	$("#login").bind('click', function(){
+		login();
+	});
+	$("#logon").bind('click', function(){
+		logon();
+	});
+});
+
+function login_logout(){
+	var token = $.cookie("token");
+	console.log(token);
+	if(token != undefined && token != ""){
+		var user = post("/fruit/user/getUserInfo.do", {token:token});
+		if(user != undefined){
+			if(user.code == '000004'){
+				$("#login").html("");
+				$("#logon").html("");
+				$("#username").html(user.username);
+				$("#logout").html(" 注销");
+			}else{
+				alert(user.msg);
+			}
+		}
+	}else{
+		$("#login").html("登录");
+		$("#logon").html(" 注册");
+		$("#username").html("");
+		$("#logout").html("");
+	} 
+}
+
+function load_goods(){
+	var res = post("/fruit/good/loadGood.do", {pageNum:1, pageCount:10});
+	
+	if(res.code == '000004'){
+		var good_list = "";
+		for(var i in res.data){
+			if(i%4 == 0){
+				good_list += "<ul>";
+			}
+			
+			if(res.data[i].value_unit == "kilogram"){
+				res.data[i].value_unit = "kg";
+			}else if(res.data[i].value_unit == "number"){
+				res.data[i].value_unit = "个";
+			}else if(res.data[i].value_unit == "box"){
+				res.data[i].value_unit = "箱";
+			}else if(res.data[i].value_unit == "case"){
+				res.data[i].value_unit = "框";
+			}else if(res.data[i].value_unit == "bag"){
+				res.data[i].value_unit = "袋";
+			}
+			
+			good_list += "<li><img class='good' src="+ res.data[i].good_photo_url
+					+" /><br/><div class='good_name'>"+res.data[i].good_name
+					+"</div><div class='sale_price'>"+res.data[i].out_price
+					+"/"+res.data[i].value_unit+"</div></li>";
+			if((i+1)%4 == 0){
+				good_list += "</ul>";
+			}
+		}
+		
+		$("#latest_goods_list").html(good_list);
+	}
+}
+
+function logout(){
+	var res = post("/fruit/user/logout.do", {token : $.cookie("token")});
+	if(res != undefined){
+		if(res.code == '000004'){
+			$.cookie("token", "", {path : "/"});
+			console.log($.cookie("token"));
+			window.location.href = "/fruit/index.html";
+		}else{
+			alert(res.msg);
+		}
+	}
+}
+
+function login(){
+	window.location.href = "/fruit/view/user/login.html";
+}
+
+function logon(){
+	window.location.href = "/fruit/view/user/register.html";
+}
+</script>
 </head>
 <body>
+<div id="head">
+	<span id="sys_name"><a href="/fruit/index.html">水果批发市场综合应用系统</a></span>
+	<span id="login_logon">
+		<a href="#" id="login"></a>
+		<a href="#" id="logon"></a>
+		<a href="#" id="username"></a>
+		<a href="#" id="logout"></a>
+	</span>
+</div>
+<br/>
+<div id="latest_today">
+<span id="latest_title">今日新品<a href="#">>>></a></span>
+<hr/>
+<div id="latest_goods_list">
 
-
+</div>
+</div>
 </body>
 </html>

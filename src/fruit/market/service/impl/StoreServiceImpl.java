@@ -23,7 +23,7 @@ public class StoreServiceImpl implements StoreService{
 		Store store = new Store();
 		
 		store.setStore_id(Utils.get_uuid());
-		store.setSeller_id(params.get("seller_id"));
+		store.setUser_id(params.get("seller_id"));
 		store.setStore_name(params.get("store_name"));
 		store.setContact(params.get("contact"));
 		store.setContact_phone(params.get("contact_phone"));

@@ -34,12 +34,15 @@
 			var res = post('/fruit/user/login.do', data);
 			
 			if(res.code == '000004'){
-				
 				$.cookie('token', res.token, { expires: 7, path: '/' });
 				
 				alert('登录成功');
 				
-				window.location.href = '/fruit/view/user/center.html';
+				if(res.user_type == "B"){
+					window.location.href = '/fruit/index.html';
+				}else{
+					window.location.href = '/fruit/view/user/center.html';
+				}
 			}else{
 				alert(res.msg);
 			}

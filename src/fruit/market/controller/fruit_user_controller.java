@@ -73,6 +73,7 @@ public class fruit_user_controller {
 			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
 			
 			resMeg.put("token", params.get("sessionId"));
+			resMeg.put("user_type", CacheManager.get(params.get("sessionId"), User.class).getUser_type());
 			
 		} catch (FruitException e) {
 			resMeg.put("code", e.errorCode);
@@ -162,5 +163,28 @@ public class fruit_user_controller {
 	}
 	
 	
-	
+	@RequestMapping("/getUserInfo")
+	@ResponseBody
+	public Map<String, Object> getUserInfo(@RequestBody Map<String, String> params){
+		
+		Map<String, Object> resMeg = new HashMap<String, Object>();
+		
+		try {
+			
+			String token = params.get("token");
+			
+			User user = CacheManager.get(token, User.class);
+			
+			resMeg.put("username", user.getUser_name());
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
 }

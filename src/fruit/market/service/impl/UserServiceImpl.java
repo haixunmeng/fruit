@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService {
 		newUser.setPhone(phone);
 		newUser.setUser_id(Utils.get_uuid());
 		newUser.setPwd(Utils.encrypt((String) params.get("pwd")));
-		newUser.setUser_name(params.get("user_name"));
+		newUser.setUser_name(params.get("username"));
 		newUser.setUser_type(Role.BUYER);
-		newUser.setCreate_time(DateUtil.getTimestamp());
+		newUser.setCreate_time(DateUtil.getDateString());
 		
 		userDao.add(newUser);
 	}
@@ -117,9 +117,9 @@ public class UserServiceImpl implements UserService {
 		newUser.setPhone(phone);
 		newUser.setUser_id(Utils.get_uuid());
 		newUser.setPwd(Utils.encrypt((String) params.get("pwd")));
-		newUser.setUser_name(params.get("user_name"));
+		newUser.setUser_name(params.get("username"));
 		newUser.setUser_type(Role.SELLER);
-		newUser.setCreate_time(DateUtil.getTimestamp());
+		newUser.setCreate_time(DateUtil.getDateString());
 		
 		userDao.add(newUser);
 	}

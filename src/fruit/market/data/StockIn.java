@@ -16,7 +16,7 @@ public class StockIn {
 
 	private BigDecimal total_price;
 
-	private Timestamp create_time;
+	private String create_time;
 
 	public String getStock_batch_no() {
 		return stock_batch_no;
@@ -58,11 +58,11 @@ public class StockIn {
 		this.total_price = total_price;
 	}
 
-	public Timestamp getCreate_time() {
+	public String getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(Timestamp create_time) {
+	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
 }

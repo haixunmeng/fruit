@@ -43,7 +43,9 @@ public class StockServiceImpl implements StockService{
 			Map<String, Object> conditions = new HashMap<String, Object>();
 			conditions.put("good_id", String.valueOf(stockDetail.get("good_id")));
 			stockDetail.put("in_price", stockInDetailDao.getSingleByCondition(conditions).getIn_price());
-			stockDetail.put("stock_in_time", DateUtil.formatDate(stockInDao.getData(String.valueOf(stockDetail.get("stock_batch_no"))).getCreate_time()));
+			System.out.println(stockInDao.getData(String.valueOf(stockDetail.get("stock_batch_no"))).getCreate_time());
+			//System.out.println(DateUtil.formatDate(stockInDao.getData(String.valueOf(stockDetail.get("stock_batch_no"))).getCreate_time()));
+			stockDetail.put("stock_in_time", stockInDao.getData(String.valueOf(stockDetail.get("stock_batch_no"))).getCreate_time());
 		}
 		
 		return stock;

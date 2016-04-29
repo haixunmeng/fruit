@@ -4,7 +4,7 @@ public class Store {
 
 	private String store_id;
 
-	private String seller_id;
+	private String user_id;
 
 	private String store_name;
 
@@ -26,12 +26,12 @@ public class Store {
 		this.store_id = store_id;
 	}
 
-	public String getSeller_id() {
-		return seller_id;
+	public String getUser_id() {
+		return user_id;
 	}
 
-	public void setSeller_id(String seller_id) {
-		this.seller_id = seller_id;
+	public void setUser_id(String seller_id) {
+		this.user_id = seller_id;
 	}
 
 	public String getStore_name() {

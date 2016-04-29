@@ -8,7 +8,7 @@ public class User {
 	private String pwd;
 	private String phone;
 	private String user_type;
-	private Timestamp create_time;
+	private String create_time;
 	private Timestamp update_time;
 
 	public String getUser_id() {
@@ -51,11 +51,11 @@ public class User {
 		this.user_type = user_type;
 	}
 
-	public Timestamp getCreate_time() {
+	public String getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(Timestamp create_time) {
+	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
 	}
 

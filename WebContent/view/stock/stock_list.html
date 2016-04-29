@@ -58,14 +58,17 @@ $(function(){
 		$("#stock_datagrid").datagrid('loadData', res.data);
 	}
 });
+
+function shelfGood(){
+	var row = $("#stock_datagrid").datagrid('getSelected');
+	window.location.href = "/fruit/view/seller/fruit_shelf_good.html?good_id="+row.good_id;
+}
 </script>
 </head>
 <body>
 <table id="stock_datagrid"></table>
 <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="newuser()"></a> 
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="edituser()"></a> 
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-remove" plain="true"></a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="shelfGood()"></a> 
     </div>
 </body>
 </html>
