@@ -1,6 +1,7 @@
 package fruit.market.auth;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -17,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import fruit.market.cache.CacheManager;
 import fruit.market.dao.AuthDao;
-import fruit.market.data.Resource;
 import fruit.market.data.Role;
 import fruit.market.data.User;
 import fruit.market.exception.FruitException;
@@ -64,36 +64,33 @@ public class AuthManager {
 
 	public void validateAuth(String action, String token){
 
-		Resource resource = authDao.getData(action);
-		
-		if(null == resource){
-			logger.info(FruitException.NO_AUTH_EXCEPTION);
-			throw FruitException.NO_AUTH_EXCEPTION;
-		}
-		
-		String actionRole = resource.getRole();
-		
-		if(Role.COMMON.equals(actionRole)){
-			return;
-		}
-		if(Role.PROTECTED.equals(actionRole)){
-			if(null != token && "" != token){
-				return;
-			}
-		}else if(null == token || "" == token){
-			logger.info(FruitException.NO_AUTH_EXCEPTION);
-			throw FruitException.NO_AUTH_EXCEPTION;
-		}
-		
+		List<String> authRoles = authDao.getAuthRole(action);
 		User user = CacheManager.get(token, User.class);
-		if(user == null){
+		
+		if(null == authRoles || authRoles.size() == 0){
+			logger.info(FruitException.NO_AUTH_EXCEPTION);
+			throw FruitException.NO_AUTH_EXCEPTION;
+		}else if(authRoles.size() == 1 && Role.COMMON.equals(authRoles.get(0))){
+			return;
+		}else if(authRoles.size() == 3){
+			if(null != user){
+				return;
+			}else{
+				logger.info(FruitException.NO_AUTH_EXCEPTION);
+				throw FruitException.NO_AUTH_EXCEPTION;
+			}
+		}
+		
+		if(null == user){
 			logger.info(FruitException.NO_AUTH_EXCEPTION);
 			throw FruitException.NO_AUTH_EXCEPTION;
 		}
 		
 		String tokenRole = user.getUser_type();
 		
-		if(!actionRole.equals(tokenRole)){
+		if(authRoles.contains(tokenRole)){
+			return;
+		}else{
 			logger.info(FruitException.NO_AUTH_EXCEPTION);
 			throw FruitException.NO_AUTH_EXCEPTION;
 		}

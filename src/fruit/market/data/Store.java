@@ -4,13 +4,9 @@ public class Store {
 
 	private String store_id;
 
-	private String user_id;
+	private String seller_id;
 
 	private String store_name;
-
-	private String contact;
-
-	private String contact_phone;
 
 	private String address;
 
@@ -26,12 +22,12 @@ public class Store {
 		this.store_id = store_id;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getSeller_id() {
+		return seller_id;
 	}
 
-	public void setUser_id(String seller_id) {
-		this.user_id = seller_id;
+	public void setSeller_id(String seller_id) {
+		this.seller_id = seller_id;
 	}
 
 	public String getStore_name() {
@@ -40,22 +36,6 @@ public class Store {
 
 	public void setStore_name(String store_name) {
 		this.store_name = store_name;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
-	public String getContact_phone() {
-		return contact_phone;
-	}
-
-	public void setContact_phone(String contact_phone) {
-		this.contact_phone = contact_phone;
 	}
 
 	public String getAddress() {
@@ -81,5 +61,4 @@ public class Store {
 	public void setUpdate_time(String update_time) {
 		this.update_time = update_time;
 	}
-
 }

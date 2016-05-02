@@ -11,12 +11,6 @@ public class Stock {
 	
 	private String good_id;
 	
-	private String stock_batch_no;
-	
-	private String package_type;
-	
-	private Integer package_num;
-	
 	private String value_unit;
 	
 	private BigDecimal left_num;
@@ -47,30 +41,6 @@ public class Stock {
 
 	public void setGood_id(String good_id) {
 		this.good_id = good_id;
-	}
-
-	public String getStock_batch_no() {
-		return stock_batch_no;
-	}
-
-	public void setStock_batch_no(String stock_batch_no) {
-		this.stock_batch_no = stock_batch_no;
-	}
-
-	public String getPackage_type() {
-		return package_type;
-	}
-
-	public void setPackage_type(String package_type) {
-		this.package_type = package_type;
-	}
-
-	public Integer getPackage_num() {
-		return package_num;
-	}
-
-	public void setPackage_num(Integer package_num) {
-		this.package_num = package_num;
 	}
 
 	public String getValue_unit() {

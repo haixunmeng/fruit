@@ -17,5 +17,5 @@
 	<Resource name="fruit" auth="Container" type="javax.sql.DataSource"
 		maxActive="100" maxIdle="30" maxWait="10000" username="root"
 		password="root" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://127.0.0.1:3306/fruit?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull" />
+		url="jdbc:mysql://127.0.0.1:3306/fruit?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true" />
 </Context>

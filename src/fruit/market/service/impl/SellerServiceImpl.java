@@ -79,23 +79,19 @@ public class SellerServiceImpl implements SellerService{
 			
 			Selling selling = new Selling();
 			
-			selling.setSelling_id(Utils.get_uuid());
 			selling.setGood_id(params.get("good_id"));
 			
 			User user = CacheManager.get(params.get("token"), User.class);
 			
 			Map<String, Object> conditions = new HashMap<String, Object>();
-			conditions.put("user_id", user.getUser_id());
+			conditions.put("seller_id", user.getUser_id());
 			selling.setStore_id(storeDao.getSingleByCondition(conditions).getStore_id());
 			
 			conditions.clear();
 			conditions.put("good_id", params.get("good_id"));
 			StockInDetail stockInDetail = stockInDetailDao.getSingleByCondition(conditions);
 			selling.setValue_unit(stockInDetail.getValue_unit());
-			selling.setOut_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("sale_price")))));
-			selling.setPackage_type(stockInDetail.getPackage_type());
-			selling.setPackage_weight(stockInDetail.getPackage_weight());
-			selling.setPackage_deposit(stockInDetail.getPackage_deposit());
+			selling.setSale_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("sale_price")))));
 			selling.setGood_status(GoodStatus.SELLING);
 			selling.setCreate_time(DateUtil.getDateString());
 			

@@ -1,3 +1,5 @@
+body{width:960px;margin:0 auto;boreder:1px solid #f00;font-size:14px;}
+#stock_in{margin-top:20px;margin-left:100px;}
 *{font-size:12px;}
 input{width:70px}
 .remove_stock_detail, .add_stock_detail{padding:0;height:23px;width:23px;line-hight:23px;text-aligin:center;font-weight:500;font-size:20px}

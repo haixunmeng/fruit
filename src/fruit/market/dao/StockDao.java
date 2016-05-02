@@ -7,4 +7,6 @@ import fruit.market.data.Stock;
 @Repository
 public interface StockDao extends BaseDao<Stock>{
 
+	Stock getGoodStock(String good_id);
+
 }

@@ -10,7 +10,7 @@ public class StockInDetailDaoImpl extends BaseDaoImpl<StockInDetail> implements 
 
 	StockInDetailDaoImpl(){
 		tableName = "fruit_stock_in_detail";
-		primaryKey = "stock_detail_id";
+		primaryKey = "stock_in_detail_id";
 	}
 	
 }

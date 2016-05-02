@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商品详情</title>
+
+<link href="../../css/fruit.css" rel="stylesheet" type="text/css">
+<link href="../../css/fruit_order_confirm.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/fruit.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	
+	var good_id = window.location.search.split("=")[1].split("&")[0];
+	var buy_num = window.location.search.split("=")[2];
+	
+	var res = post("/fruit/good/loadGoodInfo.do", {good_id:good_id});
+	
+	if(res != undefined){
+		if(res.code == '000004'){
+			$("#good_photo").attr("src", res.data.good_photo_url);
+			$("#good_name").html(res.data.good_name);
+			$("#sale_price").prepend(res.data.sale_price);
+			
+			if(res.data.value_unit == "kilogram"){
+				res.data.value_unit = "千克";
+			}else if(res.data.value_unit == "number"){
+				res.data.value_unit = "个";
+			}else if(res.data.value_unit == "box"){
+				res.data.value_unit = "箱";
+			}else if(res.data.value_unit == "case"){
+				res.data.value_unit = "框";
+			}else if(res.data.value_unit == "bag"){
+				res.data.value_unit = "袋";
+			}
+			
+			$("#value_unit").html(res.data.value_unit);
+			$("#buy_num").html(buy_num);
+			var total_price = buy_num*10000/10000*res.data.sale_price*10000/10000;
+			$("#total_price").prepend(total_price);
+			$("#total_price_text").append(total_price);
+			$("#store").append(res.data.store_name);
+			$("#seller").append(res.data.seller_name);
+			
+		}else{
+			alert(res.msg);
+		}
+	}
+	
+	$("#submit_order").bind("click", function(){
+		orderNow(good_id);
+	});
+});
+
+function orderNow(good_id){
+	
+	var order = {
+		token : $.cookie("token"),
+		good_id:good_id,
+		buy_num : $("#buy_num").html()
+	}
+	
+	var res = post("/fruit/order/createBuyerOrder.do", order);
+	
+	if(res != undefined){
+		$("#submit_order").attr("disabled", "true");
+		alert(res.msg);
+	}
+}
+</script>
+
+</head>
+<body>
+<div>
+	<div id="head">
+		<span id="sys_name"><a href="/fruit/index.html">水果批发市场综合应用系统</a></span>
+		<span id="login_logon">
+			<a href="#" id="login"></a>
+			<a href="#" id="logon"></a>
+			<a href="#" id="username"></a>
+			<a href="#" id="logout"></a>
+		</span>
+	</div>
+	<br/>
+	<hr style="margin-top:0px" />
+	<div id="order_area">
+		<p id="confirm_title">确认订单信息</p>	
+		<div id="title">
+			<span id="good">商品</span>
+			<span id="sale_price_title">单价</span>
+			<span id="buy_num_title">数量</span>
+			<span id="little_total_price">小计</span>
+		</div>
+		<div id="order_info">
+			<div id="store_orders">
+				<p id="store_and_seller"><span id="store">店铺：</span>&nbsp;<span id="seller">卖家：</span></p>
+				<div id="order_list">
+					<div class="order">
+						<div id="good_info_area">
+							<div id="good_photo_area"><img id="good_photo" /></div>
+							<div id="good_name_area"><span id="good_name"></span></div>
+						</div>
+						<div id="good_price_area">
+							<span id="sale_price">元/</span>
+							<span id="value_unit"></span>
+						</div>
+						<div id="good_num_area">
+							<span id="buy_num"></span>
+						</div>
+						<div id="good_total_price_area">
+							<span id="total_price">元</span>
+						</div>
+					</div>
+				</div>
+				<div style="text-align:right;">
+					<span>总金额：</span><span id="total_price_text">￥</span><br/>
+					<button id="submit_order">提交订单</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

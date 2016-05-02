@@ -1,1 +1,11 @@
 #blank{height:50px;boreder:5px solid #f00;}
+#good_photo_area{width:480px;}
+#good_photo{width:240px;height:240px;}
+#buy_num{width:30px;text-align:center;}
+#good_info{margin-top:50px;}
+#buy_button{margin-top:20px;margin-left:10px;}
+#buy_button input{height:30px;}
+#good_title{margin-top:10px;font-size:30px;}
+#buy{margin-top:80px;margin-left:10px;}
+#good_desc{margin-top:30px;text-align:center;}
+#stock_info{font-size:10px;}

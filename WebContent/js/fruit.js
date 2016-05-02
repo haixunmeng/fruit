@@ -137,3 +137,33 @@ function logon(){
 function user_center(){
 	window.location.href = "/fruit/view/user/center.html"
 }
+
+function confirm_order(order_id){
+	var res = post("/fruit/order/confirmOrder.do", {order_id:order_id,token:$.cookie('token')});
+	
+	if(res != undefined){
+		if(res.code == '000004'){
+			if(res.user_type == 'S'){
+				window.location.href = "/fruit/view/seller/unproccessed_order_list.html";
+			}else if(res.user_type == 'B'){
+				window.location.href = "/fruit/view/buyer/unproccessed_order_list.html";
+			}
+		}
+		alert(res.msg);
+	}
+}
+
+function cancel_order(order_id){
+	var res = post("/fruit/order/cancelOrder.do", {order_id:order_id,token:$.cookie('token')});
+	
+	if(res != undefined){
+		if(res.code == '000004'){
+			if(res.user_type == 'S'){
+				window.location.href = "/fruit/view/seller/unproccessed_order_list.html";
+			}else if(res.user_type == 'B'){
+				window.location.href = "/fruit/view/buyer/unproccessed_order_list.html";
+			}
+		}
+		alert(res.msg);
+	}
+}

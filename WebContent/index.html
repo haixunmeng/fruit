@@ -11,6 +11,10 @@
 <script type="text/javascript">
 $(function(){
 	load_goods();
+	
+	$(".good").bind("click", function(){
+	 	window.location.href =	"/fruit/view/good/fruit_good_info.html?good_id=" + $(this).attr("src").split("/")[3].split(".")[0];
+	});
 });
 
 function load_goods(){
@@ -24,7 +28,7 @@ function load_goods(){
 			}
 			
 			if(res.data[i].value_unit == "kilogram"){
-				res.data[i].value_unit = "kg";
+				res.data[i].value_unit = "千克";
 			}else if(res.data[i].value_unit == "number"){
 				res.data[i].value_unit = "个";
 			}else if(res.data[i].value_unit == "box"){
@@ -37,8 +41,8 @@ function load_goods(){
 			
 			good_list += "<li><img class='good' src="+ res.data[i].good_photo_url
 					+" /><br/><div class='good_name'>"+res.data[i].good_name
-					+"</div><div class='sale_price'>"+res.data[i].out_price
-					+"/"+res.data[i].value_unit+"</div></li>";
+					+"</div><div class='sale_price'>"+res.data[i].sale_price
+					+"元/"+res.data[i].value_unit+"</div></li>";
 			if((i+1)%4 == 0){
 				good_list += "</ul>";
 			}

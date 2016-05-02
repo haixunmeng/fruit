@@ -21,6 +21,10 @@ public class FruitException extends RuntimeException {
 	public static final FruitException OPERATION_OUT_TIME = new FruitException("000015", "操作超时");
 	public static final FruitException TOKEN_NULL_EXCEPTION = new FruitException("000016", "token不能为空");
 	public static final FruitException NO_LOGINED_USER_EXCEPTION = new FruitException("000017", "未发现已登录用户");
+	public static final FruitException NO_STOCK_IN_DETAIL_EXCEPTION = new FruitException("000018", "未查找到进货明细记录");
+	public static final FruitException NO_STOCK_IN_EXCEPTION = new FruitException("000019", "未查找到进货明细记录");
+	public static final FruitException CACHE_USER_IS_NULL_EXCEPTION = new FruitException("000020", "缓存中为查找到用户");
+	public static final FruitException STOCK_NOT_ENOUGH_EXCEPTION = new FruitException("000021", "库存不足");
 
 
 	public String errorCode;

@@ -9,7 +9,7 @@ import fruit.market.data.Good;
 public class GoodDaoImpl extends BaseDaoImpl<Good> implements GoodDao{
 
 	GoodDaoImpl(){
-		tableName = "fruit_goods";
+		tableName = "fruit_good";
 		primaryKey = "good_id";
 	}
 }

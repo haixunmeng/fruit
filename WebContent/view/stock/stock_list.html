@@ -6,6 +6,9 @@
 
 <link href="../../css/easyui.css" rel="stylesheet" type="text/css">
 <link href="../../css/icon.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+#stock_datagrid_area{margin-left:50px;}
+</style>
 
 <script src="../../js/jquery-2.0.0.min.js"></script>
 <script src="../../js/jquery.easyui.min.js"></script>
@@ -14,18 +17,20 @@
 <script type="text/javascript">
 $(function(){
 	$("#stock_datagrid").datagrid({
+		title : "库存信息",
 		columns : [[
 		            {checkbox:true},
 		            {field:'stock_id',hidden:'true'},
 		            {field:'good_id',hidden:'true'},
 		            {field:'good_name',title:'商品名称'},
-		            {field:'value_unit',title:'计价方式'},
+		            {field:'value_unit',title:'计价单位'},
 		            {field:'in_price',title:'进价'},
 		            {field:'left_num',title:'剩余量'},
-		            {field:'package_type',title:'包装方式'},
-		            {field:'package_num',title:'包装数量'},
 		            {field:'stock_in_time',title:'进货时间'}
 		]],
+		width:345,
+		fitColumns:true,
+		singleSelect:true,
 		checkOnSelect:false,
 		toolbar : "#toolbar"
 	});
@@ -44,16 +49,6 @@ $(function(){
 			}else if(res.data[i].value_unit == "bag"){
 				res.data[i].value_unit = "袋";
 			}
-			
-			if(res.data[i].package_type == "in_bulk"){
-				res.data[i].package_type = "散装";
-			}else if(res.data[i].package_type == "in_box"){
-				res.data[i].package_type = "箱装";
-			}else if(res.data[i].package_type == "in_case"){
-				res.data[i].package_type = "框装";
-			}else if(res.data[i].package_type == "in_bag"){
-				res.data[i].package_type = "袋装";
-			}
 		}
 		
 		$("#stock_datagrid").datagrid('loadData', res.data);
@@ -67,9 +62,11 @@ function shelfGood(){
 </script>
 </head>
 <body>
-<table id="stock_datagrid"></table>
-<div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="shelfGood()"></a> 
-    </div>
+<div id="stock_datagrid_area">
+	<table id="stock_datagrid"></table>
+	<div id="toolbar">
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="shelfGood()">上架</a> 
+	</div>
+</div>
 </body>
 </html>

@@ -10,7 +10,7 @@ public class SellingDaoImpl extends BaseDaoImpl<Selling> implements SellingDao{
 
 	SellingDaoImpl(){
 		tableName = "fruit_selling";
-		primaryKey = "selling_id";
+		primaryKey = "good_id";
 	}
 	
 }

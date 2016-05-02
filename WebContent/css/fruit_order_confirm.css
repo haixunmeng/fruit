@@ -1,0 +1,9 @@
+#confirm_title{font-weight:bold;}
+#order_area, #title{width:960px;}
+#good, #sale_price_title, #buy_num_title, #little_total_price{border-bottom:3px solid #b2d1ff;text-align:center;}
+#good, #sale_price_title, #buy_num_title, #little_total_price{width:230px;display:inline-block;margin:0;}
+#good_photo{widht:180px;height:150px;}
+#good_info_area, #good_price_area, #good_num_area, #good_total_price_area{display:inline-block;vertical-align:middle;text-align:center;width:220px;}
+#order_list{border-top:1px dotted #80b2ff;border-bottom:1px dotted #80b2ff;}
+#total_price_text{font-size:30px;}
+#submit_order{background-color:#f50;color:#fff;height:36px;width:72px;}

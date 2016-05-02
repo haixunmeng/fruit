@@ -39,5 +39,26 @@ public class fruit_good_controller {
 		
 		return resMeg;
 	}
+	
+	@RequestMapping("/loadGoodInfo")
+	@ResponseBody
+	public Map<String, Object> loadGoodInfo(@RequestBody Map<String, String> params){
+		
+		Map<String, Object> resMeg = new HashMap<String, Object>();
+		
+		try{
+			
+			resMeg.put("data", goodService.loadGoodInfo(params));
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		}catch(FruitException e){
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		}
+		
+		return resMeg;
+	}
 
 }

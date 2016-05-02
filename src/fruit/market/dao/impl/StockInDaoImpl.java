@@ -15,7 +15,7 @@ public class StockInDaoImpl extends BaseDaoImpl<StockIn> implements StockInDao {
 
 	StockInDaoImpl() {
 		tableName = "fruit_stock_in";
-		primaryKey = "stock_batch_no";
+		primaryKey = "stock_in_batch_no";
 	}
 	
 }

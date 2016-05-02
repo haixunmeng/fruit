@@ -5,35 +5,19 @@ import java.sql.Timestamp;
 
 public class Selling {
 	
-	private String selling_id;
-
 	private String good_id;
 	
 	private String store_id;
 	
 	private String value_unit;
 	
-	private BigDecimal out_price;
-	
-	private String package_type;
-	
-	private BigDecimal package_weight;
-	
-	private BigDecimal package_deposit;
+	private BigDecimal sale_price;
 	
 	private String good_status;
 	
 	private String create_time;
 	
 	private Timestamp update_time;
-
-	public String getSelling_id() {
-		return selling_id;
-	}
-
-	public void setSelling_id(String selling_id) {
-		this.selling_id = selling_id;
-	}
 
 	public String getGood_id() {
 		return good_id;
@@ -59,36 +43,12 @@ public class Selling {
 		this.value_unit = value_unit;
 	}
 
-	public BigDecimal getOut_price() {
-		return out_price;
+	public BigDecimal getSale_price() {
+		return sale_price;
 	}
 
-	public void setOut_price(BigDecimal out_price) {
-		this.out_price = out_price;
-	}
-
-	public String getPackage_type() {
-		return package_type;
-	}
-
-	public void setPackage_type(String package_type) {
-		this.package_type = package_type;
-	}
-
-	public BigDecimal getPackage_weight() {
-		return package_weight;
-	}
-
-	public void setPackage_weight(BigDecimal package_weight) {
-		this.package_weight = package_weight;
-	}
-
-	public BigDecimal getPackage_deposit() {
-		return package_deposit;
-	}
-
-	public void setPackage_deposit(BigDecimal package_deposit) {
-		this.package_deposit = package_deposit;
+	public void setSale_price(BigDecimal sale_price) {
+		this.sale_price = sale_price;
 	}
 
 	public String getGood_status() {

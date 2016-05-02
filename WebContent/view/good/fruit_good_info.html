@@ -13,8 +13,71 @@
 
 <script type="text/javascript">
 $(function(){
-
+	
+	var good_id = window.location.search.split("=")[1];
+	
+	var res = post("/fruit/good/loadGoodInfo.do", {good_id:good_id});
+	
+	if(res != undefined){
+		if(res.code == '000004'){
+			$("#good_photo").attr("src", res.data.good_photo_url);
+			$("#good_name").html(res.data.good_name);
+			$("#price").html(res.data.sale_price + "元");
+			
+			if(res.data.value_unit == "kilogram"){
+				res.data.value_unit = "千克";
+			}else if(res.data.value_unit == "number"){
+				res.data.value_unit = "个";
+			}else if(res.data.value_unit == "box"){
+				res.data.value_unit = "箱";
+			}else if(res.data.value_unit == "case"){
+				res.data.value_unit = "框";
+			}else if(res.data.value_unit == "bag"){
+				res.data.value_unit = "袋";
+			}
+			
+			$("#title_value_unit, #value_unit").html(res.data.value_unit);
+			$("#good_desc").html(res.data.good_desc);
+			$("#left_num").html(res.data.left_num);			
+			
+		}else{
+			alert(res.msg);
+		}
+	}
+	
+	$("#add_num").bind("click", function(){
+		if($("#buy_num").val()*1 < $("#left_num").html()*1){
+			$("#buy_num").val($("#buy_num").val() * 1 + 1);
+		}
+	});
+	
+	$("#subtract_num").bind("click", function(){
+		if($("#buy_num").val() > 1){
+			$("#buy_num").val($("#buy_num").val() * 1 - 1);
+		}
+	});
+	
+	$("#order_now").bind("click", function(){
+		window.location.href = "/fruit/view/order/fruit_order_confirm.html" + window.location.search + "&buy_num="+$("#buy_num").val();
+	});
 });
+
+function orderNow(good_id){
+	
+	var order = {
+			token : $.cookie("token"),
+			goods : [{
+				good_id:good_id,
+				buy_num : $("#buy_num").val()
+			}]
+	}
+	
+	var res = post("/fruit/order/createOrder.do", order);
+	
+	if(res != undefined){
+		alert(res.msg);
+	}
+}
 </script>
 
 </head>
@@ -36,20 +99,35 @@ $(function(){
 		<div id="good_photo_and_buy">
 			<table>
 				<tr>
-					<td>
+					<td align=center>
 						<div id="good_photo_area">
 							<img id="good_photo"/>
 						</div>
 					</td>
-					<td>
+					<td valign=top>
+						<div id="good_title">
+							<span id="good_name"></span>
+							<span id="price"></span>/<span id="title_value_unit"></span>
+						</div>
 						<div id="buy">
-							<span><a id="add_num"><img src=""></a></span>
-							<input type="text" id="buy_num" />
-							<span><a id="subtract_num"><img src=""></a></span>
+							<label>数量</label>
+							<span><a id="add_num" href="javascript:;"><img src="/fruit/css/icons/edit_add.png"></a></span>
+							<input type="text" id="buy_num" value="1"/>
+							<span><a id="subtract_num" href="javascript:;"><img src="/fruit/css/icons/edit_remove.png"></a></span>
+							<span id="stock_info">(库存<span id="left_num"></span><span id="value_unit"></span>)</span>
+						</div>
+						<div id="buy_button">
+							<input type="button" id="order_now" value="立即下单"/>
+							<input type="button" id="add_to_car" value="加入购物车"/>
 						</div>
 					</td>
 				</tr>
 			</table>
+			<label>商品介绍</label>
+			<hr/>
+			<div id="good_desc">
+				
+			</div>
 		</div>
 	</div>
 </div>

@@ -6,5 +6,7 @@ import fruit.market.data.Store;
 
 @Repository
 public interface StoreDao extends BaseDao<Store>{
+
+	Store getUserStore(String user_id);
 	
 }

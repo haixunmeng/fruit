@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商品详情</title>
+
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+<link href="../../css/icon.css" rel="stylesheet" type="text/css">
+<link href="../../css/fruit.css" rel="stylesheet" type="text/css">
+<link href="../../css/seller_unproccess_orders.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/fruit.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$("#order_datagrid").datagrid({
+		title : "库存信息",
+		columns : [[
+		            {checkbox:true},
+		            {field:'order_id',hidden:'true'},
+		            {field:'store_name',title:'店铺'},
+		            {field:'order_price',title:'总价'},
+		            {field:'order_status',title:'订单状态'},
+		            {field:'order_time',title:'创建时间'}
+		]],
+		singleSelect:true,
+		fitColumns:true,
+		checkOnSelect:false,
+		toolbar : "#toolbar"
+	});
+	
+	var res = post('/fruit/order/getSellerUnproccessedOrders.do', {token:$.cookie("token"), pageNum:1, pageCount:10});
+	if(res != undefined){
+		if(res.code == '000004'){
+			
+			for(var i in res.data){
+				if(res.data[i].order_status == "w4s_c"){
+					res.data[i].order_status = "等待卖家确认";
+				}else if(res.data[i].order_status == "w4b_c"){
+					res.data[i].order_status = "等待买家确认";
+				}else if(res.data[i].order_status == "finished"){
+					res.data[i].order_status = "以完成";
+				}else if(res.data[i].order_status == "canceled"){
+					res.data[i].order_status = "以取消";
+				}
+			}
+			$("#order_datagrid").datagrid('loadData', res.data);
+		}else{
+			alert(res.msg);
+		}
+	}
+});
+
+function order_detail_page(){
+	var row = $("#order_datagrid").datagrid('getSelected');
+	window.location.href = "/fruit/view/order/fruit_order_detail.html?order_id=" + row.order_id;
+}
+</script>
+
+</head>
+<body>
+<div id="datagrid_area">
+	<table id="order_datagrid"></table>
+	<div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-add" plain="true" onclick="order_detail_page()">订单详情</a> 
+	</div>
+</div>
+</body>
+</html>

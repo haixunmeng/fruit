@@ -17,27 +17,18 @@
 <script type="text/javascript">
 $(function(){
 	load_value_unit(".value_unit");
-	load_package_type(".package_type");
-	
 });
 </script>
 
 </head>
 <body>
-<div>
+<div id="stock_in">
 	<table id="stock_in_table">
 		<tr>
 			<td><label>商品名称</label></td>
 			<td><label>计价单位</label></td>
 			<td><label>进价</label></td>
-			<td><label>包装方式</label></td>
-			<td><label>包装重量</label></td>
-			<td><label>包装押金</label></td>
-			<td><label>包装数量</label></td>
-			<td><label>毛重</label></td>
-			<td><label>净重</label></td>
-			<td><label>押金总额</label></td>
-			<td><label>商品总额</label></td>
+			<td><label>数量</label></td>
 			<td><label>总金额</label></td>
 			<td><label>备注</label></td>
 			<td></td>
@@ -46,14 +37,7 @@ $(function(){
 			<td><input type="text" class="good_name"/></td>
 			<td><input type="text" class="value_unit"/></td>
 			<td><input type="text" class="in_price"/></td>
-			<td><input type="text" class="package_type"/></td>
-			<td><input type="text" class="package_weight"/></td>
-			<td><input type="text" class="package_deposit"/></td>
-			<td><input type="text" class="package_num"/></td>
-			<td><input type="text" class="gross_weight"/></td>
-			<td><input type="text" class="net_weight"/></td>
-			<td><input type="text" class="total_deposit"/></td>
-			<td><input type="text" class="total_goods_price"/></td>
+			<td><input type="text" class="in_num"/></td>
 			<td><input type="text" class="total_price"/></td>
 			<td><input type="text" class="remark"/></td>
 			<td><input type="button" class="add_stock_detail" value="+"/></td>
@@ -64,14 +48,16 @@ $(function(){
 		<br/>
 		<table>
 			<tr>
-				<td><label>总押金</label></td>
-				<td><label>商品总额</label></td>
 				<td><label>总额</label></td>
 			</tr>
 			<tr>
-				<td><input id="total_total_deposit"/></td>
-				<td><input id="total_total_goods_price"/></td>
-				<td><input id="total_total_price"/></td>
+				<td><input id="total_price"/></td>
+			</tr>
+			<tr>
+				<td><label>备注</label></td>
+			</tr>
+			<tr>
+				<td><input id="remark"/></td>
 			</tr>
 		</table>
 		<br/>

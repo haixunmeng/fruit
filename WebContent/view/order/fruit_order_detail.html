@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>订单详情</title>
+
+<link href="../../css/fruit.css" rel="stylesheet" type="text/css">
+<link href="../../css/fruit_order_detail.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/fruit.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	
+	var res = post("/fruit/order/getOrderDetail.do", {order_id:window.location.search.split("=")[1],token:$.cookie("token")});
+	
+	if(res != undefined){
+		if(res.code == '000004'){
+			
+			var orderList = "";
+			
+			for(var i in res.data.goods){
+				
+				if(res.data.goods[i].value_unit == "kilogram"){
+					res.data.goods[i].value_unit = "千克";
+				}else if(res.data.goods[i].value_unit == "number"){
+					res.data.goods[i].value_unit = "个";
+				}else if(res.data.goods[i].value_unit == "box"){
+					res.data.goods[i].value_unit = "箱";
+				}else if(res.data.goods[i].value_unit == "case"){
+					res.data.goods[i].value_unit = "框";
+				}else if(res.data.goods[i].value_unit == "bag"){
+					res.data.goods[i].value_unit = "袋";
+				}
+				
+				orderList += '<div class="order">'
+						+ '<div class="good_info_area">'
+						+	'<div class="good_photo_area"><img class="good_photo" src="' + res.data.goods[i].good_photo_url + '" /></div>'
+						+	'<div class="good_name_area"><span class="good_name">' + res.data.goods[i].good_name + '</span></div>'
+						+ '</div>'
+						+ '<div class="good_price_area">'
+						+	'<span class="sale_price">' + res.data.goods[i].sale_price + '元/</span>'
+						+	'<span class="value_unit">' + res.data.goods[i].value_unit + '</span>'
+						+ '</div>'
+						+ '<div class="good_num_area">'
+						+	'<span class="buy_num">' + res.data.goods[i].buy_num + '</span>'
+						+ '</div>'
+						+ '<div class="good_total_price_area">'
+						+	'<span class="total_price">' + res.data.goods[i].total_price + '元</span>'
+						+'</div></div>';
+			}
+			
+			$("#order_list").html(orderList);
+			
+			$("#store").html(res.data.store_name);
+			$("#order_time").append(res.data.order_time);
+			$("#total_price_text").prepend(res.data.order_price);
+			
+			var order_status = res.data.order_status;
+			$("#confirm").hide();
+			$("#cancel").hide();
+			if(order_status == 'w4s_c'){
+				if(res.data.user_type == 'B'){
+					$("#cancel").show();
+				}
+				if(res.data.user_type == 'S'){
+					$("#confirm").show();
+					$("#cancel").show();
+				}
+			}
+			
+		}else{
+			alert(res.msg);
+		}
+	}
+
+	$("#confirm").bind("click", function(){
+		confirm_order(window.location.search.split("=")[1]);
+	})
+	
+	$("#cancel").bind("click", function(){
+		cancel_order(window.location.search.split("=")[1]);
+	})
+});
+
+</script>
+
+</head>
+<body>
+<div>
+<div id="order_area">
+		<p id="confirm_title">订单详情</p>	
+		<div id="title">
+			<span id="good">商品</span>
+			<span id="sale_price_title">单价</span>
+			<span id="buy_num_title">数量</span>
+			<span id="little_total_price">小计</span>
+		</div>
+		<div id="order_info">
+			<div id="store_orders">
+				<p id="store_and_seller"><span id="store">店铺：</span><span id="order_time">&nbsp;下单时间：</span></p>
+				<div id="order_list">
+				</div>
+				<div style="text-align:right;">
+					<span>总金额：</span><span id="total_price_text">￥</span><br/>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<button id="cancel">取消订单</button>
+		<button id="confirm">确认订单</button>
+	</div>
+</div>
+</body>
+</html>

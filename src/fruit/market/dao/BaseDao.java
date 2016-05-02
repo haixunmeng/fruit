@@ -22,6 +22,8 @@ public interface BaseDao<T> {
 	
 	public boolean update(Map<String, Object> data);
 	
+	public boolean batchUpdate(List<T> datas);
+	
 	public boolean batchUpdate(Map<String, Object>[] data);
 	
 	public T getData(String key);

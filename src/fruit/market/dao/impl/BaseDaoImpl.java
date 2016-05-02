@@ -20,7 +20,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fruit.market.dao.BaseDao;
-import fruit.market.data.User;
 import fruit.market.exception.FruitException;
 
 @Repository
@@ -293,6 +292,34 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
+	
+	@Override
+	public boolean batchUpdate(List<T> datas) {
+    	if(datas == null || datas.size() ==0) return true;
+		StringBuffer sql = new StringBuffer("update " + tableName + " set ");
+		Field[] fields = datas.get(0).getClass().getDeclaredFields();
+		for (int i = 0; i < fields.length; i++) {
+			Field field = fields[i];
+			String fieldName = field.getName();
+			sql.append(fieldName + " = :" + fieldName + ",");
+		}
+		sql.replace(sql.lastIndexOf(","), sql.length(), "");
+		
+		sql.append(" where ").append(primaryKey).append(" = :").append(primaryKey);
+		
+		SqlParameterSource[] psArray = new SqlParameterSource[datas.size()];
+		for(int i=0; i<datas.size(); i++)
+			psArray[i] = new BeanPropertySqlParameterSource(datas.get(i));
+		try{
+			int[] result = namedParameterJdbcTemplate.batchUpdate(sql.toString(), psArray);
+			for(int i: result)
+				if(i<0 && i!=-2) return false;
+			return true;
+		}catch(DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
 
 	@Override
 	public boolean delete(Map<String, Object> data) {
@@ -382,4 +409,6 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
+
+
 }

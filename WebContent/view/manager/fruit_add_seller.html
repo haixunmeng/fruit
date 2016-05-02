@@ -7,13 +7,14 @@
 <link href="../../css/fruit_add_seller.css" rel="stylesheet" type="text/css">
 
 <script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
 <script src="../../js/jquery.md5.js"></script>
 <script src="../../js/fruit.js"></script>
 
 <script type="text/javascript">
 	$(function(){
 		$('#addSeller').click(function(){
-			var username = $('#username').val();
+			var username = $('#sellername').val();
 			var pwd = $('#pwd').val();
 			var phone = $('#phone').val();
 			
@@ -42,7 +43,7 @@
 			<td><label>操作</label></td>
 		</tr>
 		<tr>
-			<td><input type="text" id="username"/></td>
+			<td><input type="text" id="sellername"/></td>
 			<td><input type="password" id="pwd"/></td>
 			<td><input type="text" id="phone"/></td>
 			<td><input type="button" id="addSeller" value="添加"/></td>
