@@ -17,10 +17,12 @@ import fruit.market.dao.OrderDetailDao;
 import fruit.market.dao.SellingDao;
 import fruit.market.dao.StockDao;
 import fruit.market.dao.StoreDao;
+import fruit.market.dao.UserDao;
 import fruit.market.data.Good;
 import fruit.market.data.Order;
 import fruit.market.data.OrderDetail;
 import fruit.market.data.OrderStatus;
+import fruit.market.data.Role;
 import fruit.market.data.Selling;
 import fruit.market.data.Stock;
 import fruit.market.data.Store;
@@ -46,6 +48,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	private GoodDao goodDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	@Autowired
 	private SellingDao sellingDao;
@@ -327,5 +332,40 @@ public class OrderServiceImpl implements OrderService{
 		User user = CacheManager.get((String)params.get("token"), User.class);
 		
 		return user.getUser_type();
+	}
+
+	@Override
+	public List<Map<String, Object>> getHistoryOrder(Map<String, Object> params) {
+		
+		User user = CacheManager.get((String)params.get("token"), User.class);
+		
+		Map<String, Object> conditions = new HashMap<String, Object>();
+		if(Role.BUYER.equals(user.getUser_type())){
+			conditions.put("buyer_id", user.getUser_id());
+		}else if(Role.SELLER.equals(user.getUser_type())){
+			Store store = storeDao.getUserStore(user.getUser_id());
+			conditions.put("store_id", store.getStore_id());
+		}
+		
+		List<Order> orders = orderDao.getHistoryOrder(conditions, Integer.valueOf(String.valueOf(params.get("pageNum"))), Integer.valueOf(String.valueOf(params.get("pageCount"))));
+		
+		List<Map<String, Object>> historyOrders = new ArrayList<Map<String, Object>>();
+		for(Order order : orders){
+			Map<String, Object> historyOrder = new HashMap<String, Object>();
+			
+			User buyer = userDao.getData(order.getBuyer_id());
+			
+			historyOrder.put("order_id", order.getOrder_id());
+			historyOrder.put("buyer_name", buyer.getUser_name());
+			
+			Store sellerStore = storeDao.getData(order.getStore_id());
+			historyOrder.put("store_name", sellerStore.getStore_name());
+			historyOrder.put("order_status", order.getOrder_status());
+			historyOrder.put("order_price", order.getUpdate_time());
+			
+			historyOrders.add(historyOrder);
+		}
+		
+		return historyOrders;
 	}
 }

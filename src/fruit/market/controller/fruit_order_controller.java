@@ -185,4 +185,28 @@ public class fruit_order_controller {
 		
 		return resMeg;
 	}
+	
+	@RequestMapping("/getHistoryOrder")
+	@ResponseBody
+	public Map<String, Object> getHistoryOrder(@RequestBody Map<String, Object> params){
+		Map<String, Object> resMeg = new HashMap<String, Object>();
+		
+		try {
+			
+			logger.info(params);
+			
+			List<Map<String, Object>> orders =  orderService.getHistoryOrder(params);
+			
+			resMeg.put("data", orders);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
 }

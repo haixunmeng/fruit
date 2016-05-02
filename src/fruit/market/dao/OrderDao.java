@@ -12,4 +12,6 @@ public interface OrderDao extends BaseDao<Order>{
 	
 	public List<Order> getUnproccessedOrder(Map<String, Object> conditions, int pageNum, int pageCount);
 
+	public List<Order> getHistoryOrder(Map<String, Object> conditions, Integer pageNum, Integer pageCount);
+
 }

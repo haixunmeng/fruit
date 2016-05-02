@@ -56,5 +56,40 @@ public class OrderDaoImpl extends BaseDaoImpl<Order> implements OrderDao{
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}
+
+	@Override
+	public List<Order> getHistoryOrder(Map<String, Object> conditions, Integer pageNum, Integer pageCount) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from ").append(tableName);
+		
+		Set<String> keys = conditions.keySet();
+		int size = keys.size();
+		int length = size - 1;
+		int index = 0;
+		Object[] params = null;
+		if (size > 0) {
+			sql.append(" where ");
+			params = new Object[size+2];
+		}
+		
+		for (String key : keys) {
+			if (index == length)
+				sql.append(key).append(" =? ");
+			else
+				sql.append(key).append(" =? and ");
+			params[index] = conditions.get(key);
+			index++;
+		}
+		
+		sql.append(" and (order_status = 'finished' or order_status = 'canceled') order by create_time limit ? offset ? ");
+		params[index] = pageCount;
+		params[index+1] = pageCount * (pageNum - 1);
+		try {
+			return jdbcTemplate.query(sql.toString(), params, rowMapper);
+		} catch (DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
 	
 }

@@ -23,5 +23,7 @@ public interface OrderService {
 	public String confirmOrder(Map<String, Object> params);
 
 	public String cancelOrder(Map<String, Object> params);
+
+	public List<Map<String, Object>> getHistoryOrder(Map<String, Object> params);
 	
 }
