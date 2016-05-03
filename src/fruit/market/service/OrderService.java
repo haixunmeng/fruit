@@ -13,6 +13,8 @@ public interface OrderService {
 	public void createSellerOrder(Map<String, Object> params);
 	
 	public void createBuyerOrder(Map<String, Object> params);
+	
+	public void createBuyerBatchOrder(Map<String, Object> params);
 
 	public List<Map<String, Object>> getBuyerUnproccessedOrders(Map<String, Object> params);
 

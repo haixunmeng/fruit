@@ -46,7 +46,7 @@ public class OrderDaoImpl extends BaseDaoImpl<Order> implements OrderDao{
 			index++;
 		}
 		
-		sql.append(" and order_status != 'finished' and order_status != 'canceled' order by create_time limit ? offset ? ");
+		sql.append(" and order_status != 'finished' and order_status != 'canceled' order by create_time desc limit ? offset ? ");
 		params[index] = pageCount;
 		params[index+1] = pageCount * (pageNum - 1);
 		try {

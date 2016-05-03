@@ -361,11 +361,27 @@ public class OrderServiceImpl implements OrderService{
 			Store sellerStore = storeDao.getData(order.getStore_id());
 			historyOrder.put("store_name", sellerStore.getStore_name());
 			historyOrder.put("order_status", order.getOrder_status());
-			historyOrder.put("order_price", order.getUpdate_time());
+			historyOrder.put("order_price", order.getOrder_price());
+			historyOrder.put("order_time", DateUtil.formatDate(order.getUpdate_time()));
 			
 			historyOrders.add(historyOrder);
 		}
 		
 		return historyOrders;
+	}
+
+	@Override
+	public void createBuyerBatchOrder(Map<String, Object> params) {
+		User user = CacheManager.get((String)params.get("token"), User.class);
+		if(null == user){
+			logger.info(FruitException.CACHE_USER_IS_NULL_EXCEPTION);
+			throw FruitException.CACHE_USER_IS_NULL_EXCEPTION;
+		}
+		
+		params.put("buyer", user.getUser_id());
+		params.put("order_status", OrderStatus.WAITTING_FOR_SELLER_CONFIRM);
+		
+		createOrder(params);
+		
 	}
 }

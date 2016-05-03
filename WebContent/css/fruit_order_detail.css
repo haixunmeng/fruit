@@ -1,6 +1,6 @@
 body{width:760px;}
 #good, #sale_price_title, #buy_num_title, #little_total_price{width:180px;display:inline-block;margin:0;border-bottom:3px solid #b2d1ff;text-align:center;}
-#good_photo{widht:180px;height:100px;}
+#good_photo{widht:100px;height:100px;}
 .good_info_area, .good_price_area, .good_num_area, .good_total_price_area{display:inline-block;vertical-align:middle;text-align:center;width:180px;}
 #order_list{border-top:1px dotted #80b2ff;border-bottom:1px dotted #80b2ff;width:720px;}
 #total_price_text{font-size:30px;}

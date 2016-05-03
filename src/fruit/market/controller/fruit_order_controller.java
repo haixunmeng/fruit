@@ -25,7 +25,7 @@ public class fruit_order_controller {
 	
 	@RequestMapping("/createSellerOrder")
 	@ResponseBody
-	public Map<String, Object> createOrder(@RequestBody Map<String, Object> params){
+	public Map<String, Object> createSellerOrder(@RequestBody Map<String, Object> params){
 		Map<String, Object> resMeg = new HashMap<String, Object>();
 		
 		try {

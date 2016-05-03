@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>创建订单</title>
+
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+<link href="../../css/icon.css" rel="stylesheet" type="text/css">
+<link href="../../css/fruit.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+input{width:50px;}
+.detail_remark{width:120px;}
+#order_remark{width:300px;}
+tr{height:30px;}
+td{width:100px;}
+thead{height:40px;font-size:18px;}
+</style>
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/fruit.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	var allStore = post("/fruit/store/getAllStores.do");
+	var allSellingGoods = "";
+	if(allStore != undefined){
+		if(allStore.code == '000004'){
+			var options = "";
+			options += '<option value="0" selected>请选择店铺</option>';
+			for(var i in allStore.data){
+				options += '<option value="' + allStore.data[i].store_id + '">' + allStore.data[i].store_name + '</option>;'
+			}
+			$("#store_select").html(options);
+		}else{
+			alert(allStore.msg);
+		}
+	}
+	
+	$("#store_select").change(function(){
+		
+		var store_id = $("#store_select").val();
+		
+		if(store_id == 0){
+			$(".good_name").html('<option value="0" selected>请选择商品</option>');
+			allSellingGoods = "";
+			return;
+		}
+		
+		var allStoresSellingGoods = post("/fruit/store/getAllStoresGoods.do", {store_id:$("#store_select").val()});
+		
+		if(allStoresSellingGoods != undefined){
+			if(allStoresSellingGoods.code == '000004'){
+				
+				var sellingGoods = "";
+				
+				for(var i in allStoresSellingGoods.data){
+					sellingGoods += '<option value="' + allStoresSellingGoods.data[i].good_id + '">' + allStoresSellingGoods.data[i].good_name + '</options>'; 
+				}
+				allSellingGoods = sellingGoods;
+				$(".good_name").append(sellingGoods);
+				
+			}else{
+				alert(allStoresSellingGoods.msg);
+			}
+		}
+	});
+	
+	$(".good_name").change(function(){
+		update_good_info($(this));
+	});
+	
+	$(".buy_num").bind('input propertychange', function(){
+		update_price($(this));
+	});
+	
+	$(".add_detail").bind("click", function(){
+		add_order_detail($(this).parent().parent(), allSellingGoods);
+	});
+	
+	$("#submit_order").bind("click", function(){
+		submit_order();
+	});
+});
+
+function update_price(elem){
+	var buy_num = elem.val();
+	var left_num = elem.parent().prevAll().children(".left_num").html();
+	if(buy_num * 10000 / 10000 > left_num){
+		alert("超出库存");
+		return;
+	}
+	if(buy_num * 10000 / 10000 < 0){
+		alert("购买数量不能小于0");
+		return;
+	}
+	
+	var sale_price = elem.parent().prevAll().children(".sale_price").html().split("/")[0];
+	sale_price = sale_price.substring(0, sale_price.length-1);
+	var total_price = buy_num * 10000 / 10000 * sale_price;
+	elem.parent().nextAll().children(".total_price").html(total_price);
+	
+	var order_price = 0;
+	$.each($("#order_content").children(), function(i, n){
+		order_price += $(this).children().children(".total_price").html() * 10000 / 10000;
+	});
+	
+	$("#order_total_price").val(order_price);
+	
+}
+
+function add_order_detail(elem, allSellingGoods){
+	
+	var order = 
+	'<tr>'
+	+ '<td><select class="good_name">'
+	+ '<option value="0" selected>请选择商品</option>'
+	+ '</select></td>'	
+	+ '<td><span class="sale_price"></span></td>'
+	+ '<td><span class="left_num"></span></td>'
+	+ '<td><input type="text" class="buy_num" /></td>'
+	+ '<td><span class="total_price"></span></td>'
+	+ '<td><input type="text" class="detail_remark" /></td>'
+	+ '<td><button class="add_detail">+</button></td></tr>';
+	
+	elem.after(order);
+
+	elem.next().children().children(".good_name").append(allSellingGoods);
+	elem.next().children().children(".good_name").change(function(){
+		update_good_info($(this));
+	})
+	elem.next().children().children(".buy_num").bind('input propertychange', function(){
+		update_price($(this));
+	});
+	elem.next().children().children(".add_detail").bind("click", function(){
+		add_order_detail(elem.next(), allSellingGoods);
+	});
+	
+	elem.children().children(".add_detail").html("-").unbind("click").bind("click", function(){
+		$(this).parent().parent().remove();
+	})
+}
+
+function update_good_info(elem){
+	var good_id = elem.val();
+	
+	if(good_id == 0){
+		elem.parent().nextAll().children(".sale_price").html("");
+		elem.parent().nextAll().children(".left_num").html("");
+		elem.parent().nextAll().children(".buy_num").val("");
+		elem.parent().nextAll().children(".total_price").html("");
+		elem.parent().nextAll().children(".detail_remark").val("");
+		
+		return;
+	}
+	
+	var good_info = post("/fruit/good/loadGoodInfo.do", {good_id:good_id});
+	
+	if(good_info != undefined){
+		if(good_info.code == '000004'){
+			if(good_info.data.value_unit == "kilogram"){
+				good_info.data.value_unit = "千克";
+			}else if(good_info.data.value_unit == "number"){
+				good_info.data.value_unit = "个";
+			}else if(good_info.data.value_unit == "box"){
+				good_info.data.value_unit = "箱";
+			}else if(good_info.data.value_unit == "case"){
+				good_info.data.value_unit = "框";
+			}else if(good_info.data.value_unit == "bag"){
+				good_info.data.value_unit = "袋";
+			}
+			elem.parent().nextAll().children(".sale_price").html(good_info.data.sale_price + "元/" + good_info.data.value_unit);
+			elem.parent().nextAll().children(".left_num").html(good_info.data.left_num);
+		}else{
+			alert(good_info.msg);
+		}
+	}
+}
+
+function submit_order(){
+	
+	var store_id = $("#store_select").val();
+	if(store_id == 0){
+		alert("请选择店铺");
+		return false;
+	}
+	var order_details = new Array();
+	
+	$.each($("#order_content").children(), function(i, n){
+		var good_id = $(this).children().children(".good_name").val();
+		var buy_num = $(this).children().children(".buy_num").val();
+		var detail_remark = $(this).children().children(".detail_remark").val();
+		
+		var order_detail = {
+				good_id : good_id,
+				buy_num : buy_num,
+				remark : detail_remark
+		}
+		
+		order_details.push(order_detail);
+	})
+	
+	var order = {
+		token : $.cookie("token"),
+		store_id : store_id,
+		goods : order_details,
+		remark : $("#order_remark").val()
+	}
+	
+	var res = post("/fruit/buyer/createBatchOrder.do", order);
+	
+	if(res != undefined){
+		alert(res.msg);
+	}
+}
+</script>
+
+</head>
+<body>
+<div>
+	<table id="order">
+		<thead>
+			<tr>
+				<td>选择店铺：</td>
+				<td><select id="store_select"></select></td>
+			</tr>
+			<tr>
+				<td colspan="7"><hr style="height:1px;border:none;border-top:1px ridge green;" /></td>
+			</tr>
+			<tr>
+				<td>商品</td>
+				<td>售价</td>
+				<td>库存</td>
+				<td>购买数量</td>
+				<td>小计</td>
+				<td>备注</td>
+			</tr>
+		</thead>
+		<tbody id="order_content">
+			<tr>
+				<td><select class="good_name">
+					<option value="0" selected>请选择商品</option>
+				</select></td>
+				<td><span class="sale_price"></span></td>
+				<td><span class="left_num"></span></td>
+				<td><input type="text" class="buy_num" /></td>
+				<td><span class="total_price"></span></td>
+				<td><input type="text" class="detail_remark" /></td>
+				<td><button class="add_detail">+</button></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="7"><hr style="height:1px;border:none;border-top:1px ridge green;" /></td>
+			</tr>
+			<tr>
+				<td>总价：</td>
+				<td colspan="5"><input type="text" id="order_total_price" /></td>
+			</tr>
+			<tr>
+				<td>备注：</td>
+				<td colspan="5"><input type="text" id="order_remark" /></td>
+			</tr>
+			<tr>
+				<td colspan="5"></td>
+				<td><button id="submit_order">提交订单</button></td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+</body>
+</html>
