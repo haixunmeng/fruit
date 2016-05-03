@@ -69,8 +69,15 @@ $(function(){
 					$("#confirm").show();
 					$("#cancel").show();
 				}
+			}else if(order_status == 'w4b_c'){
+				if(res.data.user_type == 'B'){
+					$("#confirm").show();
+					$("#cancel").show();
+				}
+				if(res.data.user_type == 'S'){
+					$("#cancel").show();
+				}
 			}
-			
 		}else{
 			alert(res.msg);
 		}

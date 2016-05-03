@@ -15,6 +15,8 @@ public interface OrderService {
 	public void createBuyerOrder(Map<String, Object> params);
 	
 	public void createBuyerBatchOrder(Map<String, Object> params);
+	
+	public void createSellerBatchOrder(Map<String, Object> params);
 
 	public List<Map<String, Object>> getBuyerUnproccessedOrders(Map<String, Object> params);
 
@@ -27,5 +29,6 @@ public interface OrderService {
 	public String cancelOrder(Map<String, Object> params);
 
 	public List<Map<String, Object>> getHistoryOrder(Map<String, Object> params);
+
 	
 }

@@ -384,4 +384,20 @@ public class OrderServiceImpl implements OrderService{
 		createOrder(params);
 		
 	}
+
+	@Override
+	public void createSellerBatchOrder(Map<String, Object> params) {
+		User user = CacheManager.get((String)params.get("token"), User.class);
+		if(null == user){
+			logger.info(FruitException.CACHE_USER_IS_NULL_EXCEPTION);
+			throw FruitException.CACHE_USER_IS_NULL_EXCEPTION;
+		}
+		
+		Store store = storeDao.getUserStore(user.getUser_id());
+		
+		params.put("store", store.getSeller_id());
+		params.put("order_status", OrderStatus.WAITTING_FOR_BUYER_CONFIRM);
+		
+		createOrder(params);
+	}
 }

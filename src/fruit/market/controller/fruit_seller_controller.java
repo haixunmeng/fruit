@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fruit.market.data.Role;
 import fruit.market.exception.FruitException;
+import fruit.market.service.OrderService;
 import fruit.market.service.SellerService;
 import fruit.market.service.StockService;
 import fruit.market.service.UserService;
@@ -30,6 +31,9 @@ public class fruit_seller_controller {
 	
 	@Autowired
 	private StockService stockService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
 	private SellerService sellerService;
@@ -101,6 +105,29 @@ public class fruit_seller_controller {
 			resMeg.put("code", e.errorCode);
 			resMeg.put("msg", e.errorMsg);
 		} 
+		
+		return resMeg;
+	}
+	
+	@RequestMapping("/createBatchOrder")
+	@ResponseBody
+	public Map<String, Object> createBatchOrder(@RequestBody Map<String, Object> params){
+
+		Map<String, Object> resMeg = new HashMap<String, Object>();
+		
+		try{
+			
+			logger.info(params);
+			
+			orderService.createSellerBatchOrder(params);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		}catch(FruitException e){
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		}
 		
 		return resMeg;
 	}

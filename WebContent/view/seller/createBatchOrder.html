@@ -23,49 +23,36 @@ thead{height:40px;font-size:18px;}
 
 <script type="text/javascript">
 $(function(){
-	var allStore = post("/fruit/store/getAllStores.do");
-	var allSellingGoods = "";
-	if(allStore != undefined){
-		if(allStore.code == '000004'){
+	var allBuyer = post("/fruit/buyer/getAllBuyer.do");
+	if(allBuyer != undefined){
+		if(allBuyer.code == '000004'){
 			var options = "";
-			options += '<option value="0" selected>请选择店铺</option>';
-			for(var i in allStore.data){
-				options += '<option value="' + allStore.data[i].store_id + '">' + allStore.data[i].store_name + '</option>;'
+			options += '<option value="0" selected>请选择买家</option>';
+			for(var i in allBuyer.data){
+				options += '<option value="' + allBuyer.data[i].buyer_id + '">' + allBuyer.data[i].buyer_name + '</option>;'
 			}
-			$("#store_select").html(options);
+			$("#buyer_select").html(options);
 		}else{
-			alert(allStore.msg);
+			alert(allBuyer.msg);
 		}
 	}
-	
-	$("#store_select").change(function(){
-		
-		var store_id = $("#store_select").val();
-		
-		if(store_id == 0){
-			$(".good_name").html('<option value="0" selected>请选择商品</option>');
-			allSellingGoods = "";
-			return;
-		}
-		
-		var allStoresSellingGoods = post("/fruit/store/getAllStoresGoods.do", {store_id:$("#store_select").val()});
-		
-		if(allStoresSellingGoods != undefined){
-			if(allStoresSellingGoods.code == '000004'){
-				
-				var sellingGoods = "";
-				
-				for(var i in allStoresSellingGoods.data){
-					sellingGoods += '<option value="' + allStoresSellingGoods.data[i].good_id + '">' + allStoresSellingGoods.data[i].good_name + '</options>'; 
-				}
-				allSellingGoods = sellingGoods;
-				$(".good_name").append(sellingGoods);
-				
-			}else{
-				alert(allStoresSellingGoods.msg);
+	var allSellingGoods = "";
+	var allStoresSellingGoods = post("/fruit/store/getAllStoresGoods.do", {token:$.cookie("token")})
+	if(allStoresSellingGoods != undefined){
+		if(allStoresSellingGoods.code == '000004'){
+			
+			var sellingGoods = "";
+			
+			for(var i in allStoresSellingGoods.data){
+				sellingGoods += '<option value="' + allStoresSellingGoods.data[i].good_id + '">' + allStoresSellingGoods.data[i].good_name + '</options>'; 
 			}
+			allSellingGoods = sellingGoods;
+			$(".good_name").append(sellingGoods);
+			
+		}else{
+			alert(allStoresSellingGoods.msg);
 		}
-	});
+	}
 	
 	$(".good_name").change(function(){
 		update_good_info($(this));
@@ -203,12 +190,12 @@ function submit_order(){
 	
 	var order = {
 		token : $.cookie("token"),
-		buyer : buyer_id,
+		buyer_id : buyer_id,
 		goods : order_details,
 		remark : $("#order_remark").val()
 	}
 	
-	var res = post("/fruit/buyer/createBatchOrder.do", order);
+	var res = post("/fruit/seller/createBatchOrder.do", order);
 	
 	if(res != undefined){
 		alert(res.msg);
@@ -222,8 +209,8 @@ function submit_order(){
 	<table id="order">
 		<thead>
 			<tr>
-				<td>选择店铺：</td>
-				<td><select id="store_select"></select></td>
+				<td>选择买家：</td>
+				<td><select id="buyer_select"></select></td>
 			</tr>
 			<tr>
 				<td colspan="7"><hr style="height:1px;border:none;border-top:1px ridge green;" /></td>

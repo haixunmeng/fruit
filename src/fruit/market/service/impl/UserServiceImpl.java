@@ -176,4 +176,28 @@ public class UserServiceImpl implements UserService {
 		return userDao.getOnePage(pageNum, pageCount);
 	}
 
+	@Override
+	public List<Map<String, String>> getAllBuyer() {
+
+		Map<String, Object> conditions = new HashMap<String, Object>();
+		
+		conditions.put("user_status", "using");
+		conditions.put("user_type", Role.BUYER);
+		
+		List<User> buyers = userDao.getByCondition(conditions);
+		
+		List<Map<String, String>> buyersList = new ArrayList<Map<String, String>>();
+		
+		for(User user : buyers){
+			Map<String, String> userMap = new HashMap<String, String>();
+			
+			userMap.put("buyer_id", user.getUser_id());
+			userMap.put("buyer_name", user.getUser_name());
+			
+			buyersList.add(userMap);
+		}
+		
+		return buyersList;
+	}
+
 }
