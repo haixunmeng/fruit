@@ -25,4 +25,10 @@ public interface UserService {
 	public List<User> getUsers(Map<String, String> params);
 
 	public List<Map<String, String>> getAllBuyer();
+
+	public void updatePwd(Map<String, String> params);
+
+	public void lockUser(Map<String, String> params);
+
+	public void unlockUser(Map<String, String> params);
 }

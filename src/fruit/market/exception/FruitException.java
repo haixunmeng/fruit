@@ -25,6 +25,8 @@ public class FruitException extends RuntimeException {
 	public static final FruitException NO_STOCK_IN_EXCEPTION = new FruitException("000019", "未查找到进货明细记录");
 	public static final FruitException CACHE_USER_IS_NULL_EXCEPTION = new FruitException("000020", "缓存中为查找到用户");
 	public static final FruitException STOCK_NOT_ENOUGH_EXCEPTION = new FruitException("000021", "库存不足");
+	public static final FruitException USER_IS_LOCKED_EXCEPTION = new FruitException("000022", "用户已锁定");
+	public static final FruitException USER_IS_NOT_LOCKED_EXCEPTION = new FruitException("000023", "用户未锁定");
 
 
 	public String errorCode;

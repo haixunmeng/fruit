@@ -14,6 +14,7 @@ import fruit.market.controller.fruit_user_controller;
 import fruit.market.dao.UserDao;
 import fruit.market.data.Role;
 import fruit.market.data.User;
+import fruit.market.data.UserStatus;
 import fruit.market.exception.FruitException;
 import fruit.market.service.UserService;
 import fruit.market.utils.DateUtil;
@@ -90,6 +91,11 @@ public class UserServiceImpl implements UserService {
 		if(null == user){
 			logger.info(FruitException.USER_NOT_EXISTS_EXCEPTION);
 			throw FruitException.USER_NOT_EXISTS_EXCEPTION;
+		}
+		
+		if(UserStatus.LOCKED.equals(user.getUser_status())){
+			logger.info(FruitException.USER_IS_LOCKED_EXCEPTION);
+			throw FruitException.USER_IS_LOCKED_EXCEPTION;
 		}
 		
 		if(!Utils.checkPwd(user.getPwd(), (String) params.get("pwd"))){
@@ -173,7 +179,7 @@ public class UserServiceImpl implements UserService {
 		int pageNum = Integer.valueOf(params.get("pageNum"));
 		int pageCount = Integer.valueOf(params.get("pageCount"));
 		
-		return userDao.getOnePage(pageNum, pageCount);
+		return userDao.getUsers(pageNum, pageCount);
 	}
 
 	@Override
@@ -198,6 +204,54 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		return buyersList;
+	}
+
+	@Override
+	public void updatePwd(Map<String, String> params) {
+		String user_id = params.get("user_id");
+		
+		User user = userDao.getData(user_id);
+		
+		String pwd = Utils.encrypt(params.get("pwd"));
+		
+		user.setPwd(pwd);
+		
+		userDao.update(user);
+	}
+
+	@Override
+	public void lockUser(Map<String, String> params) {
+
+		String user_id = params.get("user_id");
+		
+		User user = userDao.getData(user_id);
+		
+		if(UserStatus.LOCKED.equals(user.getUser_status())){
+			logger.info(FruitException.USER_IS_LOCKED_EXCEPTION);
+			throw FruitException.USER_IS_LOCKED_EXCEPTION;
+		}
+		
+		user.setUser_status(UserStatus.LOCKED);
+		
+		userDao.update(user);
+	}
+
+	@Override
+	public void unlockUser(Map<String, String> params) {
+
+		String user_id = params.get("user_id");
+		
+		User user = userDao.getData(user_id);
+		
+		if(UserStatus.USING.equals(user.getUser_status())){
+			logger.info(FruitException.USER_IS_NOT_LOCKED_EXCEPTION);
+			throw FruitException.USER_IS_NOT_LOCKED_EXCEPTION;
+		}
+		
+		user.setUser_status(UserStatus.USING);
+		
+		userDao.update(user);
+		
 	}
 
 }

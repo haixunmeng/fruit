@@ -10,6 +10,7 @@ public class User {
 	private String pwd;
 	private String phone;
 	private String user_type;
+	private String user_status;
 	private Timestamp create_time;
 	private Timestamp update_time;
 
@@ -51,6 +52,14 @@ public class User {
 
 	public void setUser_type(String user_type) {
 		this.user_type = user_type;
+	}
+
+	public String getUser_status() {
+		return user_status;
+	}
+
+	public void setUser_status(String user_status) {
+		this.user_status = user_status;
 	}
 
 	public Timestamp getCreate_time() {

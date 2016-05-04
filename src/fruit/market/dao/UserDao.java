@@ -14,4 +14,6 @@ public interface UserDao extends BaseDao<User>{
 	public User queryByConditions(String...conditions);
 	
 	public List<User> queryListByConditions(Map<String, String> conditions);
+
+	public List<User> getUsers(int pageNum, int pageCount);
 }

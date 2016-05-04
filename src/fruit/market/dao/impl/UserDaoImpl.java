@@ -3,6 +3,7 @@ package fruit.market.dao.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,6 +18,8 @@ import fruit.market.utils.DBUtils;
 
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
+	
+	private static Logger logger = Logger.getLogger(UserDaoImpl.class);
 
 	public UserDaoImpl(){
 		tableName = "fruit_user";
@@ -63,6 +66,19 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		try{
 			return jdbcTemplate.query(DBUtils.generateSQL(tableName, conditions), rowMapper);
 		}catch ( DataAccessException e) {
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
+
+	@Override
+	public List<User> getUsers(int pageNum, int pageCount) {
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("select * from ").append(tableName).append(" where (user_type='B' or user_type='S') limit ? offset ?");
+		try {
+			return jdbcTemplate.query(sql.toString(), new Object[] { pageCount, pageCount * (pageNum - 1) }, rowMapper);
+		} catch (DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
 			throw FruitException.DB_OPTION_EXCEPTION;
 		}
 	}

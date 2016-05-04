@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <title>首页</title>
 <link href="css/index.css" rel="stylesheet">
+<style type="text/css">
+#notice{font-size:25px;text-align:center;}
+</style>
 
 <script src="js/jquery-2.0.0.min.js"></script>
 <script src="js/jquery.cookie.js"></script>
@@ -15,6 +18,8 @@ $(function(){
 	$(".good").bind("click", function(){
 	 	window.location.href =	"/fruit/view/good/fruit_good_info.html?good_id=" + $(this).attr("src").split("/")[3].split(".")[0];
 	});
+	
+	load_latest_notice($("#notice"));
 });
 
 function load_goods(){
@@ -51,6 +56,17 @@ function load_goods(){
 		$("#latest_goods_list").html(good_list);
 	}
 }
+
+function load_latest_notice(elem){
+	var res = post("/fruit/notice/getLatestNotice.do");
+	if(res != undefined){
+		if(res.code == '000004'){
+			elem.html(res.data);
+		}else{
+			alert(res.msg);
+		}
+	}
+}
 </script>
 </head>
 <body>
@@ -65,6 +81,12 @@ function load_goods(){
 </div>
 <br/>
 <hr style="margin-top:0px" />
+<div>
+	<p>系统公告</p>
+	<div id="notice"></div>
+	
+</div>
+<hr/>
 <div id="latest_today">
 <span id="latest_title">今日新品<a href="#">>>></a></span>
 <hr/>

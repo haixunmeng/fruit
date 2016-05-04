@@ -20,6 +20,7 @@ import fruit.market.cache.CacheManager;
 import fruit.market.dao.AuthDao;
 import fruit.market.data.Role;
 import fruit.market.data.User;
+import fruit.market.data.UserStatus;
 import fruit.market.exception.FruitException;
 
 @Aspect
@@ -72,18 +73,16 @@ public class AuthManager {
 			throw FruitException.NO_AUTH_EXCEPTION;
 		}else if(authRoles.size() == 1 && Role.COMMON.equals(authRoles.get(0))){
 			return;
-		}else if(authRoles.size() == 3){
-			if(null != user){
-				return;
-			}else{
-				logger.info(FruitException.NO_AUTH_EXCEPTION);
-				throw FruitException.NO_AUTH_EXCEPTION;
-			}
 		}
 		
 		if(null == user){
 			logger.info(FruitException.NO_AUTH_EXCEPTION);
 			throw FruitException.NO_AUTH_EXCEPTION;
+		}
+		
+		if(UserStatus.LOCKED.equals(user.getUser_status())){
+			logger.info(FruitException.USER_IS_LOCKED_EXCEPTION);
+			throw FruitException.USER_IS_LOCKED_EXCEPTION;
 		}
 		
 		String tokenRole = user.getUser_type();

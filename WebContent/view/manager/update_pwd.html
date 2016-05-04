@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>更新密码</title>
+
+<link href="../../css/fruit_add_seller.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/jquery.md5.js"></script>
+<script src="../../js/fruit.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$("#cancel").bind("click", function(){
+		cancel();
+	})
+	
+	$("#confirm").bind("click", function(){
+		save_pwd()
+	})
+});
+	
+function cancel(){
+	window.location.href = "/fruit/view/manager/fruit_manage_user.html";
+}
+
+function save_pwd(){
+	var new_pwd = $("#new_pwd").val();
+	var confirm_new_pwd = $("#confirm_new_pwd").val();
+	
+	if(new_pwd == ""){
+		alert("密码不能为空");
+		return;
+	}
+	
+	if(new_pwd != confirm_new_pwd){
+		alert("两次输入的密码不一致");
+		return;
+	}
+	
+	var user_id = window.location.search.split("=")[1];
+	var res = post("/fruit/manager/updatePwd.do", {user_id:user_id,pwd:$.md5(new_pwd)});
+	if(res != undefined){
+		if(res.code == '000004'){
+			alert(res.msg);
+			window.location.href = '/fruit/view/manager/fruit_manage_user.html';
+		}else{
+			alert(res.msg);
+		}
+	}
+}
+</script>
+
+</head>
+<body>
+<div>
+<table>
+	<tr>
+		<td><label>&nbsp;新密码：</label></td>
+		<td style="width:100px;" align="right"><input type="password" id="new_pwd" style="width:100px;"/></td>
+	</tr>
+	<tr>
+		<td><label>确认密码：</label></td>
+		<td style="width:100px;" align="right"><input type="password" id="confirm_new_pwd" style="width:100px;"/></td>
+	</tr>
+	<tr></tr>
+	<tr>
+		<td><input type="button" id="cancel" value="取消" style="width:60px;"/></td>
+		<td style="width:100px;" align="right"><input type="button" id="confirm" value="保存" style="width:60px;"/></td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

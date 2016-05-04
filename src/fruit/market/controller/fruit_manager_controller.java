@@ -30,7 +30,7 @@ public class fruit_manager_controller {
 	
 	@RequestMapping("/getUsers")
 	@ResponseBody
-	public Map<String, Object> getSellers(@RequestBody Map<String, String> params){
+	public Map<String, Object> getUsers(@RequestBody Map<String, String> params){
 		Map<String, Object> resMeg = new HashMap<String, Object>();
 		
 		try {
@@ -96,4 +96,69 @@ public class fruit_manager_controller {
 		return resMeg;
 	}
 	
+	@RequestMapping("/updatePwd")
+	@ResponseBody
+	public Map<String, String> updatePwd(@RequestBody Map<String, String> params){
+		Map<String, String> resMeg = new HashMap<String, String>();
+		
+		try {
+			
+			logger.info(params);
+			
+			userService.updatePwd(params);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
+	
+	
+	@RequestMapping("/lockUser")
+	@ResponseBody
+	public Map<String, String> lockUser(@RequestBody Map<String, String> params){
+		Map<String, String> resMeg = new HashMap<String, String>();
+		
+		try {
+			
+			logger.info(params);
+			
+			userService.lockUser(params);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
+	@RequestMapping("/unlockUser")
+	@ResponseBody
+	public Map<String, String> unlockUser(@RequestBody Map<String, String> params){
+		Map<String, String> resMeg = new HashMap<String, String>();
+		
+		try {
+			
+			logger.info(params);
+			
+			userService.unlockUser(params);
+			
+			resMeg.put("code", FruitException.OPTIONS_SUCCESS.errorCode);
+			resMeg.put("msg", FruitException.OPTIONS_SUCCESS.errorMsg);
+			
+		} catch (FruitException e) {
+			resMeg.put("code", e.errorCode);
+			resMeg.put("msg", e.errorMsg);
+		} 
+		
+		return resMeg;
+	}
 }
