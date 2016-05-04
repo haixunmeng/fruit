@@ -35,7 +35,11 @@ $(function(){
             contentType: false,        //不可缺参数
             processData: false,        //不可缺参数
             success:function(res){
-            	alert(res.msg);
+            	if(res.code == '000004'){
+            		window.location.href = "/fruit/view/seller/fruit_selling_goods.html";
+            	}else{
+            		alert(res.msg);
+            	}
             },
             error:function(){
                 alert('上传出错');

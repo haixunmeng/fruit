@@ -32,7 +32,9 @@ public interface BaseDao<T> {
 	
 	public List<Map<String, Object>> getPageData(int pageNum, int pageCount);
 	
-	public List<Map<String, Object>> getPageData(Map<String, Object> conditions, int pageNum, int pageCount);
+	public List<Map<String, Object>> getPageMapData(Map<String, Object> conditions, int pageNum, int pageCount);
+	
+	public List<T> getPageData(Map<String, Object> conditions, int pageNum, int pageCount);
 	
 	public T getSingleByCondition(Map<String, Object> conditions);
 	

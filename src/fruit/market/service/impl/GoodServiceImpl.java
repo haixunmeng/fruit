@@ -43,7 +43,7 @@ public class GoodServiceImpl implements GoodService{
 		
 		Map<String, Object> conditions = new HashMap<String, Object>();
 		conditions.put("good_status", GoodStatus.SELLING);
-		List<Map<String, Object>> sellingGoods = sellingDao.getPageData(conditions, Integer.valueOf(params.get("pageNum")), Integer.valueOf(params.get("pageCount")));
+		List<Map<String, Object>> sellingGoods = sellingDao.getPageMapData(conditions, Integer.valueOf(params.get("pageNum")), Integer.valueOf(params.get("pageCount")));
 		
 		for(int i=0;i<sellingGoods.size();i++){
 			Good good = goodDao.getData(String.valueOf(sellingGoods.get(i).get("good_id")));

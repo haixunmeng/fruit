@@ -15,7 +15,7 @@ public class Selling {
 	
 	private String good_status;
 	
-	private String create_time;
+	private Timestamp create_time;
 	
 	private Timestamp update_time;
 
@@ -59,11 +59,11 @@ public class Selling {
 		this.good_status = good_status;
 	}
 
-	public String getCreate_time() {
+	public Timestamp getCreate_time() {
 		return create_time;
 	}
 
-	public void setCreate_time(String create_time) {
+	public void setCreate_time(Timestamp create_time) {
 		this.create_time = create_time;
 	}
 

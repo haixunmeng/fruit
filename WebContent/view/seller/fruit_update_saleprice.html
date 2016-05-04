@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>正在销售</title>
+
+<link href="../../css/easyui.css" rel="stylesheet" type="text/css">
+<link href="../../css/icon.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/fruit.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	$("#cancel").bind("click", function(){
+		window.location.href = "/fruit/view/seller/fruit_selling_goods.html";
+	});
+	
+	$("#confirm").bind("click", function(){
+		
+		var new_sale_price = $("#new_sale_price").val();
+		
+		if(new_sale_price == ""){
+			alert("请输入售价");
+			return;
+		}
+		
+		if(new_sale_price * 10000 / 10000 < 0){
+			alert("售价不能小于0");
+			return;
+		}
+		var good_id = window.location.search.split("=")[1];
+		var res = post("/fruit/selling/updateSalePrice.do", {good_id:good_id,new_sale_price:new_sale_price});
+		
+		if(res != undefined){
+			if(res.code == '000004'){
+				window.location.href = "/fruit/view/seller/fruit_selling_goods.html";
+			}else{
+				alert(res.msg);
+			}
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div>
+	<table>
+		<tr>
+			<td><label>输入新的售价：</label></td>
+			<td><input id="new_sale_price" /></td>
+		</tr>
+		<tr>
+			<td><button id="cancel">取消</button></td>
+			<td><button id="confirm">确认</button></td>
+		</tr>
+	</table>
+	
+	
+</div>
+</body>
+</html>

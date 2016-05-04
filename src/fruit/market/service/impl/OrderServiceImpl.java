@@ -19,6 +19,7 @@ import fruit.market.dao.StockDao;
 import fruit.market.dao.StoreDao;
 import fruit.market.dao.UserDao;
 import fruit.market.data.Good;
+import fruit.market.data.GoodStatus;
 import fruit.market.data.Order;
 import fruit.market.data.OrderDetail;
 import fruit.market.data.OrderStatus;
@@ -106,6 +107,9 @@ public class OrderServiceImpl implements OrderService{
 			if(buy_num.compareTo(stock.getLeft_num()) == 1){
 				logger.info(FruitException.STOCK_NOT_ENOUGH_EXCEPTION);
 				throw FruitException.STOCK_NOT_ENOUGH_EXCEPTION;
+			}else if(buy_num.compareTo(stock.getLeft_num()) == 0){
+				selling.setGood_status(GoodStatus.STOCKOUT);
+				sellingDao.update(selling);
 			}
 			stock.setLeft_num(stock.getLeft_num().subtract(buy_num));
 			updateStocks.add(stock);

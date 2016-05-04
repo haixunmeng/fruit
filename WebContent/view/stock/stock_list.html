@@ -26,9 +26,10 @@ $(function(){
 		            {field:'value_unit',title:'计价单位'},
 		            {field:'in_price',title:'进价'},
 		            {field:'left_num',title:'剩余量'},
-		            {field:'stock_in_time',title:'进货时间'}
+		            {field:'stock_in_time',title:'进货时间'},
+		            {field:'is_on_shelf',title:'状态'}
 		]],
-		width:345,
+		width:400,
 		fitColumns:true,
 		singleSelect:true,
 		checkOnSelect:false,
@@ -57,6 +58,10 @@ $(function(){
 
 function shelfGood(){
 	var row = $("#stock_datagrid").datagrid('getSelected');
+	if(row.is_on_shelf == '已上架'){
+		alert("商品已上架");
+		return;
+	}
 	window.location.href = "/fruit/view/seller/fruit_shelf_good.html?good_id="+row.good_id;
 }
 </script>

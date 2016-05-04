@@ -93,7 +93,7 @@ public class SellerServiceImpl implements SellerService{
 			selling.setValue_unit(stockInDetail.getValue_unit());
 			selling.setSale_price(BigDecimal.valueOf(Double.valueOf(String.valueOf(params.get("sale_price")))));
 			selling.setGood_status(GoodStatus.SELLING);
-			selling.setCreate_time(DateUtil.getDateString());
+			selling.setCreate_time(DateUtil.getTimestamp());
 			
 			sellingDao.add(selling);
 			

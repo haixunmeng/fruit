@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 
 import fruit.market.cache.CacheManager;
 import fruit.market.dao.GoodDao;
+import fruit.market.dao.SellingDao;
 import fruit.market.dao.StockDao;
 import fruit.market.dao.StockInDao;
 import fruit.market.dao.StockInDetailDao;
 import fruit.market.dao.StoreDao;
+import fruit.market.data.Selling;
 import fruit.market.data.StockIn;
 import fruit.market.data.StockInDetail;
 import fruit.market.data.Store;
@@ -40,6 +42,9 @@ public class StockServiceImpl implements StockService{
 	private StoreDao storeDao;
 	
 	@Autowired
+	private SellingDao sellingDao;
+	
+	@Autowired
 	private StockInDetailDao stockInDetailDao;
 
 	@Override
@@ -60,7 +65,7 @@ public class StockServiceImpl implements StockService{
 		conditions.clear();
 		conditions.put("store_id", store.getStore_id());
 		
-		List<Map<String, Object>> stock = stockDao.getPageData(conditions, pageNum, pageCount);
+		List<Map<String, Object>> stock = stockDao.getPageMapData(conditions, pageNum, pageCount);
 		
 		for(int i=0;i<stock.size();i++){
 			Map<String, Object> stockDetail = stock.get(i);
@@ -82,6 +87,13 @@ public class StockServiceImpl implements StockService{
 				throw FruitException.NO_STOCK_IN_EXCEPTION;
 			}
 			stockDetail.put("stock_in_time", DateUtil.formatDate(stockIn.getCreate_time()));
+			
+			Selling selling = sellingDao.getData(String.valueOf(stockDetail.get("good_id")));
+			if(selling == null){
+				stockDetail.put("is_on_shelf", "未上架");
+			}else{
+				stockDetail.put("is_on_shelf", "已上架");
+			}
 		}
 		
 		return stock;
