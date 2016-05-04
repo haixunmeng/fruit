@@ -43,9 +43,9 @@ $(function(){
 				}else if(res.data[i].order_status == "w4b_c"){
 					res.data[i].order_status = "等待买家确认";
 				}else if(res.data[i].order_status == "finished"){
-					res.data[i].order_status = "以完成";
+					res.data[i].order_status = "已完成";
 				}else if(res.data[i].order_status == "canceled"){
-					res.data[i].order_status = "以取消";
+					res.data[i].order_status = "已取消";
 				}
 			}
 			$("#order_datagrid").datagrid('loadData', res.data);

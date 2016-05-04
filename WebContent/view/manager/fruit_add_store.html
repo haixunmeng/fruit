@@ -42,7 +42,14 @@
 			}
 			
 			res = post('/fruit/manager/addStore.do', data);
-			alert(res.msg);
+			if(res != undefined){
+				if(res.code == '000004'){
+					alert(res.msg);
+					window.location.href = "/fruit/view/manager/fruit_manage_store.html";
+				}else{
+					alert(res.msg);
+				}
+			}
 		});
 	});
 </script>

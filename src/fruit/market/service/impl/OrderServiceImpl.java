@@ -399,7 +399,7 @@ public class OrderServiceImpl implements OrderService{
 		
 		Store store = storeDao.getUserStore(user.getUser_id());
 		
-		params.put("store", store.getSeller_id());
+		params.put("store", store.getStore_id());
 		params.put("order_status", OrderStatus.WAITTING_FOR_BUYER_CONFIRM);
 		
 		createOrder(params);

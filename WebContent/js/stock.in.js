@@ -33,8 +33,14 @@ $(function(){
 		}
 		
 		var res = post("/fruit/stock/stockIn.do", stock);
-		
-		alert(res.msg);
+		if(res != undefined){
+			if(res.code == '000004'){
+				alert(res.msg);
+				window.location.href = "/fruit/view/stock/stock_list.html";
+			}else{
+				alert(res.msg);
+			}
+		}
 	});
 });
 

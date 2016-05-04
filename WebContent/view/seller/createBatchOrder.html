@@ -190,15 +190,19 @@ function submit_order(){
 	
 	var order = {
 		token : $.cookie("token"),
-		buyer_id : buyer_id,
+		buyer : buyer_id,
 		goods : order_details,
 		remark : $("#order_remark").val()
 	}
 	
 	var res = post("/fruit/seller/createBatchOrder.do", order);
-	
 	if(res != undefined){
-		alert(res.msg);
+		if(res.code == '000004'){
+			alert(res.msg);
+			window.location.href = "/fruit/view/seller/unproccessed_order_list.html";
+		}else{
+			alert(res.msg);
+		}
 	}
 }
 </script>

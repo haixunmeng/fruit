@@ -38,7 +38,7 @@ public class fruit_manager_controller {
 			
 			logger.info(params);
 			
-			List<User> users = userService.getUsers(params);
+			List<Map<String, Object>> users = userService.getUsers(params);
 			
 			resMeg.put("data", users);
 			

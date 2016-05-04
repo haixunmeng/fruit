@@ -22,7 +22,7 @@ public interface UserService {
 
 	public List<Map<String, String>> getAllSeller(Map<String, String> params);
 	
-	public List<User> getUsers(Map<String, String> params);
+	public List<Map<String, Object>> getUsers(Map<String, String> params);
 
 	public List<Map<String, String>> getAllBuyer();
 

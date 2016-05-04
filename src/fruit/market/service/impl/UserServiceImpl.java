@@ -62,6 +62,7 @@ public class UserServiceImpl implements UserService {
 		newUser.setPwd(Utils.encrypt((String) params.get("pwd")));
 		newUser.setUser_name(params.get("username"));
 		newUser.setUser_type(Role.BUYER);
+		newUser.setUser_status(UserStatus.USING);
 		newUser.setCreate_time(DateUtil.getTimestamp());
 		
 		userDao.add(newUser);
@@ -125,6 +126,7 @@ public class UserServiceImpl implements UserService {
 		newUser.setPwd(Utils.encrypt((String) params.get("pwd")));
 		newUser.setUser_name(params.get("username"));
 		newUser.setUser_type(Role.SELLER);
+		newUser.setUser_status(UserStatus.USING);
 		newUser.setCreate_time(DateUtil.getTimestamp());
 		
 		userDao.add(newUser);
@@ -174,12 +176,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsers(Map<String, String> params) {
+	public List<Map<String, Object>> getUsers(Map<String, String> params) {
 		
 		int pageNum = Integer.valueOf(params.get("pageNum"));
 		int pageCount = Integer.valueOf(params.get("pageCount"));
 		
-		return userDao.getUsers(pageNum, pageCount);
+		 List<User> usersList = userDao.getUsers(pageNum, pageCount);
+		 
+		 List<Map<String, Object>> users = new ArrayList<Map<String, Object>>();
+		 
+		 for(User user : usersList){
+			 Map<String, Object> userMap = new HashMap<String, Object>();
+			 
+			 userMap.put("user_id", user.getUser_id());
+			 userMap.put("user_name", user.getUser_name());
+			 userMap.put("pwd", user.getPwd());
+			 userMap.put("phone", user.getPhone());
+			 userMap.put("user_status", user.getUser_status());
+			 userMap.put("user_type", user.getUser_type());
+			 userMap.put("create_time", DateUtil.formatDate(user.getCreate_time()));
+			 
+			 users.add(userMap);
+		 }
+		 
+		 return users;
 	}
 
 	@Override

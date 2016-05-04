@@ -180,9 +180,9 @@ function update_good_info(elem){
 
 function submit_order(){
 	
-	var buyer_id = $("#buyer_select").val();
-	if(buyer_id == 0){
-		alert("请选择买家");
+	var store_id = $("#store_select").val();
+	if(store_id == 0){
+		alert("请选择店铺");
 		return false;
 	}
 	var order_details = new Array();
@@ -193,6 +193,7 @@ function submit_order(){
 		var detail_remark = $(this).children().children(".detail_remark").val();
 		
 		var order_detail = {
+				
 				good_id : good_id,
 				buy_num : buy_num,
 				remark : detail_remark
@@ -203,15 +204,19 @@ function submit_order(){
 	
 	var order = {
 		token : $.cookie("token"),
-		buyer : buyer_id,
+		store : store_id,
 		goods : order_details,
 		remark : $("#order_remark").val()
 	}
 	
 	var res = post("/fruit/buyer/createBatchOrder.do", order);
-	
 	if(res != undefined){
-		alert(res.msg);
+		if(res.code == '000004'){
+			alert(res.msg);
+			window.location.href = "/fruit/view/buyer/unproccessed_order_list.html";
+		}else{
+			alert(res.msg);
+		}
 	}
 }
 </script>

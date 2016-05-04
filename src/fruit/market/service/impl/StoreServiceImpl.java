@@ -47,6 +47,7 @@ public class StoreServiceImpl implements StoreService{
 		store.setSeller_id(params.get("seller_id"));
 		store.setStore_name(params.get("store_name"));
 		store.setAddress(params.get("address"));
+		store.setStore_status(StoreStatus.USING);
 		store.setCreate_time(DateUtil.getDateString());
 		
 		storeDao.add(store);

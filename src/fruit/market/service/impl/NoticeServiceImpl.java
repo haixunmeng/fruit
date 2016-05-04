@@ -37,7 +37,13 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public String getLatestNotice() {
 		
-		return noticeDao.getLatestNotice().getContent();
+		Notice notice = noticeDao.getLatestNotice();
+		
+		if(notice == null){
+			return "";
+		}
+		
+		return notice.getContent();
 	}
 
 }
