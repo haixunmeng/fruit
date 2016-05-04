@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,17 @@ import fruit.market.dao.StoreDao;
 import fruit.market.data.Good;
 import fruit.market.data.Selling;
 import fruit.market.data.Store;
+import fruit.market.data.StoreStatus;
 import fruit.market.data.User;
+import fruit.market.exception.FruitException;
 import fruit.market.service.StoreService;
 import fruit.market.utils.DateUtil;
 import fruit.market.utils.Utils;
 
 @Service
 public class StoreServiceImpl implements StoreService{
+	
+	private static Logger logger = Logger.getLogger(StoreServiceImpl.class);
 	
 	@Autowired
 	private StoreDao storeDao;
@@ -81,6 +86,54 @@ public class StoreServiceImpl implements StoreService{
 		
 		return sellingGoodsMap;
 		
+	}
+
+	@Override
+	public List<Store> loadStores(Map<String, String> params) {
+		return storeDao.loadStores(Integer.valueOf(String.valueOf(params.get("pageNum"))), Integer.valueOf(String.valueOf(params.get("pageCount"))));
+	}
+
+	@Override
+	public Store getStoreInfo(Map<String, String> params) {
+		return storeDao.getData(params.get("store_id"));
+	}
+
+	@Override
+	public void updateStore(Map<String, String> params) {
+		Store store = storeDao.getData(params.get("store_id"));
+		
+		store.setStore_name(params.get("store_name"));
+		store.setAddress(params.get("address"));
+		
+		storeDao.update(store);
+	}
+
+	@Override
+	public void lockStore(Map<String, String> params) {
+		Store store = storeDao.getData(params.get("store_id"));
+		
+		if(StoreStatus.LOCKED.equals(store.getStore_status())){
+			logger.info(FruitException.STORE_IS_LOCKED_EXCEPTION);
+			throw FruitException.STORE_IS_LOCKED_EXCEPTION;
+		}
+		
+		store.setStore_status(StoreStatus.LOCKED);
+		
+		storeDao.update(store);
+	}
+
+	@Override
+	public void unlockStore(Map<String, String> params) {
+		Store store = storeDao.getData(params.get("store_id"));
+		
+		if(StoreStatus.USING.equals(store.getStore_status())){
+			logger.info(FruitException.STORE_IS_UNLOCKED_EXCEPTION);
+			throw FruitException.STORE_IS_UNLOCKED_EXCEPTION;
+		}
+		
+		store.setStore_status(StoreStatus.USING);
+		
+		storeDao.update(store);
 	}
 
 }

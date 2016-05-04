@@ -29,6 +29,7 @@ public class StoreDaoImpl extends BaseDaoImpl<Store> implements StoreDao {
 		
 		try {
 			return jdbcTemplate.queryForObject(sql.toString(), new Object[]{user_id}, rowMapper);
+			
 		} catch (DataAccessException e) {
 			logger.error(FruitException.DB_OPTION_EXCEPTION);
 			throw FruitException.DB_OPTION_EXCEPTION;
@@ -44,6 +45,21 @@ public class StoreDaoImpl extends BaseDaoImpl<Store> implements StoreDao {
 		
 		try {
 			return jdbcTemplate.query(sql.toString(), rowMapper);
+		} catch (DataAccessException e) {
+			logger.error(FruitException.DB_OPTION_EXCEPTION);
+			throw FruitException.DB_OPTION_EXCEPTION;
+		}
+	}
+
+	@Override
+	public List<Store> loadStores(Integer pageNum, Integer pageCount) {
+		
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append("select * from ").append(tableName).append(" limit ? offset ?");
+		
+		try {
+			return jdbcTemplate.query(sql.toString(), new Object[] { pageCount, pageCount * (pageNum - 1) }, rowMapper);
 		} catch (DataAccessException e) {
 			logger.error(FruitException.DB_OPTION_EXCEPTION);
 			throw FruitException.DB_OPTION_EXCEPTION;

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>添加卖家</title>
+<title>店铺管理</title>
 
 <link href="../../css/easyui.css" rel="stylesheet" type="text/css">
 <link href="../../css/icon.css" rel="stylesheet" type="text/css">
@@ -14,18 +14,13 @@
 
 <script type="text/javascript">
 $(function(){
-	$("#seller_datagrid").datagrid({
+	$("#store_datagrid").datagrid({
 		columns : [[
 		            {checkbox:true},
-		            {field:'user_id',hidden:'true'},
-		            {field:'user_name',title:'用户名'},
-		            {field:'pwd',title:'密码',editor:{
-		            	type: 'text',
-		            	options: {required: false}
-                    }},
-		            {field:'phone',title:'电话'},
-		            {field:'user_type',title:'用户类型'},
-		            {field:'user_status',title:'用户状态'},
+		            {field:'store_id',hidden:'true'},
+		            {field:'store_name',title:'用户名'},
+		            {field:'address',title:'地址'},
+		            {field:'store_status',title:'状态'},
 		            {field:'create_time',title:'创建时间'}
 		]],
 		checkOnSelect:false,
@@ -34,21 +29,21 @@ $(function(){
 		toolbar : "#toolbar"
 	});
 	
-	load_users();
+	load_store();
 });
 
-function edit_pwd(){
-	var row = $("#seller_datagrid").datagrid('getSelected');
-	window.location.href = "/fruit/view/manager/update_pwd.html?user_id=" + row.user_id;
+function edit_store(){
+	var row = $("#store_datagrid").datagrid('getSelected');
+	window.location.href = "/fruit/view/manager/update_store.html?store_id=" + row.store_id;
 }
 
 function lock(){
-	var row = $("#seller_datagrid").datagrid('getSelected');
-	var res = post("/fruit/manager/lockUser.do", {user_id:row.user_id});
+	var row = $("#store_datagrid").datagrid('getSelected');
+	var res = post("/fruit/manager/lockStore.do", {store_id:row.store_id});
 	if(res != undefined){
 		if(res.code == '000004'){
 			alert(res.msg);
-			load_users();
+			load_store();
 		}else{
 			alert(res.msg);
 		}
@@ -56,31 +51,22 @@ function lock(){
 }
 
 function unlock(){
-	var row = $("#seller_datagrid").datagrid('getSelected');
-	var res = post("/fruit/manager/unlockUser.do", {user_id:row.user_id});
+	var row = $("#store_datagrid").datagrid('getSelected');
+	var res = post("/fruit/manager/unlockStore.do", {store_id:row.store_id});
 	if(res != undefined){
 		if(res.code == '000004'){
 			alert(res.msg);
-			load_users();
+			load_store();
 		}else{
 			alert(res.msg);
 		}
 	}
 }
 
-function load_users(){
-	var res = post('/fruit/manager/getUsers.do', {pageNum:1, pageCount:10});
+function load_store(){
+	var res = post('/fruit/manager/loadStores.do', {pageNum:1, pageCount:10});
 	if(res.code == '000004'){
-		
-		for(var i in res.data){
-			if(res.data[i].user_type == "B"){
-				res.data[i].user_type = "买家";
-			}else if(res.data[i].user_type == "S"){
-				res.data[i].user_type = "卖家";
-			}
-		}
-		
-		$("#seller_datagrid").datagrid('loadData', res.data);
+		$("#store_datagrid").datagrid('loadData', res.data);
 	}
 }
 
@@ -88,9 +74,9 @@ function load_users(){
 
 </head>
 <body>
-<table id="seller_datagrid"></table>
+<table id="store_datagrid"></table>
 <div id="toolbar">
-    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="edit_pwd()">修改密码</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="edit_store()">编辑</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="lock()">锁定</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="unlock()">解锁</a>
 </div>

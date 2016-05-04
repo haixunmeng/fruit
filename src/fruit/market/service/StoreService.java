@@ -16,4 +16,14 @@ public interface StoreService {
 
 	public List<Map<String, String>> getAllStoresGoods(Map<String, Object> params);
 
+	List<Store> loadStores(Map<String, String> params);
+
+	Store getStoreInfo(Map<String, String> params);
+
+	void updateStore(Map<String, String> params);
+
+	void lockStore(Map<String, String> params);
+
+	void unlockStore(Map<String, String> params);
+
 }

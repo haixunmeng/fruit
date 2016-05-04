@@ -244,8 +244,8 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.getData(user_id);
 		
 		if(UserStatus.USING.equals(user.getUser_status())){
-			logger.info(FruitException.USER_IS_NOT_LOCKED_EXCEPTION);
-			throw FruitException.USER_IS_NOT_LOCKED_EXCEPTION;
+			logger.info(FruitException.USER_IS_UNLOCKED_EXCEPTION);
+			throw FruitException.USER_IS_UNLOCKED_EXCEPTION;
 		}
 		
 		user.setUser_status(UserStatus.USING);

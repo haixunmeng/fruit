@@ -9,6 +9,8 @@ public class Store {
 	private String store_name;
 
 	private String address;
+	
+	private String store_status;
 
 	private String create_time;
 
@@ -44,6 +46,14 @@ public class Store {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getStore_status() {
+		return store_status;
+	}
+
+	public void setStore_status(String store_status) {
+		this.store_status = store_status;
 	}
 
 	public String getCreate_time() {

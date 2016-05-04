@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>更新店铺</title>
+
+<link href="../../css/fruit_add_seller.css" rel="stylesheet" type="text/css">
+
+<script src="../../js/jquery-2.0.0.min.js"></script>
+<script src="../../js/jquery.cookie.js"></script>
+<script src="../../js/jquery.md5.js"></script>
+<script src="../../js/fruit.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	
+	var store_id = window.location.search.split("=")[1];
+	var res = post("/fruit/manager/getStoreInfo.do", {store_id:store_id});
+	if(res != undefined){
+		if(res.code == '000004'){
+			$("#store_name").val(res.data.store_name)
+			$("#address").val(res.data.address);
+		}else{
+			alert(res.msg);
+		}
+	}
+	
+	
+	$("#cancel").bind("click", function(){
+		cancel();
+	})
+	
+	$("#confirm").bind("click", function(){
+		save()
+	})
+});
+	
+function cancel(){
+	window.location.href = "/fruit/view/manager/fruit_manage_store.html";
+}
+
+function save(){
+	
+	var store_id = window.location.search.split("&")[0].split("=")[1];
+	
+	var store_name = $("#store_name").val();
+	var address = $("#address").val();
+	
+	if(store_name == ""){
+		alert("店铺名称不能为空");
+		return;
+	}
+	
+	if(address == ""){
+		alert("店铺地址不能为空");
+		return;
+	}
+	
+	
+	var res = post("/fruit/manager/updateStore.do", {store_id:store_id,store_name:store_name,address:address});
+	if(res != undefined){
+		if(res.code == '000004'){
+			alert(res.msg);
+			window.location.href = '/fruit/view/manager/fruit_manage_store.html';
+		}else{
+			alert(res.msg);
+		}
+	}
+}
+</script>
+
+</head>
+<body>
+<div>
+<table>
+	<tr>
+		<td><label>名称：</label></td>
+		<td style="width:100px;" align="right"><input type="text" id="store_name" style="width:100px;"/></td>
+	</tr>
+	<tr>
+		<td><label>地址：</label></td>
+		<td style="width:100px;" align="right"><input type="text" id="address" style="width:100px;"/></td>
+	</tr>
+	<tr></tr>
+	<tr>
+		<td><input type="button" id="cancel" value="取消" style="width:60px;"/></td>
+		<td style="width:100px;" align="right"><input type="button" id="confirm" value="保存" style="width:60px;"/></td>
+	</tr>
+</table>
+</div>
+</body>
+</html>

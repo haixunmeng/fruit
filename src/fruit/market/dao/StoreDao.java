@@ -12,5 +12,7 @@ public interface StoreDao extends BaseDao<Store>{
 	Store getUserStore(String user_id);
 
 	public List<Store> getAllStore();
+
+	List<Store> loadStores(Integer pageNum, Integer pageCount);
 	
 }
